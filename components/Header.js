@@ -37,7 +37,7 @@ export default function Header() {
           {logoHovered ? (
             <span className={styles.logoFull}>
               <span>Арсен</span>
-              <span>Ракелян</span>
+              <span>Аракелян</span>
             </span>
           ) : (
             <span className={styles.logoShort}>
