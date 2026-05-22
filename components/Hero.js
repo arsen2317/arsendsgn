@@ -53,7 +53,7 @@ export default function Hero() {
           </span>
           <span className={styles.line2}>
             <span className={styles.nameLast} data-word>
-              Ракелян
+              Аракелян
             </span>
           </span>
           <span className={styles.line3}>

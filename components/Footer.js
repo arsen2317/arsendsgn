@@ -62,7 +62,7 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className={styles.bottom}>
-          <span className={styles.copy}>©2025 Арсен Ракелян</span>
+          <span className={styles.copy}>©2025 Арсен Аракелян</span>
           <div className={styles.contact}>
             <span className={styles.contactLabel}>Общие вопросы</span>
             <a
