@@ -1,0 +1,109 @@
+.intro {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.inner {
+  width: 100%;
+  max-width: 140rem;
+  margin: 0 auto;
+  padding: 8rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+/* ─── Big text ──────────────────────────────────────────────────────────────── */
+.bigText {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 6rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: right;
+  color: var(--text-light);
+  max-width: 100%;
+}
+
+/* ─── Two columns ───────────────────────────────────────────────────────────── */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.colLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.bio {
+  font-family: var(--font-body);
+  font-size: clamp(1.6rem, 2vw, 2rem);
+  line-height: 1.6;
+  color: rgba(250, 246, 239, 0.7);
+}
+
+/* ─── Video placeholder ─────────────────────────────────────────────────────── */
+.colRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoPlaceholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #1a1a1a;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.videoPlaceholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(233, 227, 243, 0.05) 0%, transparent 60%);
+}
+
+.playBtn {
+  width: 6.4rem;
+  height: 6.4rem;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(1, -0.5, 0, 1.5);
+}
+
+.playBtn:hover {
+  transform: scale(1.15);
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .inner {
+    padding: 6rem 2.4rem;
+    gap: 4rem;
+  }
+
+  .bigText {
+    text-align: left;
+  }
+
+  .cols {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}

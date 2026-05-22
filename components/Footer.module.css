@@ -1,0 +1,139 @@
+.footer {
+  background: var(--bg-dark);
+  color: var(--text-light);
+  padding: 8rem 4rem 4rem;
+}
+
+.inner {
+  max-width: 140rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* ─── Tagline ────────────────────────────────────────────────────────────────── */
+.tagline {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.taglineStatic {
+  display: inline;
+}
+
+.taglinePill {
+  display: inline-block;
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+  transition: opacity 0.3s ease;
+  vertical-align: baseline;
+}
+
+.fading {
+  opacity: 0;
+}
+
+/* ─── Divider ────────────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+
+/* ─── Bottom row ─────────────────────────────────────────────────────────────── */
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.copy {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  color: rgba(250, 246, 239, 0.4);
+}
+
+/* ─── Contact ────────────────────────────────────────────────────────────────── */
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.contactLabel {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: rgba(250, 246, 239, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.contactLink {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(250, 246, 239, 0.25);
+  transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.contactLink:hover {
+  border-color: var(--accent);
+  opacity: 0.8;
+}
+
+/* ─── Socials ────────────────────────────────────────────────────────────────── */
+.socials {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.socialLink {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 0.8rem 1.6rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-light);
+  transition: background 0.3s ease,
+              border-color 0.3s ease,
+              transform 0.3s cubic-bezier(1, -0.5, 0, 1.5);
+}
+
+.socialLink:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.04);
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .footer {
+    padding: 6rem 2.4rem 3rem;
+  }
+
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .contact {
+    align-items: flex-start;
+  }
+
+  .tagline {
+    text-align: left;
+  }
+}

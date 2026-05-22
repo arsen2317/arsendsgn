@@ -1,0 +1,203 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  overflow: hidden;
+  padding: 10rem 3rem 6rem;
+}
+
+/* ─── Geometric Decoration ──────────────────────────────────────────────────── */
+.geometric {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.diamond {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22rem;
+  height: 22rem;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: linear-gradient(135deg, var(--pill-lavender) 0%, var(--pill-pink) 100%);
+  opacity: 0.25;
+  border-radius: 3rem;
+  animation: rotateDiamond 18s linear infinite;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32rem;
+  height: 32rem;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: rotateRing 24s linear infinite reverse;
+}
+
+.dot {
+  position: absolute;
+  top: calc(50% - 16rem);
+  left: calc(50% + 14rem);
+  width: 1rem;
+  height: 1rem;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: orbitDot 24s linear infinite;
+  transform-origin: -14rem 16rem;
+}
+
+@keyframes rotateDiamond {
+  from { transform: translate(-50%, -50%) rotate(45deg); }
+  to { transform: translate(-50%, -50%) rotate(405deg); }
+}
+
+@keyframes rotateRing {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes orbitDot {
+  from { transform: rotate(0deg) translateX(16rem); }
+  to { transform: rotate(360deg) translateX(16rem); }
+}
+
+/* ─── Content ───────────────────────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+}
+
+.line1,
+.line2,
+.line3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+/* ─── Name ───────────────────────────────────────────────────────────────────── */
+.nameFirst {
+  font-size: clamp(4rem, 8vw, 9rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text);
+  display: inline-block;
+}
+
+.nameLast {
+  font-size: clamp(7rem, 14vw, 16rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: var(--text);
+  display: inline-block;
+}
+
+/* ─── Pills ──────────────────────────────────────────────────────────────────── */
+.pill {
+  display: inline-block;
+  font-size: clamp(3rem, 6vw, 7rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  padding: 0.15em 0.5em;
+  border-radius: var(--radius-pill);
+  line-height: 1.1;
+}
+
+.pillLavender {
+  background: var(--pill-lavender);
+  color: var(--text);
+}
+
+.pillAccent {
+  background: var(--accent);
+  color: var(--text);
+}
+
+/* ─── Bottom corners ─────────────────────────────────────────────────────────── */
+.bottomLeft {
+  position: absolute;
+  bottom: 4rem;
+  left: 3rem;
+  font-size: 1.4rem;
+  font-family: var(--font-body);
+  color: var(--text);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.bottomRight {
+  position: absolute;
+  bottom: 4rem;
+  right: 3rem;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1.2rem 2.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--text);
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(1, -0.5, 0, 1.5),
+              box-shadow 0.3s ease;
+}
+
+.bottomRight:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(255, 229, 0, 0.4);
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero {
+    padding: 10rem 2rem 10rem;
+  }
+
+  .line3 {
+    flex-wrap: wrap;
+  }
+
+  .diamond {
+    width: 14rem;
+    height: 14rem;
+  }
+
+  .ring {
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .bottomLeft {
+    font-size: 1.2rem;
+    bottom: 3rem;
+    left: 2rem;
+  }
+
+  .bottomRight {
+    font-size: 1.4rem;
+    padding: 1rem 2rem;
+    bottom: 3rem;
+    right: 2rem;
+  }
+}
