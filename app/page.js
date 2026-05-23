@@ -9,9 +9,11 @@ const COMMANDS = [
   { name: 'about',    desc: '→ About section' },
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
+  { name: 'draw',     desc: 'Yellow marker overlay' },
+  { name: 'cursor',   desc: 'Custom cursor on/off' },
   { name: 'bw',       desc: 'Black & white filter' },
   { name: 'negative', desc: 'Invert colors' },
-  { name: 'reset',    desc: 'Reset filters' },
+  { name: 'reset',    desc: 'Reset all effects' },
   { name: 'close',    desc: 'Close terminal' },
 ];
 
@@ -23,22 +25,37 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [terminalInput, setTerminalInput] = useState('');
+  const [drawMode, setDrawMode] = useState(false);
+  const [cursorMode, setCursorMode] = useState(false);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
   const terminalInputRef = useRef(null);
   const terminalOpenRef = useRef(false);
+  const drawModeRef = useRef(false);
+  const drawingCanvasRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
+
+  const clearCanvas = () => {
+    const c = drawingCanvasRef.current;
+    if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+  };
 
   const executeCommand = (cmd) => {
     switch (cmd) {
       case 'about':    scrollToSection('#about');    setTerminalOpen(false); break;
       case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
+      case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
+      case 'cursor':   setCursorMode(prev => !prev); break;
       case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; break;
       case 'negative': document.documentElement.style.filter = 'invert(1)'; break;
-      case 'reset':    document.documentElement.style.filter = ''; break;
+      case 'reset':
+        document.documentElement.style.filter = '';
+        setDrawMode(false); clearCanvas();
+        setCursorMode(false);
+        break;
       case 'close':    setTerminalOpen(false); break;
     }
     setTerminalInput('');
@@ -64,24 +81,113 @@ export default function Home() {
   /* Sync terminal ref + focus input on open */
   useEffect(() => {
     terminalOpenRef.current = terminalOpen;
-    if (terminalOpen) {
-      setTimeout(() => terminalInputRef.current?.focus(), 320);
-    }
+    if (terminalOpen) setTimeout(() => terminalInputRef.current?.focus(), 320);
   }, [terminalOpen]);
 
-  /* "/" key opens terminal, ESC closes */
+  /* Sync draw mode ref */
+  useEffect(() => { drawModeRef.current = drawMode; }, [drawMode]);
+
+  /* "/" key opens terminal; ESC exits draw mode first, then terminal */
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === '/' && !terminalOpenRef.current && !e.target.matches('input, textarea')) {
+      if (e.key === '/' && !terminalOpenRef.current && !drawModeRef.current && !e.target.matches('input, textarea')) {
         e.preventDefault();
         setTerminalOpen(true);
-      } else if (e.key === 'Escape' && terminalOpenRef.current) {
-        setTerminalOpen(false);
+      } else if (e.key === 'Escape') {
+        if (drawModeRef.current) {
+          setDrawMode(false);
+          clearCanvas();
+        } else if (terminalOpenRef.current) {
+          setTerminalOpen(false);
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  /* Drawing canvas — set up pointer events when draw mode is active */
+  useEffect(() => {
+    const canvas = drawingCanvasRef.current;
+    if (!canvas) return;
+    if (!drawMode) { canvas.style.pointerEvents = 'none'; return; }
+
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+    canvas.style.pointerEvents = 'all';
+
+    const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = 'rgba(255, 229, 0, 0.88)';
+    ctx.lineWidth = 14;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    let drawing = false, lx = 0, ly = 0;
+    const pos = (e) => {
+      const r = canvas.getBoundingClientRect();
+      if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    };
+    const start = (e) => { drawing = true; ({ x: lx, y: ly } = pos(e)); e.preventDefault(); };
+    const draw  = (e) => {
+      if (!drawing) return; e.preventDefault();
+      const { x, y } = pos(e);
+      ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
+      lx = x; ly = y;
+    };
+    const stop  = () => { drawing = false; };
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stop);
+    canvas.addEventListener('mouseleave', stop);
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove',  draw,  { passive: false });
+    canvas.addEventListener('touchend',   stop);
+    return () => {
+      canvas.removeEventListener('mousedown', start);
+      canvas.removeEventListener('mousemove', draw);
+      canvas.removeEventListener('mouseup', stop);
+      canvas.removeEventListener('mouseleave', stop);
+      canvas.removeEventListener('touchstart', start);
+      canvas.removeEventListener('touchmove',  draw);
+      canvas.removeEventListener('touchend',   stop);
+    };
+  }, [drawMode]);
+
+  /* Custom cursor — two-dot trailing effect */
+  useEffect(() => {
+    if (!cursorMode) { document.body.style.cursor = ''; return; }
+    document.body.style.cursor = 'none';
+
+    const dot  = Object.assign(document.createElement('div'), { className: 'custom-cursor-dot' });
+    const ring = Object.assign(document.createElement('div'), { className: 'custom-cursor-ring' });
+    document.body.append(dot, ring);
+
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let dx = mx, dy = my, rx = mx, ry = my;
+    let raf;
+    const onMove = (e) => { mx = e.clientX; my = e.clientY; };
+    document.addEventListener('mousemove', onMove);
+
+    const tick = () => {
+      dx += (mx - dx) * 0.22; dy += (my - dy) * 0.22;
+      rx += (mx - rx) * 0.09; ry += (my - ry) * 0.09;
+      dot.style.left  = dx + 'px'; dot.style.top  = dy + 'px';
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      document.body.style.cursor = '';
+      document.removeEventListener('mousemove', onMove);
+      cancelAnimationFrame(raf);
+      dot.remove(); ring.remove();
+    };
+  }, [cursorMode]);
 
   /* Cycling footer words */
   useEffect(() => {
@@ -113,6 +219,7 @@ export default function Home() {
     let ctx;
     let tiltRafId;
     let onMouseMove;
+    let onDeviceOrientation;
 
     async function init() {
       const { default: Lenis }    = await import('lenis');
@@ -145,21 +252,45 @@ export default function Home() {
       };
 
       const tiltTick = () => {
-        const lerp = 0.06;
-        currentRotX += (targetRotX - currentRotX) * lerp;
-        currentRotY += (targetRotY - currentRotY) * lerp;
-        if (portrait3d) {
-          gsap.set(portrait3d, {
-            rotateX: currentRotX,
-            rotateY: currentRotY,
-            transformPerspective: 700,
-          });
+        if (!drawModeRef.current) {
+          const lerp = 0.06;
+          currentRotX += (targetRotX - currentRotX) * lerp;
+          currentRotY += (targetRotY - currentRotY) * lerp;
+          if (portrait3d) {
+            gsap.set(portrait3d, {
+              rotateX: currentRotX,
+              rotateY: currentRotY,
+              transformPerspective: 700,
+            });
+          }
         }
         tiltRafId = requestAnimationFrame(tiltTick);
       };
 
       window.addEventListener('mousemove', onMouseMove);
       tiltRafId = requestAnimationFrame(tiltTick);
+
+      /* Gyroscope tilt for mobile */
+      if ('ontouchstart' in window) {
+        let baseB = null, baseG = null;
+        onDeviceOrientation = (e) => {
+          if (baseB === null) { baseB = e.beta ?? 0; baseG = e.gamma ?? 0; }
+          const max = 22;
+          targetRotX = Math.max(-max, Math.min(max, -((e.beta  - baseB) / 30) * max));
+          targetRotY = Math.max(-max, Math.min(max,  ((e.gamma - baseG) / 30) * max));
+        };
+        if (typeof DeviceOrientationEvent !== 'undefined' &&
+            typeof DeviceOrientationEvent.requestPermission === 'function') {
+          portrait3d?.addEventListener('click', async () => {
+            try {
+              const perm = await DeviceOrientationEvent.requestPermission();
+              if (perm === 'granted') window.addEventListener('deviceorientation', onDeviceOrientation);
+            } catch {}
+          }, { once: true });
+        } else {
+          window.addEventListener('deviceorientation', onDeviceOrientation);
+        }
+      }
 
       ctx = gsap.context(() => {
         gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
@@ -192,6 +323,7 @@ export default function Home() {
       ctx?.revert();
       cancelAnimationFrame(tiltRafId);
       if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
+      if (onDeviceOrientation) window.removeEventListener('deviceorientation', onDeviceOrientation);
     };
   }, []);
 
@@ -283,6 +415,11 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section className="hero" id="hero">
+        <canvas
+          ref={drawingCanvasRef}
+          className={`draw-canvas${drawMode ? ' draw-canvas--active' : ''}`}
+          aria-hidden="true"
+        />
         <div className="portrait-wrap">
           <div className="portrait-3d" id="portrait-3d">
             <img
