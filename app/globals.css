@@ -117,16 +117,17 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
   --h: 38px;
-  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1);
+  /* revert delay: gap between buttons is crossed faster than 120ms */
+  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1) 0.12s;
 }
 .nav-item.square { border-radius: var(--r-xs); }
 .nav-item.pill   { border-radius: var(--r-lg); }
 
-/* Flip all radii when hovering the nav container */
-.nav:hover .nav-item.square,
-.menu-overlay-nav:hover .nav-item.square { border-radius: var(--r-lg); }
-.nav:hover .nav-item.pill,
-.menu-overlay-nav:hover .nav-item.pill   { border-radius: var(--r-xs); }
+/* Flip all radii when any item is hovered — immediate, no delay */
+.nav:has(.nav-item:hover) .nav-item.square,
+.menu-overlay-nav:has(.nav-item:hover) .nav-item.square { border-radius: var(--r-lg); transition-delay: 0s; }
+.nav:has(.nav-item:hover) .nav-item.pill,
+.menu-overlay-nav:has(.nav-item:hover) .nav-item.pill   { border-radius: var(--r-xs); transition-delay: 0s; }
 
 /* Vertical scroll text */
 .st { display: flex; flex-direction: column; align-self: flex-start; transition: transform 0.35s cubic-bezier(0.19,1,0.22,1); }
