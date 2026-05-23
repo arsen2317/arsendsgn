@@ -50,7 +50,18 @@ export default function Home() {
 
   useEffect(() => {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
-    fxRef.current = new Audio(`${base}/fx.mp3`);
+    const audio = new Audio(`${base}/fx.mp3`);
+    fxRef.current = audio;
+
+    const unlock = () => {
+      audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
+    };
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
   }, []);
 
   const playFx = () => {
