@@ -10,7 +10,8 @@ const COMMANDS = [
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
   { name: 'draw',     desc: 'Yellow marker overlay' },
-  { name: 'cursor',   desc: 'Custom cursor on/off' },
+  { name: 'cursor',   desc: 'Slapping Cat cursor' },
+  { name: 'nyan',     desc: 'Nyan Cat cursor' },
   { name: 'bw',       desc: 'Black & white filter' },
   { name: 'negative', desc: 'Invert colors' },
   { name: 'reset',    desc: 'Reset all effects' },
@@ -35,7 +36,7 @@ export default function Home() {
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [terminalInput, setTerminalInput] = useState('');
   const [drawMode, setDrawMode] = useState(false);
-  const [cursorMode, setCursorMode] = useState(false);
+  const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
   const [filterMode, setFilterMode] = useState(false);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
@@ -82,13 +83,14 @@ export default function Home() {
       case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
-      case 'cursor':   setCursorMode(prev => !prev); break;
+      case 'cursor':   setCursorMode(prev => prev === 'cat' ? null : 'cat'); break;
+      case 'nyan':     setCursorMode(prev => prev === 'nyan' ? null : 'nyan'); break;
       case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; setFilterMode(true); break;
       case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode(true); break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
-        setCursorMode(false);
+        setCursorMode(null);
         setFilterMode(false);
         break;
       case 'close':    setTerminalOpen(false); break;
@@ -192,14 +194,18 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — Slapping Cat via cursors-4u.com animated stylesheet */
+  /* Custom cursor — animated stylesheets from cursors-4u.com */
   useEffect(() => {
     document.getElementById('cursor-link')?.remove();
     if (!cursorMode) return;
+    const urls = {
+      cat:  'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css',
+      nyan: 'https://cdn.cursors-4u.net/cursors/animated/animated-nyan-cat-rainbow-c493f1ef-32.css',
+    };
     const link = document.createElement('link');
     link.id = 'cursor-link';
     link.rel = 'stylesheet';
-    link.href = 'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css';
+    link.href = urls[cursorMode];
     document.head.appendChild(link);
     return () => { document.getElementById('cursor-link')?.remove(); };
   }, [cursorMode]);
