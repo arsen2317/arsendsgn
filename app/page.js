@@ -171,22 +171,38 @@ export default function Home() {
             <div className="logo">arsendsgn</div>
             <button className="menu-close-btn" onClick={() => setMenuOpen(false)}>Close</button>
           </div>
+
+          {/* Same nav-item components as desktop, stacked */}
           <nav className="menu-overlay-nav">
-            <button className="menu-overlay-item" onClick={() => scrollToSection('#about')}>About me</button>
-            <button className="menu-overlay-item" onClick={() => scrollToSection('#cases')}>Cases</button>
-            <button className="menu-overlay-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-            <button className="menu-overlay-item menu-overlay-item--dim">Resume</button>
+            <button className="nav-item square" onClick={() => scrollToSection('#about')}>About me</button>
+            <button className="nav-item pill"   onClick={() => scrollToSection('#cases')}>Cases</button>
+            <button className="nav-item square" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+            <button className="nav-item pill">Resume</button>
           </nav>
+
           <div className="menu-overlay-footer">
-            <div className="menu-overlay-links">
-              <a href="https://t.me/arsendsgn" className="menu-overlay-link">Telegram</a>
-              <a href="#" className="menu-overlay-link">LinkedIn</a>
+            {/* Contact me — white chip */}
+            <div className="nav-item square menu-contact-chip">Contact me</div>
+
+            {/* Social links — normal case, generous spacing */}
+            <div className="menu-social-links">
+              <a href="https://t.me/arsendsgn" className="menu-social-link">Telegram</a>
+              <a href="#" className="menu-social-link">LinkedIn</a>
             </div>
-            <a href="mailto:arackelian.arsen@gmail.com" className="menu-overlay-email">
+
+            {/* Two chips with different radius */}
+            <div className="menu-letter-chips">
+              <div className="nav-item square">send</div>
+              <div className="nav-item pill">a letter</div>
+            </div>
+
+            {/* Email */}
+            <a href="mailto:arackelian.arsen@gmail.com" className="menu-email">
               arackelian.arsen@gmail.com
             </a>
-            <span className="menu-overlay-copy">© 2026 Arsen Arakelyan</span>
           </div>
+
+          <span className="menu-copy">© 2026 Arsen Arakelyan</span>
         </div>
       )}
 

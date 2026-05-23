@@ -525,7 +525,6 @@ body {
   z-index: 200;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   overflow: hidden;
 }
 
@@ -536,6 +535,12 @@ body {
   height: 72px;
   padding: 0 20px;
   flex-shrink: 0;
+}
+
+/* Logo becomes white when menu open */
+.menu-overlay-header .logo {
+  background: white;
+  color: var(--text-primary);
 }
 
 .menu-close-btn {
@@ -555,67 +560,77 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Nav — same nav-item components, stacked */
 .menu-overlay-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 0 20px;
+  gap: 8px;
   flex: 1;
   justify-content: center;
+  padding: 0 20px;
 }
 
-.menu-overlay-item {
-  width: 100%;
-  max-width: 340px;
-  background: var(--bg-secondary);
-  border: none;
-  border-radius: var(--r-lg);
-  font-size: 40px;
-  letter-spacing: -2px;
-  color: var(--text-primary);
-  text-transform: capitalize;
-  padding: 18px 32px;
-  text-align: center;
-  cursor: pointer;
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  line-height: 1;
-  transition: background 0.25s ease;
-}
-.menu-overlay-item:hover { background: var(--bg-button); }
-.menu-overlay-item--dim { opacity: 0.35; cursor: default; }
-
+/* Footer contact block */
 .menu-overlay-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 0 20px 40px;
+  gap: 16px;
+  padding: 0 20px 64px;
   flex-shrink: 0;
 }
 
-.menu-overlay-links {
-  display: flex;
-  gap: 16px;
+/* "Contact me" white chip */
+.menu-contact-chip {
+  background: white !important;
 }
 
-.menu-overlay-link,
-.menu-overlay-email {
+/* Telegram / LinkedIn links */
+.menu-social-links {
+  display: flex;
+  gap: 28px;
+}
+
+.menu-social-link {
   font-size: 12px;
   color: var(--text-primary);
   text-decoration: none;
-  text-transform: uppercase;
   letter-spacing: -0.3px;
-  opacity: 0.6;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
 }
-.menu-overlay-link:hover,
-.menu-overlay-email:hover { opacity: 1; }
+.menu-social-link:hover { opacity: 1; }
 
-.menu-overlay-copy {
+/* [send] [a letter] chips row */
+.menu-letter-chips {
+  display: flex;
+  gap: 4px;
+}
+
+/* Email address */
+.menu-email {
+  font-size: 12px;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+.menu-email:hover { opacity: 1; }
+
+/* Copyright pinned to bottom of screen */
+.menu-copy {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 11px;
   color: var(--text-primary);
-  opacity: 0.4;
+  opacity: 0.35;
+  white-space: nowrap;
 }
+
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 900px) {
