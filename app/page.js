@@ -34,8 +34,26 @@ export default function Home() {
   const terminalOpenRef = useRef(false);
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
+  const gyroSetupRef = useRef(null);
+  const [gyroPromptVisible, setGyroPromptVisible] = useState(false);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
+
+  /* Show gyro prompt immediately on iOS mobile */
+  useEffect(() => {
+    if (!('ontouchstart' in window)) return;
+    if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
+      setGyroPromptVisible(true);
+    }
+  }, []);
+
+  const requestGyro = async () => {
+    setGyroPromptVisible(false);
+    try {
+      const perm = await DeviceOrientationEvent.requestPermission();
+      if (perm === 'granted') gyroSetupRef.current?.();
+    } catch {}
+  };
 
   const clearCanvas = () => {
     const c = drawingCanvasRef.current;
@@ -260,13 +278,10 @@ export default function Home() {
         };
         if (typeof DeviceOrientationEvent !== 'undefined' &&
             typeof DeviceOrientationEvent.requestPermission === 'function') {
-          portrait3d?.addEventListener('click', async () => {
-            try {
-              const perm = await DeviceOrientationEvent.requestPermission();
-              if (perm === 'granted') window.addEventListener('deviceorientation', onDeviceOrientation);
-            } catch {}
-          }, { once: true });
+          /* iOS: expose setup fn for the prompt button */
+          gyroSetupRef.current = () => window.addEventListener('deviceorientation', onDeviceOrientation);
         } else {
+          /* Android: works immediately */
           window.addEventListener('deviceorientation', onDeviceOrientation);
         }
       }
@@ -316,10 +331,10 @@ export default function Home() {
         </div>
 
         <nav className="menu-overlay-nav">
-          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')}>About me</button>
+          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#about')}>About me</button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')}>Cases</button>
-          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-          <button className="nav-item pill   menu-item">Resume</button>
+          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+          <button className="nav-item square menu-item">Resume</button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -372,6 +387,13 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* ── GYRO PROMPT (iOS only) ── */}
+      {gyroPromptVisible && (
+        <button className="gyro-prompt" onClick={requestGyro}>
+          Enable 3D portrait
+        </button>
+      )}
 
       {/* ── HEADER ── */}
       <header className="header">

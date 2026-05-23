@@ -526,7 +526,7 @@ body {
 .menu-overlay {
   position: fixed;
   inset: 0;
-  background: #dedad4;
+  background: #dcdcdc;
   z-index: 200;
   display: flex;
   flex-direction: column;
@@ -547,7 +547,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 92px;
   padding: 0 20px;
   flex-shrink: 0;
 }
@@ -567,7 +567,7 @@ body {
   background: var(--bg-darker);
   color: var(--text-light);
   border: none;
-  border-radius: var(--r-lg);
+  border-radius: 64px;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: -0.32px;
@@ -679,11 +679,11 @@ body {
 
 /* Close starts hidden above clip area */
 .menu-btn-text--close {
-  transform: translate(-50%, calc(-50% - 105%));
+  transform: translate(-50%, calc(-50% - 200%));
 }
 
 /* Open: Menu exits up, Close slides down into view */
-.menu-btn--open .menu-btn-text--menu  { transform: translate(-50%, calc(-50% - 105%)); }
+.menu-btn--open .menu-btn-text--menu  { transform: translate(-50%, calc(-50% - 200%)); }
 .menu-btn--open .menu-btn-text--close { transform: translate(-50%, -50%); }
 
 
@@ -768,15 +768,45 @@ body {
   .footer-bottom .footer-links { order: 2; margin-top: 16px; justify-content: center; gap: 8px; }
   .footer-bottom .footer-copy { order: 3; text-align: center; margin-top: 4px; }
 
-  /* Mobile menu overlay — larger items */
+  /* Mobile case spacing */
+  .case-header { margin-bottom: 16px; }
+
+  /* Mobile menu overlay — reference sizes */
   .menu-overlay-nav .nav-item {
-    height: 52px;
-    font-size: 14px;
-    padding: 0 24px;
-    width: 100%;
-    justify-content: center;
+    height: 60px;
+    font-size: 25.4px;
+    letter-spacing: -0.763px;
+    padding: 0 28px;
+    width: auto;
   }
-  .menu-overlay-nav { gap: 6px; }
+  .menu-overlay-nav { gap: 8px; }
+}
+
+/* ─── GYRO PERMISSION PROMPT ─────────────────────────── */
+.gyro-prompt {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-darker);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--r-lg);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 20px;
+  height: 36px;
+  cursor: pointer;
+  z-index: 80;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  white-space: nowrap;
+  opacity: 0.9;
+  animation: gyro-prompt-in 0.5s cubic-bezier(0.19,1,0.22,1) both;
+}
+@keyframes gyro-prompt-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 0.9; transform: translateX(-50%) translateY(0); }
 }
 
 /* ─── DRAW CANVAS ────────────────────────────────────── */
