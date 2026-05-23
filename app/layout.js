@@ -1,28 +1,28 @@
-import { Space_Grotesk, Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+import { Cormorant } from 'next/font/google';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-space-grotesk',
+const fkRaster = localFont({
+  src: '../public/fonts/FKRasterGrotesk.ttf',
+  variable: '--font-ui',
   display: 'swap',
 });
 
-const inter = Inter({
-  subsets: ['latin', 'latin-ext', 'cyrillic'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-inter',
+const cormorant = Cormorant({
+  subsets: ['latin'],
+  weight: ['500'],
+  variable: '--font-body',
   display: 'swap',
 });
 
 export const metadata = {
-  title: 'Арсен Аракелян — Продуктовый дизайнер',
-  description: 'Портфолио продуктового дизайнера',
+  title: 'Arsen Arakelyan — Product Designer',
+  description: 'Product designer portfolio',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+    <html lang="en" className={`${fkRaster.variable} ${cormorant.variable}`}>
       <body>{children}</body>
     </html>
   );
