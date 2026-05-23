@@ -523,6 +523,38 @@ export default function Home() {
         </div>
 
         <div className="divider" />
+
+        <div className="case-row case-row--reverse">
+          <div className="case-info">
+            <div className="case-header">
+              <div className="case-title-row">
+                <div className="glass-tag"><span className="case-num">(03)</span></div>
+                <div className="glass-tag"><span className="case-title">Вайбс</span></div>
+              </div>
+              <div className="case-tags">
+                <span className="case-tag">ux/ui design</span>
+                <span className="case-tag">research</span>
+                <span className="case-tag">usability testing</span>
+                <span className="case-tag">mobile app</span>
+                <span className="case-tag">product design</span>
+              </div>
+            </div>
+            <div className="case-desc">
+              <p>Вайбс — приложение для создания и обмена атмосферными плейлистами. Проект исследует, как передать настроение через интерфейс и помочь пользователям находить музыку под любое состояние.</p>
+            </div>
+          </div>
+          <div className="case-img-box">
+            <video
+              src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          </div>
+        </div>
+
+        <div className="divider" />
       </section>
 
       {/* ── FOOTER ── */}
