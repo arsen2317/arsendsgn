@@ -454,7 +454,7 @@ export default function Home() {
         <div className="menu-overlay-footer">
           <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
           <div className="menu-social-links menu-footer-item">
-            <a href="https://t.me/arsendsgn" className="menu-social-link">Telegram</a>
+            <a href="https://t.me/arsendsgn" target="_blank" className="menu-social-link">Telegram</a>
             <a href="#" className="menu-social-link">LinkedIn</a>
           </div>
           <div className="menu-letter-chips menu-footer-item">
@@ -567,7 +567,7 @@ export default function Home() {
               <a href="mailto:arackelian.arsen@gmail.com" className="badge yellow" onMouseEnter={playFx}><ST>Say Hi</ST></a>
             </div>
             <div className="badge-wrap">
-              <a href="https://t.me/arsendsgn" className="badge button" onMouseEnter={playFx}><ST>t.me/arsendsgn</ST></a>
+              <a href="https://t.me/arsendsgn" target="_blank" className="badge button" onMouseEnter={playFx}><ST>t.me/arsendsgn</ST></a>
             </div>
           </div>
         </div>
@@ -693,7 +693,7 @@ export default function Home() {
           <div className="badge-wrap"><a href="https://disk.yandex.ru/i/8pjQktNNmsMnVg" target="_blank" className="badge yellow" onMouseEnter={playFx}><ST>Download CV</ST></a></div>
           <div className="footer-links">
             <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
-            <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
+            <div className="badge-wrap"><a href="https://t.me/arsendsgn" target="_blank" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
             <div className="badge-wrap"><a href="https://www.linkedin.com/in/arsendsgn/" target="_blank" className="badge primary" onMouseEnter={playFx}><ST>LinkedIn</ST></a></div>
           </div>
         </div>
