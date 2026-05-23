@@ -54,8 +54,32 @@ export default function Home() {
   const noireRef = useRef(null);
   const drawMusicRef = useRef(null);
   const fahhRef = useRef(null);
+  const navRef = useRef(null);
+  const navHoveredRef = useRef(-1);
+  const navResetTimerRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
+
+  const handleNavItemEnter = (idx) => {
+    const prev = navHoveredRef.current;
+    if (prev !== -1 && prev !== idx) {
+      const nav = navRef.current;
+      if (nav) {
+        nav.setAttribute('data-nav-resetting', 'true');
+        clearTimeout(navResetTimerRef.current);
+        navResetTimerRef.current = setTimeout(() => {
+          nav.removeAttribute('data-nav-resetting');
+        }, 60);
+      }
+    }
+    navHoveredRef.current = idx;
+  };
+
+  const handleNavLeave = () => {
+    navHoveredRef.current = -1;
+    clearTimeout(navResetTimerRef.current);
+    if (navRef.current) navRef.current.removeAttribute('data-nav-resetting');
+  };
 
   useEffect(() => {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
@@ -483,31 +507,12 @@ export default function Home() {
         const effectsActive = cursorMode || drawMode || filterMode;
         return (
           <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
-            <button
-              className="logo"
-              onMouseEnter={playFx}
-              onClick={musicOpen ? undefined : () => setMusicOpen(true)}
-              style={{ cursor: musicOpen ? 'default' : 'pointer' }}
-            >
-              {musicOpen ? (
-                <span className="music-logo-controls">
-                  <span className="music-logo-ctrl" onClick={() => spotifyControllerRef.current?.previousTrack()}>
-                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M7 0.8 L1.2 5 L7 9.2 Z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round"/></svg>
-                  </span>
-                  <span className="music-logo-ctrl" onClick={() => spotifyControllerRef.current?.nextTrack()}>
-                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1 0.8 L6.8 5 L1 9.2 Z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round"/></svg>
-                  </span>
-                  <span className="music-logo-ctrl" onClick={() => { spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>
-                    <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="0.5" y="0.5" width="8" height="8" rx="1" fill="currentColor"/></svg>
-                  </span>
-                </span>
-              ) : 's kaifom'}
-            </button>
-            <nav className="nav">
-              <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
-              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
-              <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-              <button className="nav-item pill" onMouseEnter={playFx}><ST>Resume</ST></button>
+            <span className="logo">arsendsgn</span>
+            <nav className="nav" ref={navRef} onMouseLeave={handleNavLeave}>
+              <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={() => { playFx(); handleNavItemEnter(0); }}><ST>About me</ST></button>
+              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={() => { playFx(); handleNavItemEnter(1); }}><ST>Cases</ST></button>
+              <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={() => { playFx(); handleNavItemEnter(2); }}><ST>Contacts</ST></button>
+              <button className="nav-item pill" onMouseEnter={() => { playFx(); handleNavItemEnter(3); }}><ST>Resume</ST></button>
             </nav>
             <div className="header-right">
               <button
