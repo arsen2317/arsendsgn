@@ -330,7 +330,8 @@ body {
 .badge .st-wrap { height: 11px; }
 .badge .st > span { height: 11px; display: flex; align-items: center; flex-shrink: 0; }
 .badge:hover .st  { transform: translateY(-50%); }
-.badge.yellow  { background: var(--accent-yellow); }
+.badge.yellow  { background: var(--accent-yellow); transition: opacity 0.2s ease; }
+.badge--fade   { opacity: 0; }
 .badge.button  { background: var(--bg-button); }
 .badge.primary { background: var(--bg-primary); }
 .badge-wrap { display: flex; align-items: flex-start; }

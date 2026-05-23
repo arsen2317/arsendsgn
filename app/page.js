@@ -12,6 +12,8 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
+const SAY_HI = ['Say Hi', 'Привет', 'こんにちは', 'Hola', 'Bonjour', 'Ciao', 'Olá', '你好', '안녕', 'Hallo', 'مرحبا', 'Shalom'];
+
 const WORDS_1 = ['Empathetic', 'Curious', 'Thoughtful', 'Intentional', 'Holistic'];
 const WORDS_2 = ['Strategic', 'Systematic', 'Analytical', 'Iterative', 'Precise'];
 
@@ -41,6 +43,9 @@ export default function Home() {
   const [word2, setWord2] = useState(WORDS_2[0]);
   const [fade1, setFade1] = useState(false);
   const [fade2, setFade2] = useState(false);
+  const [sayHiWord, setSayHiWord] = useState(SAY_HI[0]);
+  const [sayHiFade, setSayHiFade] = useState(false);
+  const sayHiIdx = useRef(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [terminalInput, setTerminalInput] = useState('');
@@ -356,6 +361,18 @@ export default function Home() {
     return () => clearInterval(t);
   }, []);
 
+  useEffect(() => {
+    const t = setInterval(() => {
+      setSayHiFade(true);
+      setTimeout(() => {
+        sayHiIdx.current = (sayHiIdx.current + 1) % SAY_HI.length;
+        setSayHiWord(SAY_HI[sayHiIdx.current]);
+        setSayHiFade(false);
+      }, 200);
+    }, 2000);
+    return () => clearInterval(t);
+  }, []);
+
   /* Lenis + GSAP */
   useEffect(() => {
     let lenis;
@@ -573,7 +590,7 @@ export default function Home() {
           <div className="hero-exp"><span>2 years experience</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
-              <a href="mailto:arackelian.arsen@gmail.com" className="badge yellow" onMouseEnter={playFx}><ST>Say Hi</ST></a>
+              <span className={`badge yellow${sayHiFade ? ' badge--fade' : ''}`} style={{cursor:'default'}}>{sayHiWord}</span>
             </div>
             <div className="badge-wrap">
               <a href="https://t.me/arsendsgn" target="_blank" className="badge button" onMouseEnter={playFx}><ST>t.me/arsendsgn</ST></a>
