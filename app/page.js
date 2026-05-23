@@ -590,7 +590,7 @@ export default function Home() {
           <div className="hero-exp"><span>2 years experience</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
-              <a href="mailto:arackelian.arsen@gmail.com" className={`badge yellow${sayHiFade ? ' badge--fade' : ''}`} onMouseEnter={playFx}>{sayHiWord}</a>
+              <span className={`badge yellow${sayHiFade ? ' badge--fade' : ''}`} style={{cursor:'default'}}>{sayHiWord}</span>
             </div>
             <div className="badge-wrap">
               <a href="https://t.me/arsendsgn" target="_blank" className="badge button" onMouseEnter={playFx}><ST>t.me/arsendsgn</ST></a>
