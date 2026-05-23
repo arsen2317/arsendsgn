@@ -10,7 +10,8 @@ const COMMANDS = [
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
   { name: 'draw',     desc: 'Yellow marker overlay' },
-  { name: 'cursor',   desc: 'Custom cursor on/off' },
+  { name: 'cursor',   desc: 'Slapping Cat cursor' },
+  { name: 'nyan',     desc: 'Nyan Cat cursor' },
   { name: 'bw',       desc: 'Black & white filter' },
   { name: 'negative', desc: 'Invert colors' },
   { name: 'reset',    desc: 'Reset all effects' },
@@ -18,9 +19,11 @@ const COMMANDS = [
 ];
 
 const ST = ({ children }) => (
-  <span className="st">
-    <span>{children}</span>
-    <span aria-hidden="true">{children}</span>
+  <span className="st-wrap">
+    <span className="st">
+      <span>{children}</span>
+      <span aria-hidden="true">{children}</span>
+    </span>
   </span>
 );
 
@@ -33,7 +36,7 @@ export default function Home() {
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [terminalInput, setTerminalInput] = useState('');
   const [drawMode, setDrawMode] = useState(false);
-  const [cursorMode, setCursorMode] = useState(false);
+  const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
   const [filterMode, setFilterMode] = useState(false);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
@@ -48,7 +51,18 @@ export default function Home() {
 
   useEffect(() => {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
-    fxRef.current = new Audio(`${base}/fx.mp3`);
+    const audio = new Audio(`${base}/fx.mp3`);
+    fxRef.current = audio;
+
+    const unlock = () => {
+      audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
+    };
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
   }, []);
 
   const playFx = () => {
@@ -69,13 +83,14 @@ export default function Home() {
       case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
-      case 'cursor':   setCursorMode(prev => !prev); break;
+      case 'cursor':   setCursorMode(prev => prev === 'cat' ? null : 'cat'); break;
+      case 'nyan':     setCursorMode(prev => prev === 'nyan' ? null : 'nyan'); break;
       case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; setFilterMode(true); break;
       case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode(true); break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
-        setCursorMode(false);
+        setCursorMode(null);
         setFilterMode(false);
         break;
       case 'close':    setTerminalOpen(false); break;
@@ -179,19 +194,20 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — Rainbow Sheep .ani (Edge/IE) + emoji SVG fallback */
+  /* Custom cursor — animated stylesheets from cursors-4u.com */
   useEffect(() => {
-    const el = document.getElementById('cursor-style');
-    if (el) el.remove();
+    document.getElementById('cursor-link')?.remove();
     if (!cursorMode) return;
-    const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
-    const aniUrl = `${base}/cursors/rainbow-sheep.ani`;
-    const svg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text y='32' font-size='32'>🐑</text></svg>`;
-    const style = document.createElement('style');
-    style.id = 'cursor-style';
-    style.textContent = `*, *:hover { cursor: url("${aniUrl}") 0 0, url("${svg}") 0 0, auto !important; }`;
-    document.head.appendChild(style);
-    return () => { document.getElementById('cursor-style')?.remove(); };
+    const urls = {
+      cat:  'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css',
+      nyan: 'https://cdn.cursors-4u.net/cursors/animated/animated-nyan-cat-rainbow-c493f1ef-32.css',
+    };
+    const link = document.createElement('link');
+    link.id = 'cursor-link';
+    link.rel = 'stylesheet';
+    link.href = urls[cursorMode];
+    document.head.appendChild(link);
+    return () => { document.getElementById('cursor-link')?.remove(); };
   }, [cursorMode]);
 
   /* Cycling footer words */

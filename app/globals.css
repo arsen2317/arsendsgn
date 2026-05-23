@@ -117,21 +117,19 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
   --h: 38px;
-  /* revert delay: gap between buttons is crossed faster than 120ms */
-  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1) 0.12s;
+  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1);
 }
-.nav-item.square { border-radius: var(--r-xs); }
-.nav-item.pill   { border-radius: var(--r-lg); }
+.nav-item.square       { border-radius: var(--r-xs); }
+.nav-item.pill         { border-radius: var(--r-lg); }
+.nav-item.square:hover { border-radius: var(--r-lg); }
+.nav-item.pill:hover   { border-radius: var(--r-xs); }
 
-/* Flip all radii when any item is hovered — immediate, no delay */
-.nav:has(.nav-item:hover) .nav-item.square,
-.menu-overlay-nav:has(.nav-item:hover) .nav-item.square { border-radius: var(--r-lg); transition-delay: 0s; }
-.nav:has(.nav-item:hover) .nav-item.pill,
-.menu-overlay-nav:has(.nav-item:hover) .nav-item.pill   { border-radius: var(--r-xs); transition-delay: 0s; }
-
-/* Vertical scroll text */
-.st { display: flex; flex-direction: column; align-self: flex-start; transition: transform 0.35s cubic-bezier(0.19,1,0.22,1); }
-.nav-item .st > span { height: var(--h); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* Vertical scroll text — clipped at text height, not button height */
+.st-wrap { overflow: hidden; line-height: 1; display: block; }
+.st { display: flex; flex-direction: column; transition: transform 0.35s cubic-bezier(0.19,1,0.22,1); }
+.st > span { display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1; }
+.nav-item .st-wrap { height: 1em; }
+.nav-item .st > span { height: 1em; }
 .nav-item:hover .st  { transform: translateY(-50%); }
 
 .header-hint {
@@ -293,6 +291,8 @@ body {
 .badge {
   display: flex;
   align-items: center;
+  display: flex;
+  align-items: center;
   overflow: hidden;
   height: 19px;
   padding: 0 6px;
@@ -304,7 +304,8 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   cursor: pointer;
 }
-.badge .st > span { height: 19px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; white-space: nowrap; }
+.badge .st-wrap { height: 11px; }
+.badge .st > span { height: 11px; display: flex; align-items: center; flex-shrink: 0; }
 .badge:hover .st  { transform: translateY(-50%); }
 .badge.yellow  { background: var(--accent-yellow); }
 .badge.button  { background: var(--bg-button); }
