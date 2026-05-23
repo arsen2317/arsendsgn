@@ -485,7 +485,7 @@ export default function Home() {
         <div className="divider" />
         <div className="case-row">
           <div className="case-img-box">
-            <img src="https://www.figma.com/api/mcp/asset/32894ddf-f6ee-42fd-adcb-3a989bab3a9d" alt="Sber case" />
+            <img src="/arsendsgn/images/sber.webp" alt="Sber case" />
           </div>
           <div className="case-info">
             <div className="case-header">
