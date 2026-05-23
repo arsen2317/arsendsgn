@@ -10,13 +10,27 @@ export default function Home() {
   const [word2, setWord2] = useState(WORDS_2[0]);
   const [fade1, setFade1] = useState(false);
   const [fade2, setFade2] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
+  const lenisRef = useRef(null);
+
+  const scrollToSection = (id) => {
+    setMenuOpen(false);
+    setTimeout(() => {
+      lenisRef.current?.scrollTo(id, { offset: -104, duration: 1.2 });
+    }, 50);
+  };
+
+  /* Lock body scroll when mobile menu is open */
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   /* Cycling footer words — alternates every 3s: word1 → word2 → word1 → … */
   useEffect(() => {
     let turn = 0;
-
     const t = setInterval(() => {
       if (turn === 0) {
         setFade1(true);
@@ -35,7 +49,6 @@ export default function Home() {
       }
       turn = (turn + 1) % 2;
     }, 3000);
-
     return () => clearInterval(t);
   }, []);
 
@@ -43,15 +56,18 @@ export default function Home() {
   useEffect(() => {
     let lenis;
     let ctx;
+    let tiltRafId;
+    let onMouseMove;
 
     async function init() {
-      const { default: Lenis }     = await import('lenis');
-      const { gsap }               = await import('gsap');
-      const { ScrollTrigger }      = await import('gsap/ScrollTrigger');
+      const { default: Lenis }    = await import('lenis');
+      const { gsap }              = await import('gsap');
+      const { ScrollTrigger }     = await import('gsap/ScrollTrigger');
 
       gsap.registerPlugin(ScrollTrigger);
 
       lenis = new Lenis();
+      lenisRef.current = lenis;
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
@@ -60,9 +76,9 @@ export default function Home() {
       const portrait3d = document.getElementById('portrait-3d');
       let targetRotX = 0, targetRotY = 0;
       let currentRotX = 0, currentRotY = 0;
-      let tiltRafId;
 
-      const onMouseMove = (e) => {
+      onMouseMove = (e) => {
+        if (!portrait3d) return;
         const rect = portrait3d.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
@@ -77,11 +93,13 @@ export default function Home() {
         const lerp = 0.06;
         currentRotX += (targetRotX - currentRotX) * lerp;
         currentRotY += (targetRotY - currentRotY) * lerp;
-        gsap.set(portrait3d, {
-          rotateX: currentRotX,
-          rotateY: currentRotY,
-          transformPerspective: 700,
-        });
+        if (portrait3d) {
+          gsap.set(portrait3d, {
+            rotateX: currentRotX,
+            rotateY: currentRotY,
+            transformPerspective: 700,
+          });
+        }
         tiltRafId = requestAnimationFrame(tiltTick);
       };
 
@@ -89,92 +107,45 @@ export default function Home() {
       tiltRafId = requestAnimationFrame(tiltTick);
 
       ctx = gsap.context(() => {
+        gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
 
-        /* ── Header slide down ── */
-        gsap.from('.header', {
-          y: -80,
-          opacity: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-        });
-
-        /* ── Hero entrance: portrait + tags stagger ── */
         gsap.from('.hero-portrait', {
-          y: -24,
-          opacity: 0,
-          scale: 0.92,
-          duration: 0.8,
-          delay: 0.25,
-          ease: 'power3.out',
+          y: -24, opacity: 0, scale: 0.92,
+          duration: 0.8, delay: 0.25, ease: 'power3.out',
         });
 
         gsap.from('[data-word]', {
-          y: 70,
-          opacity: 0,
-          duration: 0.9,
-          delay: 0.35,
-          stagger: 0.1,
-          ease: 'back.out(2)', /* spring: cubic-bezier(1,-0.5,0,1.5) equivalent */
+          y: 70, opacity: 0,
+          duration: 0.9, delay: 0.35, stagger: 0.1, ease: 'back.out(2)',
         });
 
-        gsap.from('.hero-bottom', {
-          opacity: 0,
-          duration: 0.6,
-          delay: 0.85,
-          ease: 'power2.out',
-        });
+        gsap.from('.hero-bottom', { opacity: 0, duration: 0.6, delay: 0.85, ease: 'power2.out' });
 
-        /* ── Dark section ── */
         gsap.from('.dark-quote p', {
-          x: 50,
-          opacity: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.dark-section',
-            start: 'top 70%',
-          },
+          x: 50, opacity: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dark-section', start: 'top 70%' },
         });
 
         gsap.from('.dark-desc p', {
-          y: 30,
-          opacity: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.dark-row',
-            start: 'top 80%',
-          },
+          y: 30, opacity: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' },
         });
 
         gsap.from('.dark-img-placeholder', {
-          scale: 0.94,
-          opacity: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.dark-row',
-            start: 'top 80%',
-          },
+          scale: 0.94, opacity: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' },
         });
 
-        /* ── Dividers expand ── */
         gsap.utils.toArray('.divider').forEach((el) => {
           gsap.from(el, {
-            scaleX: 0,
-            duration: 1.2,
-            ease: 'power3.out',
+            scaleX: 0, duration: 1.2, ease: 'power3.out',
             scrollTrigger: { trigger: el, start: 'top 90%' },
           });
         });
 
-        /* ── Case rows fade up ── */
         gsap.utils.toArray('.case-row').forEach((el) => {
           gsap.from(el, {
-            y: 48,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out',
+            y: 48, opacity: 0, duration: 0.9, ease: 'power3.out',
             scrollTrigger: { trigger: el, start: 'top 85%' },
           });
         });
@@ -187,26 +158,55 @@ export default function Home() {
       lenis?.destroy();
       ctx?.revert();
       cancelAnimationFrame(tiltRafId);
-      window.removeEventListener('mousemove', onMouseMove);
+      if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
   return (
     <>
+      {/* ── MOBILE MENU OVERLAY ── */}
+      {menuOpen && (
+        <div className="menu-overlay">
+          <div className="menu-overlay-header">
+            <div className="logo">arsendsgn</div>
+            <button className="menu-close-btn" onClick={() => setMenuOpen(false)}>Close</button>
+          </div>
+          <nav className="menu-overlay-nav">
+            <button className="menu-overlay-item" onClick={() => scrollToSection('#about')}>About me</button>
+            <button className="menu-overlay-item" onClick={() => scrollToSection('#cases')}>Cases</button>
+            <button className="menu-overlay-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+            <button className="menu-overlay-item menu-overlay-item--dim">Resume</button>
+          </nav>
+          <div className="menu-overlay-footer">
+            <div className="menu-overlay-links">
+              <a href="https://t.me/arsendsgn" className="menu-overlay-link">Telegram</a>
+              <a href="#" className="menu-overlay-link">LinkedIn</a>
+            </div>
+            <a href="mailto:arackelian.arsen@gmail.com" className="menu-overlay-email">
+              arackelian.arsen@gmail.com
+            </a>
+            <span className="menu-overlay-copy">© 2026 Arsen Arakelyan</span>
+          </div>
+        </div>
+      )}
+
       {/* ── HEADER ── */}
       <header className="header">
         <div className="logo">arsendsgn</div>
         <nav className="nav">
-          <div className="nav-item square">About me</div>
-          <div className="nav-item pill">Cases</div>
-          <div className="nav-item square">Contacts</div>
-          <div className="nav-item pill">Resume</div>
+          <button className="nav-item square" onClick={() => scrollToSection('#about')}>About me</button>
+          <button className="nav-item pill"   onClick={() => scrollToSection('#cases')}>Cases</button>
+          <button className="nav-item square" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+          <button className="nav-item pill">Resume</button>
         </nav>
-        <div className="header-hint">Press / for?</div>
+        <div className="header-right">
+          <div className="header-hint">Press / for?</div>
+          <button className="menu-btn" onClick={() => setMenuOpen(true)}>Menu</button>
+        </div>
       </header>
 
       {/* ── HERO ── */}
-      <section className="hero">
+      <section className="hero" id="hero">
         <div className="portrait-wrap">
           <div className="portrait-3d" id="portrait-3d">
             <img
@@ -246,17 +246,17 @@ export default function Home() {
           </div>
           <div className="hero-socials">
             <div className="badge-wrap">
-              <span className="badge yellow">Say Hi</span>
+              <a href="mailto:arackelian.arsen@gmail.com" className="badge yellow">Say Hi</a>
             </div>
             <div className="badge-wrap">
-              <span className="badge button">t.me/arsendsgn</span>
+              <a href="https://t.me/arsendsgn" className="badge button">t.me/arsendsgn</a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── DARK SECTION ── */}
-      <section className="dark-section">
+      {/* ── DARK / ABOUT ── */}
+      <section className="dark-section" id="about">
         <div className="dark-quote">
           <p>I focus on the user by combining empathy, attention to detail, and analytics to simplify complexity</p>
         </div>
@@ -269,16 +269,12 @@ export default function Home() {
       </section>
 
       {/* ── CASES ── */}
-      <section className="cases-section">
+      <section className="cases-section" id="cases">
         <div className="divider" />
 
-        {/* Case 01: Sber — image left */}
         <div className="case-row">
           <div className="case-img-box">
-            <img
-              src="https://www.figma.com/api/mcp/asset/32894ddf-f6ee-42fd-adcb-3a989bab3a9d"
-              alt="Sber case"
-            />
+            <img src="https://www.figma.com/api/mcp/asset/32894ddf-f6ee-42fd-adcb-3a989bab3a9d" alt="Sber case" />
           </div>
           <div className="case-info">
             <div className="case-header">
@@ -302,8 +298,7 @@ export default function Home() {
 
         <div className="divider" />
 
-        {/* Case 02: T-Journal — info left, image right */}
-        <div className="case-row">
+        <div className="case-row case-row--reverse">
           <div className="case-info">
             <div className="case-header">
               <div className="case-title-row">
@@ -323,10 +318,7 @@ export default function Home() {
             </div>
           </div>
           <div className="case-img-box">
-            <img
-              src="https://www.figma.com/api/mcp/asset/62bad97c-1111-4c11-91e6-60e37a2135a5"
-              alt="T-Journal case"
-            />
+            <img src="https://www.figma.com/api/mcp/asset/62bad97c-1111-4c11-91e6-60e37a2135a5" alt="T-Journal case" />
           </div>
         </div>
 
@@ -334,16 +326,12 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="footer">
+      <footer className="footer" id="contacts">
         <nav className="footer-nav">
           <div className="footer-nav-item square">Product</div>
-          <div className={`footer-nav-item lavender cycling${fade1 ? ' fade' : ''}`}>
-            {word1}
-          </div>
+          <div className={`footer-nav-item lavender cycling${fade1 ? ' fade' : ''}`}>{word1}</div>
           <div className="footer-nav-item square">Designer</div>
-          <div className={`footer-nav-item pink cycling${fade2 ? ' fade' : ''}`}>
-            {word2}
-          </div>
+          <div className={`footer-nav-item pink cycling${fade2 ? ' fade' : ''}`}>{word2}</div>
         </nav>
         <div className="footer-bottom">
           <div className="footer-copy">
@@ -353,9 +341,9 @@ export default function Home() {
             <span className="badge yellow">Download CV</span>
           </div>
           <div className="footer-links">
-            <div className="badge-wrap"><span className="badge primary">E-mail</span></div>
-            <div className="badge-wrap"><span className="badge primary">Telegram</span></div>
-            <div className="badge-wrap"><span className="badge primary">LinkedIn</span></div>
+            <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
+            <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
+            <div className="badge-wrap"><a href="#" className="badge primary">LinkedIn</a></div>
           </div>
         </div>
       </footer>
