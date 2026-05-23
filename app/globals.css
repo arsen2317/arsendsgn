@@ -525,7 +525,17 @@ body {
   z-index: 200;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* Closed state */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.menu-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
 }
 
 .menu-overlay-header {
@@ -537,8 +547,8 @@ body {
   flex-shrink: 0;
 }
 
-/* Logo becomes white when menu open */
-.menu-overlay-header .logo {
+/* Logo becomes white when inside open overlay */
+.menu-overlay .logo {
   background: white;
   color: var(--text-primary);
 }
@@ -560,7 +570,7 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Nav — same nav-item components, stacked */
+/* ── Nav — same nav-item components, stacked center ── */
 .menu-overlay-nav {
   display: flex;
   flex-direction: column;
@@ -571,7 +581,19 @@ body {
   padding: 0 20px;
 }
 
-/* Footer contact block */
+/* ── Nav item entrance: rise from below ── */
+.menu-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+              transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.menu-overlay--open .menu-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
+.menu-overlay--open .menu-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.13s; }
+.menu-overlay--open .menu-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.18s; }
+.menu-overlay--open .menu-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.23s; }
+
+/* ── Footer contact block ── */
 .menu-overlay-footer {
   display: flex;
   flex-direction: column;
@@ -581,55 +603,88 @@ body {
   flex-shrink: 0;
 }
 
+/* Footer items entrance */
+.menu-footer-item {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s ease,
+              transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.menu-overlay--open .menu-footer-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.20s; }
+.menu-overlay--open .menu-footer-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.26s; }
+.menu-overlay--open .menu-footer-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
+.menu-overlay--open .menu-footer-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.38s; }
+
 /* "Contact me" white chip */
-.menu-contact-chip {
-  background: white !important;
-}
+.menu-contact-chip { background: white !important; }
 
-/* Telegram / LinkedIn links */
-.menu-social-links {
-  display: flex;
-  gap: 28px;
-}
-
+/* Social links */
+.menu-social-links { display: flex; gap: 28px; }
 .menu-social-link {
   font-size: 12px;
   color: var(--text-primary);
   text-decoration: none;
   letter-spacing: -0.3px;
-  opacity: 0.7;
+  opacity: 0.65;
   transition: opacity 0.2s ease;
 }
 .menu-social-link:hover { opacity: 1; }
 
-/* [send] [a letter] chips row */
-.menu-letter-chips {
-  display: flex;
-  gap: 4px;
-}
+/* [send] [a letter] chips */
+.menu-letter-chips { display: flex; gap: 4px; }
 
-/* Email address */
+/* Email */
 .menu-email {
   font-size: 12px;
   color: var(--text-primary);
   text-decoration: none;
   letter-spacing: -0.3px;
-  margin-top: 4px;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 .menu-email:hover { opacity: 1; }
 
-/* Copyright pinned to bottom of screen */
+/* Copyright — block reveal, pinned to bottom */
 .menu-copy {
   position: absolute;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(100%);
   font-size: 11px;
   color: var(--text-primary);
-  opacity: 0.35;
+  opacity: 0;
   white-space: nowrap;
+  transition: opacity 0.4s ease, transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  transition-delay: 0.3s;
 }
+.menu-overlay--open .menu-copy {
+  opacity: 0.4;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Menu button: label swap animation ── */
+.menu-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-btn-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  display: block;
+}
+
+/* Close starts hidden above clip area */
+.menu-btn-text--close {
+  transform: translate(-50%, calc(-50% - 105%));
+}
+
+/* Open: Menu exits up, Close slides down into view */
+.menu-btn--open .menu-btn-text--menu  { transform: translate(-50%, calc(-50% - 105%)); }
+.menu-btn--open .menu-btn-text--close { transform: translate(-50%, -50%); }
 
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */

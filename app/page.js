@@ -15,20 +15,26 @@ export default function Home() {
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
 
+  const toggleMenu = () => setMenuOpen(prev => !prev);
+
   const scrollToSection = (id) => {
     setMenuOpen(false);
+    // Wait for menu fade-out (300ms) before scrolling
     setTimeout(() => {
-      lenisRef.current?.scrollTo(id, { offset: -104, duration: 1.2 });
-    }, 50);
+      lenisRef.current?.scrollTo(id, { offset: -72, duration: 1.2 });
+    }, 350);
   };
 
-  /* Lock body scroll when mobile menu is open */
+  /* Lock/unlock Lenis scroll when menu opens */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (menuOpen) {
+      lenisRef.current?.stop();
+    } else {
+      lenisRef.current?.start();
+    }
   }, [menuOpen]);
 
-  /* Cycling footer words — alternates every 3s: word1 → word2 → word1 → … */
+  /* Cycling footer words */
   useEffect(() => {
     let turn = 0;
     const t = setInterval(() => {
@@ -72,7 +78,7 @@ export default function Home() {
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
 
-      /* ── Portrait 3D cursor tracking ── */
+      /* Portrait 3D cursor tracking */
       const portrait3d = document.getElementById('portrait-3d');
       let targetRotX = 0, targetRotY = 0;
       let currentRotX = 0, currentRotY = 0;
@@ -108,46 +114,24 @@ export default function Home() {
 
       ctx = gsap.context(() => {
         gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
-
-        gsap.from('.hero-portrait', {
-          y: -24, opacity: 0, scale: 0.92,
-          duration: 0.8, delay: 0.25, ease: 'power3.out',
-        });
-
-        gsap.from('[data-word]', {
-          y: 70, opacity: 0,
-          duration: 0.9, delay: 0.35, stagger: 0.1, ease: 'back.out(2)',
-        });
-
+        gsap.from('.hero-portrait', { y: -24, opacity: 0, scale: 0.92, duration: 0.8, delay: 0.25, ease: 'power3.out' });
+        gsap.from('[data-word]', { y: 70, opacity: 0, duration: 0.9, delay: 0.35, stagger: 0.1, ease: 'back.out(2)' });
         gsap.from('.hero-bottom', { opacity: 0, duration: 0.6, delay: 0.85, ease: 'power2.out' });
 
-        gsap.from('.dark-quote p', {
-          x: 50, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dark-section', start: 'top 70%' },
-        });
-
-        gsap.from('.dark-desc p', {
-          y: 30, opacity: 0, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' },
-        });
-
-        gsap.from('.dark-img-placeholder', {
-          scale: 0.94, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' },
-        });
+        gsap.from('.dark-quote p', { x: 50, opacity: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dark-section', start: 'top 70%' } });
+        gsap.from('.dark-desc p', { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' } });
+        gsap.from('.dark-img-placeholder', { scale: 0.94, opacity: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' } });
 
         gsap.utils.toArray('.divider').forEach((el) => {
-          gsap.from(el, {
-            scaleX: 0, duration: 1.2, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 90%' },
-          });
+          gsap.from(el, { scaleX: 0, duration: 1.2, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 90%' } });
         });
-
         gsap.utils.toArray('.case-row').forEach((el) => {
-          gsap.from(el, {
-            y: 48, opacity: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' },
-          });
+          gsap.from(el, { y: 48, opacity: 0, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' } });
         });
       });
     }
@@ -164,47 +148,37 @@ export default function Home() {
 
   return (
     <>
-      {/* ── MOBILE MENU OVERLAY ── */}
-      {menuOpen && (
-        <div className="menu-overlay">
-          <div className="menu-overlay-header">
-            <div className="logo">arsendsgn</div>
-            <button className="menu-close-btn" onClick={() => setMenuOpen(false)}>Close</button>
-          </div>
-
-          {/* Same nav-item components as desktop, stacked */}
-          <nav className="menu-overlay-nav">
-            <button className="nav-item square" onClick={() => scrollToSection('#about')}>About me</button>
-            <button className="nav-item pill"   onClick={() => scrollToSection('#cases')}>Cases</button>
-            <button className="nav-item square" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-            <button className="nav-item pill">Resume</button>
-          </nav>
-
-          <div className="menu-overlay-footer">
-            {/* Contact me — white chip */}
-            <div className="nav-item square menu-contact-chip">Contact me</div>
-
-            {/* Social links — normal case, generous spacing */}
-            <div className="menu-social-links">
-              <a href="https://t.me/arsendsgn" className="menu-social-link">Telegram</a>
-              <a href="#" className="menu-social-link">LinkedIn</a>
-            </div>
-
-            {/* Two chips with different radius */}
-            <div className="menu-letter-chips">
-              <div className="nav-item square">send</div>
-              <div className="nav-item pill">a letter</div>
-            </div>
-
-            {/* Email */}
-            <a href="mailto:arackelian.arsen@gmail.com" className="menu-email">
-              arackelian.arsen@gmail.com
-            </a>
-          </div>
-
-          <span className="menu-copy">© 2026 Arsen Arakelyan</span>
+      {/* ── MOBILE MENU OVERLAY (always in DOM, animated via class) ── */}
+      <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
+        <div className="menu-overlay-header">
+          <div className="logo">arsendsgn</div>
+          <button className="menu-close-btn" onClick={toggleMenu}>Close</button>
         </div>
-      )}
+
+        <nav className="menu-overlay-nav">
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')}>About me</button>
+          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')}>Cases</button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+          <button className="nav-item pill   menu-item">Resume</button>
+        </nav>
+
+        <div className="menu-overlay-footer">
+          <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
+          <div className="menu-social-links menu-footer-item">
+            <a href="https://t.me/arsendsgn" className="menu-social-link">Telegram</a>
+            <a href="#" className="menu-social-link">LinkedIn</a>
+          </div>
+          <div className="menu-letter-chips menu-footer-item">
+            <div className="nav-item square">send</div>
+            <div className="nav-item pill">a letter</div>
+          </div>
+          <a href="mailto:arackelian.arsen@gmail.com" className="menu-email menu-footer-item">
+            arackelian.arsen@gmail.com
+          </a>
+        </div>
+
+        <span className="menu-copy">© 2026 Arsen Arakelyan</span>
+      </div>
 
       {/* ── HEADER ── */}
       <header className="header">
@@ -217,7 +191,11 @@ export default function Home() {
         </nav>
         <div className="header-right">
           <div className="header-hint">Press / for?</div>
-          <button className="menu-btn" onClick={() => setMenuOpen(true)}>Menu</button>
+          {/* Button: two labels swap on toggle */}
+          <button className={`menu-btn${menuOpen ? ' menu-btn--open' : ''}`} onClick={toggleMenu}>
+            <span className="menu-btn-text menu-btn-text--menu">Menu</span>
+            <span className="menu-btn-text menu-btn-text--close">Close</span>
+          </button>
         </div>
       </header>
 
@@ -236,30 +214,18 @@ export default function Home() {
 
         <div className="hero-name">
           <div className="hero-row">
-            <div className="tag pill pink" data-word>
-              <span className="tag-lg">Arsen</span>
-            </div>
-            <div className="tag square glass" data-word>
-              <span className="tag-xl">Arakelyan</span>
-            </div>
+            <div className="tag pill pink" data-word><span className="tag-lg">Arsen</span></div>
+            <div className="tag square glass" data-word><span className="tag-xl">Arakelyan</span></div>
           </div>
           <div className="hero-row">
-            <div className="tag pill glass" data-word>
-              <span className="tag-xl">Product</span>
-            </div>
-            <div className="tag square glass" data-word>
-              <span className="tag-xl">Designer</span>
-            </div>
-            <div className="tag pill lavender" data-word>
-              <span className="tag-lg">MTS Fintech</span>
-            </div>
+            <div className="tag pill glass" data-word><span className="tag-xl">Product</span></div>
+            <div className="tag square glass" data-word><span className="tag-xl">Designer</span></div>
+            <div className="tag pill lavender" data-word><span className="tag-lg">MTS Fintech</span></div>
           </div>
         </div>
 
         <div className="hero-bottom">
-          <div className="hero-exp">
-            <span>2 years experience</span>
-          </div>
+          <div className="hero-exp"><span>2 years experience</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
               <a href="mailto:arackelian.arsen@gmail.com" className="badge yellow">Say Hi</a>
@@ -287,7 +253,6 @@ export default function Home() {
       {/* ── CASES ── */}
       <section className="cases-section" id="cases">
         <div className="divider" />
-
         <div className="case-row">
           <div className="case-img-box">
             <img src="https://www.figma.com/api/mcp/asset/32894ddf-f6ee-42fd-adcb-3a989bab3a9d" alt="Sber case" />
@@ -330,7 +295,7 @@ export default function Home() {
               </div>
             </div>
             <div className="case-desc">
-              <p>T-j reaches 42 million readers, but fewer than 20% are T-Bank clients. The project goal is to connect T-j and T-Bank through user scenarios without undermining trust in the media. The focus is on the "Travel" section — one of the platform's most popular and engaging areas.</p>
+              <p>T-j reaches 42 million readers, but fewer than 20% are T-Bank clients. The project goal is to connect T-j and T-Bank through user scenarios without undermining trust in the media. The focus is on the "Travel" section.</p>
             </div>
           </div>
           <div className="case-img-box">
@@ -350,12 +315,8 @@ export default function Home() {
           <div className={`footer-nav-item pink cycling${fade2 ? ' fade' : ''}`}>{word2}</div>
         </nav>
         <div className="footer-bottom">
-          <div className="footer-copy">
-            <span>© 2026 Arsen Arakelyan</span>
-          </div>
-          <div className="badge-wrap">
-            <span className="badge yellow">Download CV</span>
-          </div>
+          <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
+          <div className="badge-wrap"><span className="badge yellow">Download CV</span></div>
           <div className="footer-links">
             <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
             <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
