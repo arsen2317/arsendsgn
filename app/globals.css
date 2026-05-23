@@ -135,6 +135,10 @@ body {
 .nav:has(.nav-item:hover) .nav-item.pill:not(:hover),
 .menu-overlay-nav:has(.nav-item:hover) .nav-item.pill:not(:hover)   { border-radius: var(--r-xs); transition-delay: 0s; }
 
+/* When switching between nav items, briefly reset all to default to retrigger animation */
+.nav[data-nav-resetting] .nav-item.square { border-radius: var(--r-xs) !important; transition-delay: 0s !important; }
+.nav[data-nav-resetting] .nav-item.pill   { border-radius: var(--r-lg) !important; transition-delay: 0s !important; }
+
 /* Vertical scroll text — clipped at text height, not button height */
 .st-wrap { overflow: hidden; line-height: 1; display: block; }
 .st { display: flex; flex-direction: column; transition: transform 0.55s cubic-bezier(0.19,1,0.22,1); }
