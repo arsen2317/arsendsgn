@@ -528,8 +528,14 @@ export default function Home() {
               <p>T-j reaches 42 million readers, but fewer than 20% are T-Bank clients. The project goal is to connect T-j and T-Bank through user scenarios without undermining trust in the media. The focus is on the "Travel" section.</p>
             </div>
           </div>
-          <div className="case-img-box">
-            <img src="https://www.figma.com/api/mcp/asset/62bad97c-1111-4c11-91e6-60e37a2135a5" alt="T-Journal case" />
+          <div className="case-img-box case-img-box--video">
+            <iframe
+              src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
+              frameBorder="0"
+              allowFullScreen
+              style={{width:'100%',height:'100%',border:'none'}}
+            />
           </div>
         </div>
 
