@@ -977,36 +977,50 @@ body {
 
 .music-embed-wrap {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 300px;
-  z-index: 9999;
-  border-radius: 12px;
+  bottom: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  pointer-events: none;
+  opacity: 0;
 }
 
-.music-pill {
-  min-width: 130px;
+.logo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
-.music-controls {
+.music-logo-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.music-logo-ctrl {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 0 16px;
-  cursor: default;
-}
-
-.music-ctrl {
-  font-size: 13px;
-  line-height: 1;
   cursor: pointer;
-  user-select: none;
+  opacity: 0.9;
   transition: opacity 0.15s;
+  user-select: none;
 }
 
-.music-ctrl:hover {
+.music-logo-ctrl:hover {
   opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+  .music-logo-ctrl svg {
+    transform: scale(0.85);
+  }
 }
