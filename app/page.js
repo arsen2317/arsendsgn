@@ -53,6 +53,38 @@ export default function Home() {
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
 
+      /* ── Portrait 3D cursor tracking ── */
+      const portrait3d = document.getElementById('portrait-3d');
+      let targetRotX = 0, targetRotY = 0;
+      let currentRotX = 0, currentRotY = 0;
+      let tiltRafId;
+
+      const onMouseMove = (e) => {
+        const rect = portrait3d.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) / (window.innerWidth * 0.5);
+        const dy = (e.clientY - cy) / (window.innerHeight * 0.5);
+        const max = 22;
+        targetRotY = Math.max(-max, Math.min(max, dx * max));
+        targetRotX = Math.max(-max, Math.min(max, -dy * max));
+      };
+
+      const tiltTick = () => {
+        const lerp = 0.06;
+        currentRotX += (targetRotX - currentRotX) * lerp;
+        currentRotY += (targetRotY - currentRotY) * lerp;
+        gsap.set(portrait3d, {
+          rotateX: currentRotX,
+          rotateY: currentRotY,
+          transformPerspective: 700,
+        });
+        tiltRafId = requestAnimationFrame(tiltTick);
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      tiltRafId = requestAnimationFrame(tiltTick);
+
       ctx = gsap.context(() => {
 
         /* ── Header slide down ── */
@@ -151,6 +183,8 @@ export default function Home() {
     return () => {
       lenis?.destroy();
       ctx?.revert();
+      cancelAnimationFrame(tiltRafId);
+      window.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
@@ -170,11 +204,16 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section className="hero">
-        <img
-          className="hero-portrait"
-          src="https://www.figma.com/api/mcp/asset/d1a20262-c7eb-4dc1-a238-2f49346f8228"
-          alt="Arsen Arakelyan"
-        />
+        <div className="portrait-wrap">
+          <div className="portrait-3d" id="portrait-3d">
+            <img
+              className="hero-portrait"
+              src="https://www.figma.com/api/mcp/asset/d1a20262-c7eb-4dc1-a238-2f49346f8228"
+              alt="Arsen Arakelyan"
+            />
+            <div className="portrait-edge" />
+          </div>
+        </div>
 
         <div className="hero-name">
           <div className="hero-row">
