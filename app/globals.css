@@ -54,7 +54,7 @@ body {
   justify-content: space-between;
   height: 104px;
   padding: 0 var(--px);
-  background: var(--bg-primary);
+  background: transparent;
   z-index: 210;
 }
 
@@ -393,8 +393,10 @@ body {
   transition: transform 0.5s cubic-bezier(0.19,1,0.22,1);
 }
 .case-img-box:hover { transform: scale(1.01); }
+.case-img-box--video { padding: 0; }
 .case-img-box img,
-.case-img-box video {
+.case-img-box video,
+.case-img-box iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -553,10 +555,7 @@ body {
   pointer-events: all;
 }
 
-/* Real header blends into overlay when open */
-.header--menu-open {
-  background: #dcdcdc;
-}
+/* header is always transparent — no menu-open background change */
 
 .menu-close-btn {
   display: flex;
