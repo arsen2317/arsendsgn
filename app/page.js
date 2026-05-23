@@ -69,31 +69,11 @@ export default function Home() {
   const drawMusicRef = useRef(null);
   const fahhRef = useRef(null);
   const navRef = useRef(null);
-  const navHoveredRef = useRef(-1);
-  const navResetTimerRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
-  const handleNavItemEnter = (idx) => {
-    const prev = navHoveredRef.current;
-    if (prev !== -1 && prev !== idx) {
-      const nav = navRef.current;
-      if (nav) {
-        nav.setAttribute('data-nav-resetting', 'true');
-        clearTimeout(navResetTimerRef.current);
-        navResetTimerRef.current = setTimeout(() => {
-          nav.removeAttribute('data-nav-resetting');
-        }, 60);
-      }
-    }
-    navHoveredRef.current = idx;
-  };
-
-  const handleNavLeave = () => {
-    navHoveredRef.current = -1;
-    clearTimeout(navResetTimerRef.current);
-    if (navRef.current) navRef.current.removeAttribute('data-nav-resetting');
-  };
+  const handleNavEnter = () => navRef.current?.classList.add('nav--active');
+  const handleNavLeave = () => navRef.current?.classList.remove('nav--active');
 
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -534,11 +514,11 @@ export default function Home() {
         return (
           <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
             <button className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} onMouseEnter={playFx}><ST>arsendsgn</ST></button>
-            <nav className="nav" ref={navRef} onMouseLeave={handleNavLeave}>
-              <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={() => { playFx(); handleNavItemEnter(0); }}><ST>About me</ST></button>
-              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={() => { playFx(); handleNavItemEnter(1); }}><ST>Cases</ST></button>
-              <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={() => { playFx(); handleNavItemEnter(2); }}><ST>Contacts</ST></button>
-              <button className="nav-item pill" onMouseEnter={() => { playFx(); handleNavItemEnter(3); }} onClick={() => downloadCV()}><ST>My CV</ST></button>
+            <nav className="nav" ref={navRef} onMouseEnter={handleNavEnter} onMouseLeave={handleNavLeave}>
+              <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
+              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
+              <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
+              <button className="nav-item pill" onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
             </nav>
             <div className="header-right">
               <button
