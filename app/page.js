@@ -69,10 +69,8 @@ export default function Home() {
   }, []);
 
   const playFx = () => {
-    const a = fxRef.current;
-    if (!a) return;
-    a.currentTime = 0;
-    a.play().catch(() => {});
+    if (!fxRef.current) return;
+    fxRef.current.cloneNode().play().catch(() => {});
   };
 
   const startRain = () => {
