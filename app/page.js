@@ -192,19 +192,16 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — Rainbow Sheep .ani (Edge/IE) + emoji SVG fallback */
+  /* Custom cursor — Slapping Cat via cursors-4u.com animated stylesheet */
   useEffect(() => {
-    const el = document.getElementById('cursor-style');
-    if (el) el.remove();
+    document.getElementById('cursor-link')?.remove();
     if (!cursorMode) return;
-    const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
-    const aniUrl = `${base}/cursors/rainbow-sheep.ani`;
-    const svg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text y='32' font-size='32'>🐑</text></svg>`;
-    const style = document.createElement('style');
-    style.id = 'cursor-style';
-    style.textContent = `*, *:hover { cursor: url("${aniUrl}") 0 0, url("${svg}") 0 0, auto !important; }`;
-    document.head.appendChild(style);
-    return () => { document.getElementById('cursor-style')?.remove(); };
+    const link = document.createElement('link');
+    link.id = 'cursor-link';
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css';
+    document.head.appendChild(link);
+    return () => { document.getElementById('cursor-link')?.remove(); };
   }, [cursorMode]);
 
   /* Cycling footer words */
