@@ -422,17 +422,7 @@ export default function Home() {
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-          {musicOpen ? (
-            <div className="nav-item pill menu-item music-pill music-controls" onMouseEnter={playFx}>
-              <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.previousTrack()}>⏮</span>
-              <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.nextTrack()}>⏭</span>
-              <span className="music-ctrl" onClick={() => { spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>⏹</span>
-            </div>
-          ) : (
-            <button className="nav-item pill menu-item music-pill" onMouseEnter={playFx} onClick={() => setMusicOpen(true)}>
-              <ST>Watch with kaif</ST>
-            </button>
-          )}
+          <button className="nav-item pill menu-item" onMouseEnter={playFx}><ST>Resume</ST></button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -491,22 +481,26 @@ export default function Home() {
         const effectsActive = cursorMode || drawMode || filterMode;
         return (
           <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
-            <div className="logo">arsendsgn</div>
+            <button className="logo" onClick={() => musicOpen ? (spotifyControllerRef.current?.pause(), setMusicOpen(false)) : setMusicOpen(true)} onMouseEnter={playFx}>
+              {musicOpen ? (
+                <span className="music-logo-controls">
+                  <span className="music-logo-ctrl" onClick={e => { e.stopPropagation(); spotifyControllerRef.current?.previousTrack(); }}>
+                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M7 0.8 L1.2 5 L7 9.2 Z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round"/></svg>
+                  </span>
+                  <span className="music-logo-ctrl" onClick={e => { e.stopPropagation(); spotifyControllerRef.current?.nextTrack(); }}>
+                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1 0.8 L6.8 5 L1 9.2 Z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round"/></svg>
+                  </span>
+                  <span className="music-logo-ctrl" onClick={e => { e.stopPropagation(); spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>
+                    <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="0.5" y="0.5" width="8" height="8" rx="1" fill="currentColor"/></svg>
+                  </span>
+                </span>
+              ) : 'arsendsgn'}
+            </button>
             <nav className="nav">
               <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
               <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
               <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-              {musicOpen ? (
-                <div className="nav-item pill music-pill music-controls" onMouseEnter={playFx}>
-                  <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.previousTrack()}>⏮</span>
-                  <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.nextTrack()}>⏭</span>
-                  <span className="music-ctrl" onClick={() => { spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>⏹</span>
-                </div>
-              ) : (
-                <button className="nav-item pill music-pill" onMouseEnter={playFx} onClick={() => setMusicOpen(true)}>
-                  <ST>Watch with kaif</ST>
-                </button>
-              )}
+              <button className="nav-item pill" onMouseEnter={playFx}><ST>Resume</ST></button>
             </nav>
             <div className="header-right">
               <button
