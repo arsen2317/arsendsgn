@@ -422,7 +422,17 @@ export default function Home() {
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-          <button className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>Resume</ST></button>
+          {musicOpen ? (
+            <div className="nav-item pill menu-item music-pill music-controls" onMouseEnter={playFx}>
+              <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.previousTrack()}>⏮</span>
+              <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.nextTrack()}>⏭</span>
+              <span className="music-ctrl" onClick={() => { spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>⏹</span>
+            </div>
+          ) : (
+            <button className="nav-item pill menu-item music-pill" onMouseEnter={playFx} onClick={() => setMusicOpen(true)}>
+              <ST>Watch with kaif</ST>
+            </button>
+          )}
         </nav>
 
         <div className="menu-overlay-footer">
