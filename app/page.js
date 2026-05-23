@@ -82,7 +82,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
+    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
     const noire = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/noire.mp3');
@@ -591,7 +591,7 @@ export default function Home() {
         <div className="divider" />
         <div className="case-row">
           <div className="case-img-box">
-            <img src="/arsendsgn/images/sber.webp" alt="Sber case" />
+            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/sber.webp`} alt="Sber case" />
           </div>
           <div className="case-info">
             <div className="case-header">
