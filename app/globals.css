@@ -101,11 +101,11 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
   --h: 38px;
-  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1) 0.1s;
+  transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
 }
 .logo:hover { border-radius: var(--r-lg); transition-delay: 0s; }
-.logo .st-wrap { height: 1em; }
-.logo .st > span { height: 1em; }
+.logo .st-wrap { height: 1.3em; }
+.logo .st > span { height: 1.3em; }
 .logo:hover .st { transform: translateY(-50%); }
 
 .nav { display: flex; gap: 4px; }
@@ -127,7 +127,7 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
   --h: 38px;
-  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1) 0.1s;
+  transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
 }
 .nav-item.square { border-radius: var(--r-xs); }
 .nav-item.pill   { border-radius: var(--r-lg); }
@@ -136,22 +136,19 @@ body {
 .nav-item.square:hover { border-radius: var(--r-lg); transition-delay: 0s; }
 .nav-item.pill:hover   { border-radius: var(--r-xs); transition-delay: 0s; }
 
-/* All other buttons in the group also flip simultaneously */
-.nav:has(.nav-item:hover) .nav-item.square:not(:hover),
-.menu-overlay-nav:has(.nav-item:hover) .nav-item.square:not(:hover) { border-radius: var(--r-lg); transition-delay: 0s; }
-.nav:has(.nav-item:hover) .nav-item.pill:not(:hover),
-.menu-overlay-nav:has(.nav-item:hover) .nav-item.pill:not(:hover)   { border-radius: var(--r-xs); transition-delay: 0s; }
-
-/* When switching between nav items, briefly reset all to default to retrigger animation */
-.nav[data-nav-resetting] .nav-item.square { border-radius: var(--r-xs) !important; transition-delay: 0s !important; }
-.nav[data-nav-resetting] .nav-item.pill   { border-radius: var(--r-lg) !important; transition-delay: 0s !important; }
+/* nav--active: set by JS on nav mouseenter, removed on nav mouseleave.
+   The gap between buttons is inside the nav boundary so it never triggers leave. */
+.nav--active .nav-item.square,
+.menu-overlay-nav--active .nav-item.square { border-radius: var(--r-lg); transition-delay: 0s; }
+.nav--active .nav-item.pill,
+.menu-overlay-nav--active .nav-item.pill   { border-radius: var(--r-xs); transition-delay: 0s; }
 
 /* Vertical scroll text — clipped at text height, not button height */
 .st-wrap { overflow: hidden; line-height: 1; display: block; }
-.st { display: flex; flex-direction: column; transition: transform 0.55s cubic-bezier(0.19,1,0.22,1); }
+.st { display: flex; flex-direction: column; transition: transform 0.7s cubic-bezier(0.19,1,0.22,1); }
 .st > span { display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1; }
-.nav-item .st-wrap { height: 1em; }
-.nav-item .st > span { height: 1em; }
+.nav-item .st-wrap { height: 1.3em; }
+.nav-item .st > span { height: 1.3em; }
 .nav-item:hover .st  { transform: translateY(-50%); }
 
 .header-hint {
@@ -313,12 +310,9 @@ body {
 .badge {
   display: flex;
   align-items: center;
-  display: flex;
-  align-items: center;
   overflow: hidden;
   text-decoration: none;
-  height: 19px;
-  padding: 0 6px;
+  padding: 4px 6px;
   border-radius: var(--r-xs);
   font-size: 11px;
   white-space: nowrap;
@@ -327,8 +321,8 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   cursor: pointer;
 }
-.badge .st-wrap { height: 11px; }
-.badge .st > span { height: 11px; display: flex; align-items: center; flex-shrink: 0; }
+.badge .st-wrap { height: 1.3em; }
+.badge .st > span { height: 1.3em; display: flex; align-items: center; flex-shrink: 0; }
 .badge:hover .st  { transform: translateY(-50%); }
 .badge.yellow  { background: var(--accent-yellow); transition: opacity 0.2s ease; }
 .badge--fade   { opacity: 0; }
