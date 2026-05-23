@@ -13,27 +13,30 @@ export default function Home() {
   const idx1 = useRef(0);
   const idx2 = useRef(0);
 
-  /* Cycling footer words */
+  /* Cycling footer words — alternates every 3s: word1 → word2 → word1 → … */
   useEffect(() => {
-    const t1 = setInterval(() => {
-      setFade1(true);
-      setTimeout(() => {
-        idx1.current = (idx1.current + 1) % WORDS_1.length;
-        setWord1(WORDS_1[idx1.current]);
-        setFade1(false);
-      }, 300);
-    }, 2200);
+    let turn = 0;
 
-    const t2 = setInterval(() => {
-      setFade2(true);
-      setTimeout(() => {
-        idx2.current = (idx2.current + 1) % WORDS_2.length;
-        setWord2(WORDS_2[idx2.current]);
-        setFade2(false);
-      }, 300);
-    }, 3100);
+    const t = setInterval(() => {
+      if (turn === 0) {
+        setFade1(true);
+        setTimeout(() => {
+          idx1.current = (idx1.current + 1) % WORDS_1.length;
+          setWord1(WORDS_1[idx1.current]);
+          setFade1(false);
+        }, 300);
+      } else {
+        setFade2(true);
+        setTimeout(() => {
+          idx2.current = (idx2.current + 1) % WORDS_2.length;
+          setWord2(WORDS_2[idx2.current]);
+          setFade2(false);
+        }, 300);
+      }
+      turn = (turn + 1) % 2;
+    }, 3000);
 
-    return () => { clearInterval(t1); clearInterval(t2); };
+    return () => clearInterval(t);
   }, []);
 
   /* Lenis + GSAP */
