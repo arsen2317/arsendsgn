@@ -96,6 +96,9 @@ body {
   text-transform: uppercase;
   letter-spacing: -0.32px;
   white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
 
 .nav { display: flex; gap: 4px; }
@@ -979,25 +982,13 @@ body {
   position: fixed;
   bottom: -9999px;
   left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  width: 300px;
+  height: 200px;
   pointer-events: none;
   opacity: 0;
+  overflow: hidden;
 }
 
-.logo {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  letter-spacing: inherit;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
 
 .music-logo-controls {
   display: flex;
