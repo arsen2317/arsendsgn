@@ -117,16 +117,24 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
   --h: 38px;
-  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1);
+  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1) 0.1s;
 }
-.nav-item.square       { border-radius: var(--r-xs); }
-.nav-item.pill         { border-radius: var(--r-lg); }
-.nav-item.square:hover { border-radius: var(--r-lg); }
-.nav-item.pill:hover   { border-radius: var(--r-xs); }
+.nav-item.square { border-radius: var(--r-xs); }
+.nav-item.pill   { border-radius: var(--r-lg); }
+
+/* Each button flips its own radius immediately on hover */
+.nav-item.square:hover { border-radius: var(--r-lg); transition-delay: 0s; }
+.nav-item.pill:hover   { border-radius: var(--r-xs); transition-delay: 0s; }
+
+/* All other buttons in the group also flip simultaneously */
+.nav:has(.nav-item:hover) .nav-item.square:not(:hover),
+.menu-overlay-nav:has(.nav-item:hover) .nav-item.square:not(:hover) { border-radius: var(--r-lg); transition-delay: 0s; }
+.nav:has(.nav-item:hover) .nav-item.pill:not(:hover),
+.menu-overlay-nav:has(.nav-item:hover) .nav-item.pill:not(:hover)   { border-radius: var(--r-xs); transition-delay: 0s; }
 
 /* Vertical scroll text — clipped at text height, not button height */
 .st-wrap { overflow: hidden; line-height: 1; display: block; }
-.st { display: flex; flex-direction: column; transition: transform 0.35s cubic-bezier(0.19,1,0.22,1); }
+.st { display: flex; flex-direction: column; transition: transform 0.55s cubic-bezier(0.19,1,0.22,1); }
 .st > span { display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1; }
 .nav-item .st-wrap { height: 1em; }
 .nav-item .st > span { height: 1em; }

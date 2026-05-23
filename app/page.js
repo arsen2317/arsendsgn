@@ -12,8 +12,8 @@ const COMMANDS = [
   { name: 'draw',     desc: 'Yellow marker overlay' },
   { name: 'cursor',   desc: 'Slapping Cat cursor' },
   { name: 'nyan',     desc: 'Nyan Cat cursor' },
-  { name: 'bw',       desc: 'Black & white filter' },
-  { name: 'negative', desc: 'Invert colors' },
+  { name: 'noire',    desc: 'Black & white + rain' },
+  { name: 'negative', desc: 'Invert colors + fahh' },
   { name: 'reset',    desc: 'Reset all effects' },
   { name: 'close',    desc: 'Close terminal' },
 ];
@@ -37,7 +37,7 @@ export default function Home() {
   const [terminalInput, setTerminalInput] = useState('');
   const [drawMode, setDrawMode] = useState(false);
   const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
-  const [filterMode, setFilterMode] = useState(false);
+  const [filterMode, setFilterMode] = useState(null); // null | 'noire' | 'negative'
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
@@ -46,6 +46,9 @@ export default function Home() {
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
   const fxRef = useRef(null);
+  const noireRef = useRef(null);
+  const drawMusicRef = useRef(null);
+  const fahhRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -53,6 +56,13 @@ export default function Home() {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
+    const noire = new Audio(`${base}/noire.mp3`);
+    noire.loop = true;
+    noireRef.current = noire;
+    const drawMusic = new Audio(`${base}/draw.mp3`);
+    drawMusic.loop = true;
+    drawMusicRef.current = drawMusic;
+    fahhRef.current = new Audio(`${base}/fahh.mp3`);
 
     const unlock = () => {
       audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
@@ -66,11 +76,36 @@ export default function Home() {
   }, []);
 
   const playFx = () => {
-    const a = fxRef.current;
-    if (!a) return;
-    a.currentTime = 0;
-    a.play().catch(() => {});
+    if (!fxRef.current) return;
+    fxRef.current.cloneNode().play().catch(() => {});
   };
+
+  /* Filter mode audio effects */
+  useEffect(() => {
+    const noire = noireRef.current;
+    if (filterMode === 'noire') {
+      if (noire) { noire.currentTime = 0; noire.play().catch(() => {}); }
+    } else {
+      if (noire) { noire.pause(); noire.currentTime = 0; }
+    }
+    if (filterMode === 'negative') {
+      const a = fahhRef.current;
+      if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+    }
+  }, [filterMode]);
+
+  /* Draw mode music */
+  useEffect(() => {
+    const music = drawMusicRef.current;
+    if (!music) return;
+    if (drawMode) {
+      music.currentTime = 0;
+      music.play().catch(() => {});
+    } else {
+      music.pause();
+      music.currentTime = 0;
+    }
+  }, [drawMode]);
 
   const clearCanvas = () => {
     const c = drawingCanvasRef.current;
@@ -85,13 +120,13 @@ export default function Home() {
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
       case 'cursor':   setCursorMode(prev => prev === 'cat' ? null : 'cat'); break;
       case 'nyan':     setCursorMode(prev => prev === 'nyan' ? null : 'nyan'); break;
-      case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; setFilterMode(true); break;
-      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode(true); break;
+      case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
+      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
         setCursorMode(null);
-        setFilterMode(false);
+        setFilterMode(null);
         break;
       case 'close':    setTerminalOpen(false); break;
     }
@@ -197,6 +232,7 @@ export default function Home() {
   /* Custom cursor — animated stylesheets from cursors-4u.com */
   useEffect(() => {
     document.getElementById('cursor-link')?.remove();
+    document.getElementById('cursor-override')?.remove();
     if (!cursorMode) return;
     const urls = {
       cat:  'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css',
@@ -207,7 +243,15 @@ export default function Home() {
     link.rel = 'stylesheet';
     link.href = urls[cursorMode];
     document.head.appendChild(link);
-    return () => { document.getElementById('cursor-link')?.remove(); };
+    /* Force all elements to inherit cursor from html/body so CDN animation isn't overridden */
+    const style = document.createElement('style');
+    style.id = 'cursor-override';
+    style.textContent = '*, *:hover { cursor: inherit !important; }';
+    document.head.appendChild(style);
+    return () => {
+      document.getElementById('cursor-link')?.remove();
+      document.getElementById('cursor-override')?.remove();
+    };
   }, [cursorMode]);
 
   /* Cycling footer words */
