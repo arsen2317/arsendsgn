@@ -5,17 +5,44 @@ import { useEffect, useRef, useState } from 'react';
 const WORDS_1 = ['Empathetic', 'Curious', 'Thoughtful', 'Intentional', 'Holistic'];
 const WORDS_2 = ['Strategic', 'Systematic', 'Analytical', 'Iterative', 'Precise'];
 
+const COMMANDS = [
+  { name: 'about',    desc: '→ About section' },
+  { name: 'cases',    desc: '→ Cases section' },
+  { name: 'contacts', desc: '→ Contacts' },
+  { name: 'bw',       desc: 'Black & white filter' },
+  { name: 'negative', desc: 'Invert colors' },
+  { name: 'reset',    desc: 'Reset filters' },
+  { name: 'close',    desc: 'Close terminal' },
+];
+
 export default function Home() {
   const [word1, setWord1] = useState(WORDS_1[0]);
   const [word2, setWord2] = useState(WORDS_2[0]);
   const [fade1, setFade1] = useState(false);
   const [fade2, setFade2] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [terminalOpen, setTerminalOpen] = useState(false);
+  const [terminalInput, setTerminalInput] = useState('');
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
+  const terminalInputRef = useRef(null);
+  const terminalOpenRef = useRef(false);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
+
+  const executeCommand = (cmd) => {
+    switch (cmd) {
+      case 'about':    scrollToSection('#about');    setTerminalOpen(false); break;
+      case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
+      case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
+      case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; break;
+      case 'negative': document.documentElement.style.filter = 'invert(1)'; break;
+      case 'reset':    document.documentElement.style.filter = ''; break;
+      case 'close':    setTerminalOpen(false); break;
+    }
+    setTerminalInput('');
+  };
 
   const scrollToSection = (id) => {
     setMenuOpen(false);
@@ -33,6 +60,28 @@ export default function Home() {
       lenisRef.current?.start();
     }
   }, [menuOpen]);
+
+  /* Sync terminal ref + focus input on open */
+  useEffect(() => {
+    terminalOpenRef.current = terminalOpen;
+    if (terminalOpen) {
+      setTimeout(() => terminalInputRef.current?.focus(), 320);
+    }
+  }, [terminalOpen]);
+
+  /* "/" key opens terminal, ESC closes */
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === '/' && !terminalOpenRef.current && !e.target.matches('input, textarea')) {
+        e.preventDefault();
+        setTerminalOpen(true);
+      } else if (e.key === 'Escape' && terminalOpenRef.current) {
+        setTerminalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   /* Cycling footer words */
   useEffect(() => {
@@ -180,6 +229,39 @@ export default function Home() {
         <span className="menu-copy">© 2026 Arsen Arakelyan</span>
       </div>
 
+      {/* ── TOS COMMAND TERMINAL ── */}
+      <div className={`terminal${terminalOpen ? ' terminal--open' : ''}`}>
+        <div className="terminal-header">
+          <span className="terminal-title">ASD Terminal</span>
+          <button className="terminal-esc-btn" onClick={() => setTerminalOpen(false)}>ESC</button>
+        </div>
+        <div className="terminal-input-row">
+          <span className="terminal-prefix">:/</span>
+          <input
+            ref={terminalInputRef}
+            className="terminal-input"
+            value={terminalInput}
+            onChange={(e) => setTerminalInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') executeCommand(terminalInput.trim().toLowerCase());
+              if (e.key === 'Escape') setTerminalOpen(false);
+            }}
+            placeholder="type a command…"
+            autoComplete="off"
+            spellCheck={false}
+          />
+        </div>
+        <div className="terminal-commands">
+          <div className="terminal-section-label">Available commands</div>
+          {COMMANDS.map((cmd) => (
+            <button key={cmd.name} className="terminal-cmd" onClick={() => executeCommand(cmd.name)}>
+              <span className="terminal-cmd-name">{cmd.name}</span>
+              <span className="terminal-cmd-desc">{cmd.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── HEADER ── */}
       <header className="header">
         <div className="logo">arsendsgn</div>
@@ -314,14 +396,16 @@ export default function Home() {
           <div className="footer-nav-item square">Designer</div>
           <div className={`footer-nav-item pink cycling${fade2 ? ' fade' : ''}`}>{word2}</div>
         </nav>
-        <div className="footer-bottom">
-          <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-          <div className="badge-wrap"><span className="badge yellow">Download CV</span></div>
-          <div className="footer-links">
-            <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
-            <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
-            <div className="badge-wrap"><a href="#" className="badge primary">LinkedIn</a></div>
+        <div className="footer-lower">
+          <div className="footer-bottom">
+            <div className="badge-wrap"><span className="badge yellow">Download CV</span></div>
+            <div className="footer-links">
+              <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
+              <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
+              <div className="badge-wrap"><a href="#" className="badge primary">LinkedIn</a></div>
+            </div>
           </div>
+          <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
         </div>
       </footer>
     </>
