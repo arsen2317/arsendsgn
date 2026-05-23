@@ -12,8 +12,8 @@ const COMMANDS = [
   { name: 'draw',     desc: 'Yellow marker overlay' },
   { name: 'cursor',   desc: 'Slapping Cat cursor' },
   { name: 'nyan',     desc: 'Nyan Cat cursor' },
-  { name: 'bw',       desc: 'Black & white filter' },
-  { name: 'negative', desc: 'Invert colors' },
+  { name: 'noire',    desc: 'Black & white + rain' },
+  { name: 'negative', desc: 'Invert colors + fahh' },
   { name: 'reset',    desc: 'Reset all effects' },
   { name: 'close',    desc: 'Close terminal' },
 ];
@@ -37,7 +37,7 @@ export default function Home() {
   const [terminalInput, setTerminalInput] = useState('');
   const [drawMode, setDrawMode] = useState(false);
   const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
-  const [filterMode, setFilterMode] = useState(false);
+  const [filterMode, setFilterMode] = useState(null); // null | 'noire' | 'negative'
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
@@ -46,6 +46,8 @@ export default function Home() {
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
   const fxRef = useRef(null);
+  const rainRef = useRef(null);  // { ctx, source }
+  const fahhRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -53,6 +55,7 @@ export default function Home() {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
+    fahhRef.current = new Audio(`${base}/fahh.mp3`);
 
     const unlock = () => {
       audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
@@ -72,6 +75,45 @@ export default function Home() {
     a.play().catch(() => {});
   };
 
+  const startRain = () => {
+    if (rainRef.current) return;
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const rate = ctx.sampleRate;
+    const buf = ctx.createBuffer(1, rate * 3, rate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 450;
+    const gain = ctx.createGain();
+    gain.gain.value = 0.13;
+    src.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
+    src.start();
+    rainRef.current = { ctx, src };
+  };
+
+  const stopRain = () => {
+    if (!rainRef.current) return;
+    try { rainRef.current.src.stop(); rainRef.current.ctx.close(); } catch {}
+    rainRef.current = null;
+  };
+
+  /* Filter mode audio effects */
+  useEffect(() => {
+    if (filterMode === 'noire') {
+      startRain();
+    } else {
+      stopRain();
+    }
+    if (filterMode === 'negative') {
+      const a = fahhRef.current;
+      if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+    }
+  }, [filterMode]);
+
   const clearCanvas = () => {
     const c = drawingCanvasRef.current;
     if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
@@ -85,13 +127,13 @@ export default function Home() {
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
       case 'cursor':   setCursorMode(prev => prev === 'cat' ? null : 'cat'); break;
       case 'nyan':     setCursorMode(prev => prev === 'nyan' ? null : 'nyan'); break;
-      case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; setFilterMode(true); break;
-      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode(true); break;
+      case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
+      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
         setCursorMode(null);
-        setFilterMode(false);
+        setFilterMode(null);
         break;
       case 'close':    setTerminalOpen(false); break;
     }
