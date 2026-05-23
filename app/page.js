@@ -499,7 +499,7 @@ export default function Home() {
                     <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="0.5" y="0.5" width="8" height="8" rx="1" fill="currentColor"/></svg>
                   </span>
                 </span>
-              ) : 'Watch with kaif'}
+              ) : 's kaifom'}
             </button>
             <nav className="nav">
               <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
