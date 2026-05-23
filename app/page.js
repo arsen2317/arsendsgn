@@ -46,7 +46,8 @@ export default function Home() {
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
   const fxRef = useRef(null);
-  const rainRef = useRef(null);  // { ctx, source }
+  const noireRef = useRef(null);
+  const drawMusicRef = useRef(null);
   const fahhRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
@@ -55,6 +56,12 @@ export default function Home() {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
+    const noire = new Audio(`${base}/noire.mp3`);
+    noire.loop = true;
+    noireRef.current = noire;
+    const drawMusic = new Audio(`${base}/draw.mp3`);
+    drawMusic.loop = true;
+    drawMusicRef.current = drawMusic;
     fahhRef.current = new Audio(`${base}/fahh.mp3`);
 
     const unlock = () => {
@@ -73,44 +80,32 @@ export default function Home() {
     fxRef.current.cloneNode().play().catch(() => {});
   };
 
-  const startRain = () => {
-    if (rainRef.current) return;
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const rate = ctx.sampleRate;
-    const buf = ctx.createBuffer(1, rate * 3, rate);
-    const data = buf.getChannelData(0);
-    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.loop = true;
-    const lp = ctx.createBiquadFilter();
-    lp.type = 'lowpass';
-    lp.frequency.value = 450;
-    const gain = ctx.createGain();
-    gain.gain.value = 0.13;
-    src.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
-    src.start();
-    rainRef.current = { ctx, src };
-  };
-
-  const stopRain = () => {
-    if (!rainRef.current) return;
-    try { rainRef.current.src.stop(); rainRef.current.ctx.close(); } catch {}
-    rainRef.current = null;
-  };
-
   /* Filter mode audio effects */
   useEffect(() => {
+    const noire = noireRef.current;
     if (filterMode === 'noire') {
-      startRain();
+      if (noire) { noire.currentTime = 0; noire.play().catch(() => {}); }
     } else {
-      stopRain();
+      if (noire) { noire.pause(); noire.currentTime = 0; }
     }
     if (filterMode === 'negative') {
       const a = fahhRef.current;
       if (a) { a.currentTime = 0; a.play().catch(() => {}); }
     }
   }, [filterMode]);
+
+  /* Draw mode music */
+  useEffect(() => {
+    const music = drawMusicRef.current;
+    if (!music) return;
+    if (drawMode) {
+      music.currentTime = 0;
+      music.play().catch(() => {});
+    } else {
+      music.pause();
+      music.currentTime = 0;
+    }
+  }, [drawMode]);
 
   const clearCanvas = () => {
     const c = drawingCanvasRef.current;
