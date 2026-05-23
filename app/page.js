@@ -18,9 +18,11 @@ const COMMANDS = [
 ];
 
 const ST = ({ children }) => (
-  <span className="st">
-    <span>{children}</span>
-    <span aria-hidden="true">{children}</span>
+  <span className="st-wrap">
+    <span className="st">
+      <span>{children}</span>
+      <span aria-hidden="true">{children}</span>
+    </span>
   </span>
 );
 
