@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
-const basePath = process.env.GITHUB_ACTIONS === 'true' ? '/arsendsgn' : '';
+const isGHPages = process.env.GITHUB_ACTIONS === 'true';
+const basePath = isGHPages ? '/arsendsgn' : '';
 
 const nextConfig = {
-  output: 'export',
+  ...(isGHPages && { output: 'export' }),
   trailingSlash: true,
   images: { unoptimized: true },
   basePath,
