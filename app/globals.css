@@ -66,6 +66,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 38px;
+  min-width: 84px;
   padding: 0 20px;
   background: var(--bg-button);
   border: none;
@@ -76,6 +77,8 @@ body {
   letter-spacing: -0.32px;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  position: relative;
+  overflow: hidden;
 }
 
 .logo {
@@ -501,21 +504,14 @@ body {
 .footer-nav-item.cycling  { transition: opacity 0.3s ease; }
 .footer-nav-item.cycling.fade { opacity: 0; }
 
-.footer-lower {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
 .footer-bottom {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
 }
 
-.footer-copy { }
+.footer-copy { justify-self: start; }
 .footer-copy span {
   font-size: 12px;
   color: var(--bg-dark);
@@ -524,7 +520,7 @@ body {
   opacity: 0.55;
 }
 
-.footer-links { display: flex; gap: 4px; }
+.footer-links { display: flex; gap: 4px; justify-self: end; }
 
 /* ─── MOBILE MENU OVERLAY ─────────────────────────────── */
 .menu-overlay {
@@ -671,11 +667,6 @@ body {
 }
 
 /* ── Menu button: label swap animation ── */
-.menu-btn {
-  position: relative;
-  overflow: hidden;
-}
-
 .menu-btn-text {
   position: absolute;
   top: 50%;
@@ -726,8 +717,8 @@ body {
   .tag-xl { font-size: 36px; letter-spacing: -3px; }
   .tag-lg { font-size: 26px; letter-spacing: -1.5px; }
 
-  .hero-row { gap: 8px; flex-wrap: wrap; justify-content: center; }
-  .hero-name { gap: 8px; }
+  .hero-row { gap: 4px; flex-wrap: wrap; justify-content: center; }
+  .hero-name { gap: 4px; }
 
   .hero-bottom { padding: 0 20px; }
   .hero-exp span { font-size: 11px; }
@@ -765,19 +756,27 @@ body {
     justify-content: center;
     align-self: center;
   }
-  .footer-lower {
-    width: 100%;
-    align-items: center;
-    gap: 16px;
-  }
   .footer-bottom {
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    width: 100%;
+  }
+  /* CV → links gap doubled; copyright pushed to very bottom */
+  .footer-bottom .badge-wrap { order: 1; }
+  .footer-bottom .footer-links { order: 2; margin-top: 16px; justify-content: center; gap: 8px; }
+  .footer-bottom .footer-copy { order: 3; text-align: center; margin-top: 4px; }
+
+  /* Mobile menu overlay — larger items */
+  .menu-overlay-nav .nav-item {
+    height: 52px;
+    font-size: 14px;
+    padding: 0 24px;
+    width: 100%;
     justify-content: center;
   }
-  .footer-links { justify-content: center; gap: 8px; }
-  .footer-copy { text-align: center; }
+  .menu-overlay-nav { gap: 6px; }
 }
 
 /* ─── DRAW CANVAS ────────────────────────────────────── */
@@ -794,29 +793,6 @@ body {
   cursor: crosshair;
 }
 
-/* ─── CUSTOM CURSOR ──────────────────────────────────── */
-.custom-cursor-dot {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: var(--accent-yellow);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: multiply;
-}
-.custom-cursor-ring {
-  position: fixed;
-  width: 38px;
-  height: 38px;
-  border: 2px solid var(--accent-yellow);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  opacity: 0.55;
-}
 
 /* ─── TOS COMMAND TERMINAL ────────────────────────────── */
 .terminal {

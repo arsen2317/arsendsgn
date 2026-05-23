@@ -157,36 +157,15 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — two-dot trailing effect */
+  /* Custom cursor — Rainbow Sheep via external stylesheet */
   useEffect(() => {
-    if (!cursorMode) { document.body.style.cursor = ''; return; }
-    document.body.style.cursor = 'none';
-
-    const dot  = Object.assign(document.createElement('div'), { className: 'custom-cursor-dot' });
-    const ring = Object.assign(document.createElement('div'), { className: 'custom-cursor-ring' });
-    document.body.append(dot, ring);
-
-    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    let dx = mx, dy = my, rx = mx, ry = my;
-    let raf;
-    const onMove = (e) => { mx = e.clientX; my = e.clientY; };
-    document.addEventListener('mousemove', onMove);
-
-    const tick = () => {
-      dx += (mx - dx) * 0.22; dy += (my - dy) * 0.22;
-      rx += (mx - rx) * 0.09; ry += (my - ry) * 0.09;
-      dot.style.left  = dx + 'px'; dot.style.top  = dy + 'px';
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    return () => {
-      document.body.style.cursor = '';
-      document.removeEventListener('mousemove', onMove);
-      cancelAnimationFrame(raf);
-      dot.remove(); ring.remove();
-    };
+    if (!cursorMode) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.cursors-4u.net/cursors/animated/rainbow-sheep-c58d4e1a-50.css';
+    link.id = 'rainbow-cursor-sheet';
+    document.head.appendChild(link);
+    return () => { document.getElementById('rainbow-cursor-sheet')?.remove(); };
   }, [cursorMode]);
 
   /* Cycling footer words */
@@ -252,17 +231,17 @@ export default function Home() {
       };
 
       const tiltTick = () => {
-        if (!drawModeRef.current) {
-          const lerp = 0.06;
-          currentRotX += (targetRotX - currentRotX) * lerp;
-          currentRotY += (targetRotY - currentRotY) * lerp;
-          if (portrait3d) {
-            gsap.set(portrait3d, {
-              rotateX: currentRotX,
-              rotateY: currentRotY,
-              transformPerspective: 700,
-            });
-          }
+        const lerp = 0.06;
+        const tx = drawModeRef.current ? 0 : targetRotX;
+        const ty = drawModeRef.current ? 0 : targetRotY;
+        currentRotX += (tx - currentRotX) * lerp;
+        currentRotY += (ty - currentRotY) * lerp;
+        if (portrait3d) {
+          gsap.set(portrait3d, {
+            rotateX: currentRotX,
+            rotateY: currentRotY,
+            transformPerspective: 700,
+          });
         }
         tiltRafId = requestAnimationFrame(tiltTick);
       };
@@ -529,7 +508,7 @@ export default function Home() {
             <div className="case-header">
               <div className="case-title-row">
                 <div className="glass-tag"><span className="case-num">(03)</span></div>
-                <div className="glass-tag"><span className="case-title">Вайбс</span></div>
+                <div className="glass-tag"><span className="case-title">Vibes</span></div>
               </div>
               <div className="case-tags">
                 <span className="case-tag">ux/ui design</span>
@@ -540,7 +519,7 @@ export default function Home() {
               </div>
             </div>
             <div className="case-desc">
-              <p>Вайбс — приложение для создания и обмена атмосферными плейлистами. Проект исследует, как передать настроение через интерфейс и помочь пользователям находить музыку под любое состояние.</p>
+              <p>Vibes is an app for creating and sharing mood-driven playlists. The project explores how to convey emotion through interface design and help users discover music for any state of mind.</p>
             </div>
           </div>
           <div className="case-img-box">
@@ -565,16 +544,14 @@ export default function Home() {
           <div className="footer-nav-item square">Designer</div>
           <div className={`footer-nav-item pink cycling${fade2 ? ' fade' : ''}`}>{word2}</div>
         </nav>
-        <div className="footer-lower">
-          <div className="footer-bottom">
-            <div className="badge-wrap"><span className="badge yellow">Download CV</span></div>
-            <div className="footer-links">
-              <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
-              <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
-              <div className="badge-wrap"><a href="#" className="badge primary">LinkedIn</a></div>
-            </div>
-          </div>
+        <div className="footer-bottom">
           <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
+          <div className="badge-wrap"><span className="badge yellow">Download CV</span></div>
+          <div className="footer-links">
+            <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
+            <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
+            <div className="badge-wrap"><a href="#" className="badge primary">LinkedIn</a></div>
+          </div>
         </div>
       </footer>
     </>
