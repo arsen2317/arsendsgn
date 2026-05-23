@@ -41,6 +41,8 @@ export default function Home() {
   const [musicOpen, setMusicOpen] = useState(false);
   const musicOpenRef = useRef(false);
   const musicWasOpenRef = useRef(false);
+  const spotifyControllerRef = useRef(null);
+  const spotifyEmbedRef = useRef(null);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
@@ -112,17 +114,43 @@ export default function Home() {
 
   useEffect(() => { musicOpenRef.current = musicOpen; }, [musicOpen]);
 
-  /* Pause Apple Music when noire/draw mode is active, resume when they end */
+  /* Pause Spotify when noire/draw mode activates, resume when they end */
   useEffect(() => {
     const modeActive = drawMode || filterMode === 'noire';
     if (modeActive && musicOpenRef.current) {
       musicWasOpenRef.current = true;
       setMusicOpen(false);
+      spotifyControllerRef.current?.pause();
     } else if (!modeActive && musicWasOpenRef.current) {
       musicWasOpenRef.current = false;
       setMusicOpen(true);
+      spotifyControllerRef.current?.play();
     }
   }, [drawMode, filterMode]);
+
+  /* Initialize Spotify Iframe API on first open, resume on subsequent opens */
+  useEffect(() => {
+    if (!musicOpen) return;
+    if (spotifyControllerRef.current) {
+      spotifyControllerRef.current.play();
+      return;
+    }
+    const init = (IFrameAPI) => {
+      const el = spotifyEmbedRef.current;
+      if (!el) return;
+      IFrameAPI.createController(
+        el,
+        { uri: 'spotify:playlist:547c61BMeSUKljC7E4sdEG', width: '100%', height: '152' },
+        (ctrl) => { spotifyControllerRef.current = ctrl; ctrl.play(); }
+      );
+    };
+    if (window.SpotifyIframeApi) { init(window.SpotifyIframeApi); return; }
+    window.onSpotifyIframeApiReady = init;
+    const s = document.createElement('script');
+    s.src = 'https://open.spotify.com/embed/iframe-api/v1';
+    s.async = true;
+    document.head.appendChild(s);
+  }, [musicOpen]);
 
   const clearCanvas = () => {
     const c = drawingCanvasRef.current;
@@ -459,13 +487,13 @@ export default function Home() {
               <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
               <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
               {musicOpen ? (
-                <div className="nav-item pill music-controls" onMouseEnter={playFx}>
-                  <span className="music-ctrl">⏮</span>
-                  <span className="music-ctrl">⏭</span>
-                  <span className="music-ctrl music-ctrl--stop" onClick={() => setMusicOpen(false)}>⏹</span>
+                <div className="nav-item pill music-pill music-controls" onMouseEnter={playFx}>
+                  <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.previousTrack()}>⏮</span>
+                  <span className="music-ctrl" onClick={() => spotifyControllerRef.current?.nextTrack()}>⏭</span>
+                  <span className="music-ctrl" onClick={() => { spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>⏹</span>
                 </div>
               ) : (
-                <button className="nav-item pill" onMouseEnter={playFx} onClick={() => setMusicOpen(true)}>
+                <button className="nav-item pill music-pill" onMouseEnter={playFx} onClick={() => setMusicOpen(true)}>
                   <ST>Watch with kaif</ST>
                 </button>
               )}
@@ -655,18 +683,9 @@ export default function Home() {
         </div>
       </footer>
 
-      {musicOpen && (
-        <div className="music-embed-wrap">
-          <iframe
-            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-            frameBorder="0"
-            height="150"
-            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-            src="https://embed.music.apple.com/tr/playlist/for-hr/pl.u-KVXBk1vFVyoN7o"
-            style={{ width: '100%', overflow: 'hidden', borderRadius: '10px' }}
-          />
-        </div>
-      )}
+      <div className="music-embed-wrap" style={{ display: musicOpen ? 'block' : 'none' }}>
+        <div ref={spotifyEmbedRef} />
+      </div>
     </>
   );
 }
