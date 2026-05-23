@@ -447,7 +447,7 @@ export default function Home() {
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => window.open('https://disk.yandex.ru/i/8pjQktNNmsMnVg', '_blank')}><ST>My CV</ST></button>
+          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => window.open('https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf', '_blank')}><ST>My CV</ST></button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -511,7 +511,7 @@ export default function Home() {
               <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={() => { playFx(); handleNavItemEnter(0); }}><ST>About me</ST></button>
               <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={() => { playFx(); handleNavItemEnter(1); }}><ST>Cases</ST></button>
               <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={() => { playFx(); handleNavItemEnter(2); }}><ST>Contacts</ST></button>
-              <button className="nav-item pill" onMouseEnter={() => { playFx(); handleNavItemEnter(3); }} onClick={() => window.open('https://disk.yandex.ru/i/8pjQktNNmsMnVg', '_blank')}><ST>My CV</ST></button>
+              <button className="nav-item pill" onMouseEnter={() => { playFx(); handleNavItemEnter(3); }} onClick={() => window.open('https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf', '_blank')}><ST>My CV</ST></button>
             </nav>
             <div className="header-right">
               <button
@@ -689,7 +689,7 @@ export default function Home() {
         </nav>
         <div className="footer-bottom">
           <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-          <div className="badge-wrap"><a href="https://disk.yandex.ru/i/8pjQktNNmsMnVg" target="_blank" className="badge yellow" onMouseEnter={playFx}><ST>Download CV</ST></a></div>
+          <div className="badge-wrap"><a href="https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf" target="_blank" className="badge yellow" onMouseEnter={playFx}><ST>Download CV</ST></a></div>
           <div className="footer-links">
             <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
             <div className="badge-wrap"><a href="https://t.me/arsendsgn" target="_blank" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
