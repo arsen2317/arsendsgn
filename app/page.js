@@ -27,6 +27,7 @@ export default function Home() {
   const [terminalInput, setTerminalInput] = useState('');
   const [drawMode, setDrawMode] = useState(false);
   const [cursorMode, setCursorMode] = useState(false);
+  const [filterMode, setFilterMode] = useState(false);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
@@ -67,12 +68,13 @@ export default function Home() {
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
       case 'cursor':   setCursorMode(prev => !prev); break;
-      case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; break;
-      case 'negative': document.documentElement.style.filter = 'invert(1)'; break;
+      case 'bw':       document.documentElement.style.filter = 'grayscale(1)'; setFilterMode(true); break;
+      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode(true); break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
         setCursorMode(false);
+        setFilterMode(false);
         break;
       case 'close':    setTerminalOpen(false); break;
     }
@@ -108,7 +110,7 @@ export default function Home() {
   /* "/" key opens terminal; ESC exits draw mode first, then terminal */
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === '/' && !terminalOpenRef.current && !drawModeRef.current && !e.target.matches('input, textarea')) {
+      if (e.code === 'Slash' && !e.metaKey && !e.ctrlKey && !terminalOpenRef.current && !drawModeRef.current && !e.target.matches('input, textarea')) {
         e.preventDefault();
         setTerminalOpen(true);
       } else if (e.key === 'Escape') {
@@ -175,15 +177,19 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — Rainbow Sheep via external stylesheet */
+  /* Custom cursor — Rainbow Sheep .ani (Edge/IE) + emoji SVG fallback */
   useEffect(() => {
+    const el = document.getElementById('cursor-style');
+    if (el) el.remove();
     if (!cursorMode) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdn.cursors-4u.net/cursors/animated/rainbow-sheep-c58d4e1a-50.css';
-    link.id = 'rainbow-cursor-sheet';
-    document.head.appendChild(link);
-    return () => { document.getElementById('rainbow-cursor-sheet')?.remove(); };
+    const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
+    const aniUrl = `${base}/cursors/rainbow-sheep.ani`;
+    const svg = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text y='32' font-size='32'>🐑</text></svg>`;
+    const style = document.createElement('style');
+    style.id = 'cursor-style';
+    style.textContent = `*, *:hover { cursor: url("${aniUrl}") 0 0, url("${svg}") 0 0, auto !important; }`;
+    document.head.appendChild(style);
+    return () => { document.getElementById('cursor-style')?.remove(); };
   }, [cursorMode]);
 
   /* Cycling footer words */
@@ -323,18 +329,13 @@ export default function Home() {
 
   return (
     <>
-      {/* ── MOBILE MENU OVERLAY (always in DOM, animated via class) ── */}
+      {/* ── MOBILE MENU OVERLAY ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
-        <div className="menu-overlay-header">
-          <div className="logo">arsendsgn</div>
-          <button className="menu-close-btn" onClick={toggleMenu}>Close</button>
-        </div>
-
         <nav className="menu-overlay-nav">
-          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#about')}>About me</button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')}>About me</button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')}>Cases</button>
-          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-          <button className="nav-item square menu-item">Resume</button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+          <button className="nav-item pill   menu-item">Resume</button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -396,23 +397,32 @@ export default function Home() {
       )}
 
       {/* ── HEADER ── */}
-      <header className="header">
-        <div className="logo">arsendsgn</div>
-        <nav className="nav">
-          <button className="nav-item square" onClick={() => scrollToSection('#about')}>About me</button>
-          <button className="nav-item pill"   onClick={() => scrollToSection('#cases')}>Cases</button>
-          <button className="nav-item square" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-          <button className="nav-item pill">Resume</button>
-        </nav>
-        <div className="header-right">
-          <div className="header-hint">Press / for?</div>
-          {/* Button: two labels swap on toggle */}
-          <button className={`menu-btn${menuOpen ? ' menu-btn--open' : ''}`} onClick={toggleMenu}>
-            <span className="menu-btn-text menu-btn-text--menu">Menu</span>
-            <span className="menu-btn-text menu-btn-text--close">Close</span>
-          </button>
-        </div>
-      </header>
+      {(() => {
+        const effectsActive = cursorMode || drawMode || filterMode;
+        return (
+          <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
+            <div className="logo">arsendsgn</div>
+            <nav className="nav">
+              <button className="nav-item square" onClick={() => scrollToSection('#about')}>About me</button>
+              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')}>Cases</button>
+              <button className="nav-item square" onClick={() => scrollToSection('#contacts')}>Contacts</button>
+              <button className="nav-item pill">Resume</button>
+            </nav>
+            <div className="header-right">
+              <button
+                className={`header-hint${effectsActive ? ' header-hint--reset' : ''}`}
+                onClick={effectsActive ? () => executeCommand('reset') : () => setTerminalOpen(true)}
+              >
+                {effectsActive ? 'reset' : 'Press / for?'}
+              </button>
+              <button className={`menu-btn${menuOpen ? ' menu-btn--open' : ''}`} onClick={toggleMenu}>
+                <span className="menu-btn-text menu-btn-text--menu">Menu</span>
+                <span className="menu-btn-text menu-btn-text--close">Close</span>
+              </button>
+            </div>
+          </header>
+        );
+      })()}
 
       {/* ── HERO ── */}
       <section className="hero" id="hero">

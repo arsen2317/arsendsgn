@@ -34,7 +34,8 @@ html.lenis, html.lenis body { height: auto; }
 body {
   background: var(--bg-primary);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  width: 1440px;
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   color: var(--text-primary);
   padding-top: 104px;
@@ -46,14 +47,15 @@ body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 1440px;
+  max-width: 1440px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 104px;
   padding: 0 var(--px);
   background: var(--bg-primary);
-  z-index: 100;
+  z-index: 210;
 }
 
 .header-right {
@@ -131,7 +133,14 @@ body {
   text-transform: uppercase;
   letter-spacing: -0.32px;
   white-space: nowrap;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  transition: opacity 0.2s ease;
 }
+.header-hint:hover { opacity: 0.55; }
+.header-hint--reset { color: var(--text-primary); font-weight: 500; }
 
 /* ─── HERO ────────────────────────────────────────────── */
 .hero {
@@ -480,7 +489,7 @@ body {
   justify-content: space-between;
   height: 212px;
   padding: 36px var(--px) 20px;
-  width: 1440px;
+  width: 100%;
 }
 
 .footer-nav { display: flex; gap: 4px; align-self: center; }
@@ -528,6 +537,7 @@ body {
   inset: 0;
   background: #dcdcdc;
   z-index: 200;
+  padding-top: 72px; /* space for the real header which sits above (z-index: 210) */
   display: flex;
   flex-direction: column;
   /* Closed state */
@@ -543,19 +553,9 @@ body {
   pointer-events: all;
 }
 
-.menu-overlay-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 92px;
-  padding: 0 20px;
-  flex-shrink: 0;
-}
-
-/* Logo becomes white when inside open overlay */
-.menu-overlay .logo {
-  background: white;
-  color: var(--text-primary);
+/* Real header blends into overlay when open */
+.header--menu-open {
+  background: #dcdcdc;
 }
 
 .menu-close-btn {
@@ -620,8 +620,24 @@ body {
 .menu-overlay--open .menu-footer-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
 .menu-overlay--open .menu-footer-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.38s; }
 
-/* "Contact me" white chip */
-.menu-contact-chip { background: white !important; }
+/* "Contact me" white chip — small size per ref */
+.menu-contact-chip {
+  background: white !important;
+  height: 20px !important;
+  font-size: 10px !important;
+  padding: 0 10px !important;
+  letter-spacing: 0.4px !important;
+  font-weight: 500 !important;
+}
+
+/* [send] [a letter] chips — small size per ref */
+.menu-letter-chips .nav-item {
+  height: 20px !important;
+  font-size: 10px !important;
+  padding: 0 10px !important;
+  letter-spacing: 0.4px !important;
+  font-weight: 500 !important;
+}
 
 /* Social links */
 .menu-social-links { display: flex; gap: 28px; }
@@ -695,6 +711,7 @@ body {
   }
 
   .header {
+    max-width: 100%;
     width: 100%;
     height: 72px;
     padding: 0 20px;
@@ -752,10 +769,13 @@ body {
   .footer-nav {
     display: grid;
     grid-template-columns: auto auto;
-    gap: 12px 16px;
+    gap: 4px;
     justify-content: center;
     align-self: center;
   }
+  /* Swap Designer (3rd) and animated word2 (4th) so word2 is left, Designer right */
+  .footer-nav > :nth-child(3) { order: 4; }
+  .footer-nav > :nth-child(4) { order: 3; }
   .footer-bottom {
     display: flex;
     flex-direction: column;
