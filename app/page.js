@@ -10,8 +10,7 @@ const COMMANDS = [
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
   { name: 'draw',     desc: 'Yellow marker overlay' },
-  { name: 'cursor',   desc: 'Slapping Cat cursor' },
-  { name: 'nyan',     desc: 'Nyan Cat cursor' },
+  { name: 'cursor',   desc: 'Random cursor' },
   { name: 'noire',    desc: 'Black & white + rain' },
   { name: 'negative', desc: 'Invert colors + fahh' },
   { name: 'reset',    desc: 'Reset all effects' },
@@ -517,7 +516,7 @@ export default function Home() {
             <div className="header-right">
               <button
                 className={`header-hint${effectsActive ? ' header-hint--reset' : ''}`}
-                onClick={effectsActive ? () => executeCommand('reset') : () => setTerminalOpen(true)}
+                onClick={effectsActive ? () => executeCommand('reset') : () => setTerminalOpen(prev => !prev)}
               >
                 {effectsActive ? 'reset' : 'Press / for?'}
               </button>
