@@ -99,7 +99,14 @@ body {
   border: none;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+  --h: 38px;
+  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1) 0.1s;
 }
+.logo:hover { border-radius: var(--r-lg); transition-delay: 0s; }
+.logo .st-wrap { height: 1em; }
+.logo .st > span { height: 1em; }
+.logo:hover .st { transform: translateY(-50%); }
 
 .nav { display: flex; gap: 4px; }
 
@@ -309,6 +316,7 @@ body {
   display: flex;
   align-items: center;
   overflow: hidden;
+  text-decoration: none;
   height: 19px;
   padding: 0 6px;
   border-radius: var(--r-xs);

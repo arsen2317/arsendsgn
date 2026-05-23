@@ -448,7 +448,7 @@ export default function Home() {
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-          <button className="nav-item pill menu-item" onMouseEnter={playFx}><ST>Resume</ST></button>
+          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => window.open('https://disk.yandex.ru/i/8pjQktNNmsMnVg', '_blank')}><ST>My CV</ST></button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -507,12 +507,12 @@ export default function Home() {
         const effectsActive = cursorMode || drawMode || filterMode;
         return (
           <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
-            <span className="logo">arsendsgn</span>
+            <button className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} onMouseEnter={playFx}><ST>arsendsgn</ST></button>
             <nav className="nav" ref={navRef} onMouseLeave={handleNavLeave}>
               <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={() => { playFx(); handleNavItemEnter(0); }}><ST>About me</ST></button>
               <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={() => { playFx(); handleNavItemEnter(1); }}><ST>Cases</ST></button>
               <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={() => { playFx(); handleNavItemEnter(2); }}><ST>Contacts</ST></button>
-              <button className="nav-item pill" onMouseEnter={() => { playFx(); handleNavItemEnter(3); }}><ST>Resume</ST></button>
+              <button className="nav-item pill" onMouseEnter={() => { playFx(); handleNavItemEnter(3); }} onClick={() => window.open('https://disk.yandex.ru/i/8pjQktNNmsMnVg', '_blank')}><ST>My CV</ST></button>
             </nav>
             <div className="header-right">
               <button
@@ -690,11 +690,11 @@ export default function Home() {
         </nav>
         <div className="footer-bottom">
           <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-          <div className="badge-wrap"><span className="badge yellow" onMouseEnter={playFx}><ST>Download CV</ST></span></div>
+          <div className="badge-wrap"><a href="https://disk.yandex.ru/i/8pjQktNNmsMnVg" target="_blank" className="badge yellow" onMouseEnter={playFx}><ST>Download CV</ST></a></div>
           <div className="footer-links">
-            <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
+            <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
             <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
-            <div className="badge-wrap"><a href="#" className="badge primary" onMouseEnter={playFx}><ST>LinkedIn</ST></a></div>
+            <div className="badge-wrap"><a href="https://www.linkedin.com/in/arsendsgn/" target="_blank" className="badge primary" onMouseEnter={playFx}><ST>LinkedIn</ST></a></div>
           </div>
         </div>
       </footer>
