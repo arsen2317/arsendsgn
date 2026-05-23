@@ -17,6 +17,13 @@ const COMMANDS = [
   { name: 'close',    desc: 'Close terminal' },
 ];
 
+const ST = ({ children }) => (
+  <span className="st">
+    <span>{children}</span>
+    <span aria-hidden="true">{children}</span>
+  </span>
+);
+
 export default function Home() {
   const [word1, setWord1] = useState(WORDS_1[0]);
   const [word2, setWord2] = useState(WORDS_2[0]);
@@ -35,25 +42,20 @@ export default function Home() {
   const terminalOpenRef = useRef(false);
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
-  const gyroSetupRef = useRef(null);
-  const [gyroPromptVisible, setGyroPromptVisible] = useState(false);
+  const fxRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
-  /* Show gyro prompt immediately on iOS mobile */
   useEffect(() => {
-    if (!('ontouchstart' in window)) return;
-    if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
-      setGyroPromptVisible(true);
-    }
+    const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
+    fxRef.current = new Audio(`${base}/fx.mp3`);
   }, []);
 
-  const requestGyro = async () => {
-    setGyroPromptVisible(false);
-    try {
-      const perm = await DeviceOrientationEvent.requestPermission();
-      if (perm === 'granted') gyroSetupRef.current?.();
-    } catch {}
+  const playFx = () => {
+    const a = fxRef.current;
+    if (!a) return;
+    a.currentTime = 0;
+    a.play().catch(() => {});
   };
 
   const clearCanvas = () => {
@@ -222,7 +224,6 @@ export default function Home() {
     let ctx;
     let tiltRafId;
     let onMouseMove;
-    let onDeviceOrientation;
 
     async function init() {
       const { default: Lenis }    = await import('lenis');
@@ -273,24 +274,6 @@ export default function Home() {
       window.addEventListener('mousemove', onMouseMove);
       tiltRafId = requestAnimationFrame(tiltTick);
 
-      /* Gyroscope tilt for mobile */
-      if ('ontouchstart' in window) {
-        let baseB = null, baseG = null;
-        onDeviceOrientation = (e) => {
-          if (baseB === null) { baseB = e.beta ?? 0; baseG = e.gamma ?? 0; }
-          const max = 22;
-          targetRotX = Math.max(-max, Math.min(max, -((e.beta  - baseB) / 30) * max));
-          targetRotY = Math.max(-max, Math.min(max,  ((e.gamma - baseG) / 30) * max));
-        };
-        if (typeof DeviceOrientationEvent !== 'undefined' &&
-            typeof DeviceOrientationEvent.requestPermission === 'function') {
-          /* iOS: expose setup fn for the prompt button */
-          gyroSetupRef.current = () => window.addEventListener('deviceorientation', onDeviceOrientation);
-        } else {
-          /* Android: works immediately */
-          window.addEventListener('deviceorientation', onDeviceOrientation);
-        }
-      }
 
       ctx = gsap.context(() => {
         gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
@@ -323,7 +306,6 @@ export default function Home() {
       ctx?.revert();
       cancelAnimationFrame(tiltRafId);
       if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
-      if (onDeviceOrientation) window.removeEventListener('deviceorientation', onDeviceOrientation);
     };
   }, []);
 
@@ -332,10 +314,10 @@ export default function Home() {
       {/* ── MOBILE MENU OVERLAY ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
         <nav className="menu-overlay-nav">
-          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')}>About me</button>
-          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')}>Cases</button>
-          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-          <button className="nav-item pill   menu-item">Resume</button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
+          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
+          <button className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>Resume</ST></button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -389,13 +371,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── GYRO PROMPT (iOS only) ── */}
-      {gyroPromptVisible && (
-        <button className="gyro-prompt" onClick={requestGyro}>
-          Enable 3D portrait
-        </button>
-      )}
-
       {/* ── HEADER ── */}
       {(() => {
         const effectsActive = cursorMode || drawMode || filterMode;
@@ -403,10 +378,10 @@ export default function Home() {
           <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
             <div className="logo">arsendsgn</div>
             <nav className="nav">
-              <button className="nav-item square" onClick={() => scrollToSection('#about')}>About me</button>
-              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')}>Cases</button>
-              <button className="nav-item square" onClick={() => scrollToSection('#contacts')}>Contacts</button>
-              <button className="nav-item pill">Resume</button>
+              <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
+              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
+              <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
+              <button className="nav-item pill" onMouseEnter={playFx}><ST>Resume</ST></button>
             </nav>
             <div className="header-right">
               <button
@@ -458,10 +433,10 @@ export default function Home() {
           <div className="hero-exp"><span>2 years experience</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
-              <a href="mailto:arackelian.arsen@gmail.com" className="badge yellow">Say Hi</a>
+              <a href="mailto:arackelian.arsen@gmail.com" className="badge yellow" onMouseEnter={playFx}><ST>Say Hi</ST></a>
             </div>
             <div className="badge-wrap">
-              <a href="https://t.me/arsendsgn" className="badge button">t.me/arsendsgn</a>
+              <a href="https://t.me/arsendsgn" className="badge button" onMouseEnter={playFx}><ST>t.me/arsendsgn</ST></a>
             </div>
           </div>
         </div>
@@ -584,11 +559,11 @@ export default function Home() {
         </nav>
         <div className="footer-bottom">
           <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-          <div className="badge-wrap"><span className="badge yellow">Download CV</span></div>
+          <div className="badge-wrap"><span className="badge yellow" onMouseEnter={playFx}><ST>Download CV</ST></span></div>
           <div className="footer-links">
-            <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary">E-mail</a></div>
-            <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary">Telegram</a></div>
-            <div className="badge-wrap"><a href="#" className="badge primary">LinkedIn</a></div>
+            <div className="badge-wrap"><a href="mailto:arackelian.arsen@gmail.com" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
+            <div className="badge-wrap"><a href="https://t.me/arsendsgn" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
+            <div className="badge-wrap"><a href="#" className="badge primary" onMouseEnter={playFx}><ST>LinkedIn</ST></a></div>
           </div>
         </div>
       </footer>
