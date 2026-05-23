@@ -483,26 +483,7 @@ export default function Home() {
         const effectsActive = cursorMode || drawMode || filterMode;
         return (
           <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
-            <button
-              className="logo"
-              onMouseEnter={playFx}
-              onClick={musicOpen ? undefined : () => setMusicOpen(true)}
-              style={{ cursor: musicOpen ? 'default' : 'pointer' }}
-            >
-              {musicOpen ? (
-                <span className="music-logo-controls">
-                  <span className="music-logo-ctrl" onClick={() => spotifyControllerRef.current?.previousTrack()}>
-                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M7 0.8 L1.2 5 L7 9.2 Z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round"/></svg>
-                  </span>
-                  <span className="music-logo-ctrl" onClick={() => spotifyControllerRef.current?.nextTrack()}>
-                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1 0.8 L6.8 5 L1 9.2 Z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round"/></svg>
-                  </span>
-                  <span className="music-logo-ctrl" onClick={() => { spotifyControllerRef.current?.pause(); setMusicOpen(false); }}>
-                    <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="0.5" y="0.5" width="8" height="8" rx="1" fill="currentColor"/></svg>
-                  </span>
-                </span>
-              ) : 's kaifom'}
-            </button>
+            <span className="logo">arsendsgn</span>
             <nav className="nav">
               <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
               <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
