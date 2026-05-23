@@ -115,12 +115,23 @@ body {
   white-space: nowrap;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  transition: background 0.35s cubic-bezier(0.19,1,0.22,1),
-              color       0.35s cubic-bezier(0.19,1,0.22,1);
+  overflow: hidden;
+  --h: 38px;
+  transition: border-radius 0.35s cubic-bezier(0.19,1,0.22,1);
 }
-.nav-item:hover { background: var(--bg-darker); color: var(--text-light); }
 .nav-item.square { border-radius: var(--r-xs); }
 .nav-item.pill   { border-radius: var(--r-lg); }
+
+/* Flip all radii in a nav group when any item is hovered */
+.nav:has(.nav-item:hover) .nav-item.square,
+.menu-overlay-nav:has(.nav-item:hover) .nav-item.square { border-radius: var(--r-lg); }
+.nav:has(.nav-item:hover) .nav-item.pill,
+.menu-overlay-nav:has(.nav-item:hover) .nav-item.pill   { border-radius: var(--r-xs); }
+
+/* Vertical scroll text */
+.st { display: flex; flex-direction: column; transition: transform 0.35s cubic-bezier(0.19,1,0.22,1); }
+.nav-item .st > span { height: var(--h); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-item:hover .st  { transform: translateY(-50%); }
 
 .header-hint {
   display: flex;
@@ -281,7 +292,9 @@ body {
 .badge {
   display: flex;
   align-items: center;
-  padding: 4px 6px;
+  overflow: hidden;
+  height: 19px;
+  padding: 0 6px;
   border-radius: var(--r-xs);
   font-size: 11px;
   white-space: nowrap;
@@ -289,9 +302,9 @@ body {
   line-height: 1;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   cursor: pointer;
-  transition: opacity 0.2s ease;
 }
-.badge:hover { opacity: 0.7; }
+.badge .st > span { height: 19px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.badge:hover .st  { transform: translateY(-50%); }
 .badge.yellow  { background: var(--accent-yellow); }
 .badge.button  { background: var(--bg-button); }
 .badge.primary { background: var(--bg-primary); }
@@ -792,6 +805,7 @@ body {
 
   /* Mobile menu overlay — reference sizes */
   .menu-overlay-nav .nav-item {
+    --h: 60px;
     height: 60px;
     font-size: 25.4px;
     letter-spacing: -0.763px;
@@ -801,32 +815,6 @@ body {
   .menu-overlay-nav { gap: 8px; }
 }
 
-/* ─── GYRO PERMISSION PROMPT ─────────────────────────── */
-.gyro-prompt {
-  position: fixed;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-darker);
-  color: var(--text-light);
-  border: none;
-  border-radius: var(--r-lg);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0 20px;
-  height: 36px;
-  cursor: pointer;
-  z-index: 80;
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  white-space: nowrap;
-  opacity: 0.9;
-  animation: gyro-prompt-in 0.5s cubic-bezier(0.19,1,0.22,1) both;
-}
-@keyframes gyro-prompt-in {
-  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
-  to   { opacity: 0.9; transform: translateX(-50%) translateY(0); }
-}
 
 /* ─── DRAW CANVAS ────────────────────────────────────── */
 .draw-canvas {
