@@ -376,8 +376,10 @@ export default function Home() {
         tiltRafId = requestAnimationFrame(tiltTick);
       };
 
-      window.addEventListener('mousemove', onMouseMove);
-      tiltRafId = requestAnimationFrame(tiltTick);
+      if (window.matchMedia('(pointer: fine)').matches) {
+        window.addEventListener('mousemove', onMouseMove);
+        tiltRafId = requestAnimationFrame(tiltTick);
+      }
 
 
       ctx = gsap.context(() => {
