@@ -1,0 +1,107 @@
+{
+  "color": {
+    "bg": {
+      "primary":   { "value": "#FAF6EF", "type": "color", "description": "Main background — warm cream" },
+      "secondary": { "value": "#FAF9F5", "type": "color", "description": "Near-white variant" },
+      "dark":      { "value": "#1C1C1E", "type": "color", "description": "Intro / dark section bg" },
+      "darker":    { "value": "#111111", "type": "color", "description": "Near-black variant" },
+      "button":    { "value": "#F1EDE7", "type": "color", "description": "Button / pill default bg" }
+    },
+    "text": {
+      "primary": { "value": "#0D0D0E", "type": "color", "description": "Primary text — near-black" },
+      "light":   { "value": "#FAF6EF", "type": "color", "description": "Text on dark backgrounds" },
+      "muted":   { "value": "#3D3D40", "type": "color", "description": "Secondary / muted text" }
+    },
+    "border": {
+      "default": { "value": "#DCDCDC", "type": "color" },
+      "subtle":  { "value": "#F2F2F2", "type": "color" }
+    },
+    "accent": {
+      "yellow":   { "value": "#FFE500", "type": "color", "description": "Primary accent — CTA chips" },
+      "yellow-light": { "value": "#FFF490", "type": "color" },
+      "lavender": { "value": "#E9E3F3", "type": "color", "description": "Tag pill — soft lavender" },
+      "pink":     { "value": "#FFD8F5", "type": "color", "description": "Tag pill — soft pink" },
+      "peach":    { "value": "#FDEDD4", "type": "color", "description": "Warm peach tint" }
+    },
+    "overlay": {
+      "dark-40":  { "value": "rgba(31, 30, 29, 0.4)",   "type": "color" },
+      "cream-30": { "value": "rgba(241, 237, 231, 0.3)", "type": "color" },
+      "warm-20":  { "value": "rgba(230, 227, 223, 0.2)", "type": "color" }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "display": { "value": "FKRasterGrotesk", "type": "fontFamilies", "description": "Hero headings — variable font (pxls, jnts axes)" },
+      "body":    { "value": "SpeziaCondensed", "type": "fontFamilies", "description": "Default body font" },
+      "mono":    { "value": "SpeziaMono",      "type": "fontFamilies", "description": "Terminal / code UI" }
+    },
+    "fontWeight": {
+      "regular": { "value": "400", "type": "fontWeights" },
+      "medium":  { "value": "500", "type": "fontWeights" }
+    },
+    "fontSize": {
+      "hero": { "value": "72", "type": "fontSizes", "description": "S1 — max of clamp, display hero" },
+      "h1":   { "value": "36", "type": "fontSizes" },
+      "h2":   { "value": "28", "type": "fontSizes" },
+      "h4":   { "value": "12", "type": "fontSizes" },
+      "body": { "value": "18", "type": "fontSizes", "description": "Base body size" }
+    },
+    "lineHeight": {
+      "tight":   { "value": "0.9",  "type": "lineHeights", "description": "Hero display" },
+      "snug":    { "value": "1.1",  "type": "lineHeights", "description": "Headings" },
+      "relaxed": { "value": "1.5",  "type": "lineHeights", "description": "Body text" }
+    },
+    "letterSpacing": {
+      "hero": { "value": "-0.1em",  "type": "letterSpacing", "description": "S1 hero display" },
+      "h1":   { "value": "-0.03em", "type": "letterSpacing" },
+      "h2":   { "value": "-0.02em", "type": "letterSpacing" }
+    }
+  },
+
+  "spacing": {
+    "1":  { "value": "4",   "type": "spacing" },
+    "2":  { "value": "8",   "type": "spacing" },
+    "3":  { "value": "12",  "type": "spacing" },
+    "4":  { "value": "16",  "type": "spacing" },
+    "5":  { "value": "20",  "type": "spacing" },
+    "6":  { "value": "24",  "type": "spacing" },
+    "8":  { "value": "32",  "type": "spacing" },
+    "10": { "value": "40",  "type": "spacing" },
+    "12": { "value": "48",  "type": "spacing" },
+    "16": { "value": "64",  "type": "spacing" },
+    "20": { "value": "80",  "type": "spacing" }
+  },
+
+  "borderRadius": {
+    "sm":   { "value": "8",   "type": "borderRadius" },
+    "md":   { "value": "16",  "type": "borderRadius" },
+    "lg":   { "value": "24",  "type": "borderRadius" },
+    "pill": { "value": "9999","type": "borderRadius", "description": "Full pill — nav buttons, tags" }
+  },
+
+  "easing": {
+    "spring":  { "value": "cubic-bezier(1, -0.5, 0, 1.5)",      "type": "other", "description": "Hero word entrance — overshoot bounce" },
+    "smooth":  { "value": "cubic-bezier(0.19, 1, 0.22, 1)",     "type": "other", "description": "Standard UI — smooth decelerate" },
+    "snap":    { "value": "cubic-bezier(0.13, 0.47, 0.13, 0.98)","type": "other", "description": "Slide animations — sharp snap" },
+    "elastic": { "value": "cubic-bezier(0, 1.01, 0.2, 1)",      "type": "other", "description": "Image scale reveal" },
+    "nav":     { "value": "cubic-bezier(0.8, 0, 0.2, 0.99)",    "type": "other", "description": "CRT drift / nav text swap" }
+  },
+
+  "duration": {
+    "fast":    { "value": "200",  "type": "other", "description": "ms" },
+    "base":    { "value": "400",  "type": "other", "description": "ms — standard transitions" },
+    "slow":    { "value": "800",  "type": "other", "description": "ms — hero animations" },
+    "slower":  { "value": "1200", "type": "other", "description": "ms — logo hover, border radius morph" },
+    "nav":     { "value": "667",  "type": "other", "description": "ms — nav link text slide" }
+  },
+
+  "breakpoint": {
+    "mobile":  { "value": "767",  "type": "other", "description": "px — max-width mobile" },
+    "tablet":  { "value": "768",  "type": "other", "description": "px — min-width tablet" },
+    "desktop": { "value": "1024", "type": "other", "description": "px" },
+    "wide":    { "value": "1280", "type": "other", "description": "px" },
+    "xl":      { "value": "1440", "type": "other", "description": "px" },
+    "xxl":     { "value": "1920", "type": "other", "description": "px" }
+  }
+}
