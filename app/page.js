@@ -56,13 +56,13 @@ export default function Home() {
     const base = window.location.hostname === 'localhost' ? '' : '/arsendsgn';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
-    const noire = new Audio(`${base}/noire.mp3`);
+    const noire = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/noire.mp3');
     noire.loop = true;
     noireRef.current = noire;
-    const drawMusic = new Audio(`${base}/draw.mp3`);
+    const drawMusic = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/draw.mp3');
     drawMusic.loop = true;
     drawMusicRef.current = drawMusic;
-    fahhRef.current = new Audio(`${base}/fahh.mp3`);
+    fahhRef.current = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/fahh.mp3');
 
     const unlock = () => {
       audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
