@@ -38,6 +38,9 @@ export default function Home() {
   const [drawMode, setDrawMode] = useState(false);
   const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
   const [filterMode, setFilterMode] = useState(null); // null | 'noire' | 'negative'
+  const [musicOpen, setMusicOpen] = useState(false);
+  const musicOpenRef = useRef(false);
+  const musicWasOpenRef = useRef(false);
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const lenisRef = useRef(null);
@@ -106,6 +109,20 @@ export default function Home() {
       music.currentTime = 0;
     }
   }, [drawMode]);
+
+  useEffect(() => { musicOpenRef.current = musicOpen; }, [musicOpen]);
+
+  /* Pause Apple Music when noire/draw mode is active, resume when they end */
+  useEffect(() => {
+    const modeActive = drawMode || filterMode === 'noire';
+    if (modeActive && musicOpenRef.current) {
+      musicWasOpenRef.current = true;
+      setMusicOpen(false);
+    } else if (!modeActive && musicWasOpenRef.current) {
+      musicWasOpenRef.current = false;
+      setMusicOpen(true);
+    }
+  }, [drawMode, filterMode]);
 
   const clearCanvas = () => {
     const c = drawingCanvasRef.current;
@@ -441,7 +458,17 @@ export default function Home() {
               <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
               <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
               <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-              <button className="nav-item pill" onMouseEnter={playFx}><ST>Resume</ST></button>
+              {musicOpen ? (
+                <div className="nav-item pill music-controls" onMouseEnter={playFx}>
+                  <span className="music-ctrl">⏮</span>
+                  <span className="music-ctrl">⏭</span>
+                  <span className="music-ctrl music-ctrl--stop" onClick={() => setMusicOpen(false)}>⏹</span>
+                </div>
+              ) : (
+                <button className="nav-item pill" onMouseEnter={playFx} onClick={() => setMusicOpen(true)}>
+                  <ST>Watch with kaif</ST>
+                </button>
+              )}
             </nav>
             <div className="header-right">
               <button
@@ -627,6 +654,19 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {musicOpen && (
+        <div className="music-embed-wrap">
+          <iframe
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+            frameBorder="0"
+            height="150"
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+            src="https://embed.music.apple.com/tr/playlist/for-hr/pl.u-KVXBk1vFVyoN7o"
+            style={{ width: '100%', overflow: 'hidden', borderRadius: '10px' }}
+          />
+        </div>
+      )}
     </>
   );
 }
