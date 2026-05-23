@@ -516,7 +516,16 @@ export default function Home() {
 
         <div className="divider" />
 
-        <div className="case-row case-row--reverse">
+        <div className="case-row">
+          <div className="case-img-box">
+            <video
+              src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          </div>
           <div className="case-info">
             <div className="case-header">
               <div className="case-title-row">
@@ -534,15 +543,6 @@ export default function Home() {
             <div className="case-desc">
               <p>Vibes is an app for creating and sharing mood-driven playlists. The project explores how to convey emotion through interface design and help users discover music for any state of mind.</p>
             </div>
-          </div>
-          <div className="case-img-box">
-            <video
-              src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
           </div>
         </div>
 
