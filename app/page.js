@@ -197,6 +197,7 @@ export default function Home() {
   /* Custom cursor — animated stylesheets from cursors-4u.com */
   useEffect(() => {
     document.getElementById('cursor-link')?.remove();
+    document.getElementById('cursor-override')?.remove();
     if (!cursorMode) return;
     const urls = {
       cat:  'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css',
@@ -207,7 +208,15 @@ export default function Home() {
     link.rel = 'stylesheet';
     link.href = urls[cursorMode];
     document.head.appendChild(link);
-    return () => { document.getElementById('cursor-link')?.remove(); };
+    /* Force all elements to inherit cursor from html/body so CDN animation isn't overridden */
+    const style = document.createElement('style');
+    style.id = 'cursor-override';
+    style.textContent = '*, *:hover { cursor: inherit !important; }';
+    document.head.appendChild(style);
+    return () => {
+      document.getElementById('cursor-link')?.remove();
+      document.getElementById('cursor-override')?.remove();
+    };
   }, [cursorMode]);
 
   /* Cycling footer words */
