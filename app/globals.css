@@ -37,6 +37,7 @@ body {
   width: 100%;
   color: var(--text-primary);
   padding-top: 104px;
+  overflow-x: hidden;
 }
 
 /* ─── HEADER ──────────────────────────────────────────── */
@@ -1018,4 +1019,22 @@ body {
   .music-logo-ctrl svg {
     transform: scale(0.85);
   }
+}
+
+/* ─── FAKE CURSOR ─────────────────────────────────────── */
+.fake-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  width: 36px;
+  height: 36px;
+  will-change: left, top;
+  transform: translate(0, 0);
+}
+
+.fake-cursor img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
 }

@@ -17,6 +17,8 @@ const SAY_HI = ['Say Hi', 'Привет', 'こんにちは', 'Hola', 'Bonjour', 
 const WORDS_1 = ['Empathetic', 'Curious', 'Thoughtful', 'Intentional', 'Holistic'];
 const WORDS_2 = ['Strategic', 'Systematic', 'Analytical', 'Iterative', 'Precise'];
 
+const CURSORS = ['sheep', 'cat'];
+
 const COMMANDS = [
   { name: 'about',    desc: '→ About section' },
   { name: 'cases',    desc: '→ Cases section' },
@@ -69,6 +71,7 @@ export default function Home() {
   const drawMusicRef = useRef(null);
   const fahhRef = useRef(null);
   const navRef = useRef(null);
+  const fakeCursorRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -181,8 +184,16 @@ export default function Home() {
       case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
-      case 'cursor':   setCursorMode(prev => prev === 'cat' ? null : 'cat'); break;
-      case 'nyan':     setCursorMode(prev => prev === 'nyan' ? null : 'nyan'); break;
+      case 'cursor': {
+        const arg = cmd.split(/\s+/)[1];
+        if (arg === 'rainbowsheep') { setCursorMode('sheep'); break; }
+        if (arg === 'slappingcat')  { setCursorMode('cat');   break; }
+        // no arg → random (or toggle off if already active)
+        if (cursorMode) { setCursorMode(null); break; }
+        const pick = CURSORS[Math.floor(Math.random() * CURSORS.length)];
+        setCursorMode(pick);
+        break;
+      }
       case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
       case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
       case 'reset':
@@ -292,28 +303,42 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — animated stylesheets from cursors-4u.com */
+  /* Custom cursor — fake cursor div follows mouse */
   useEffect(() => {
-    document.getElementById('cursor-link')?.remove();
-    document.getElementById('cursor-override')?.remove();
-    if (!cursorMode) return;
-    const urls = {
-      cat:  'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css',
-      nyan: 'https://cdn.cursors-4u.net/cursors/animated/animated-nyan-cat-rainbow-c493f1ef-32.css',
+    const el = fakeCursorRef.current;
+    if (!el) return;
+
+    if (!cursorMode) {
+      el.style.display = 'none';
+      document.documentElement.style.cursor = '';
+      return;
+    }
+
+    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    const cursors = {
+      sheep: { src: `${base}/cursors/rainbow-sheep.gif`, size: 36 },
+      cat:   { src: `${base}/cursors/slapping-cat.gif`,  size: 40 },
     };
-    const link = document.createElement('link');
-    link.id = 'cursor-link';
-    link.rel = 'stylesheet';
-    link.href = urls[cursorMode];
-    document.head.appendChild(link);
-    /* Force all elements to inherit cursor from html/body so CDN animation isn't overridden */
-    const style = document.createElement('style');
-    style.id = 'cursor-override';
-    style.textContent = '*, *:hover { cursor: inherit !important; }';
-    document.head.appendChild(style);
+    const { src, size } = cursors[cursorMode] || cursors.sheep;
+
+    el.style.width  = size + 'px';
+    el.style.height = size + 'px';
+    el.style.display = 'block';
+    const img = el.querySelector('img');
+    if (img) img.src = src;
+
+    document.documentElement.style.cursor = 'none';
+
+    const onMove = (e) => {
+      el.style.left = e.clientX + 'px';
+      el.style.top  = e.clientY + 'px';
+    };
+
+    window.addEventListener('mousemove', onMove);
     return () => {
-      document.getElementById('cursor-link')?.remove();
-      document.getElementById('cursor-override')?.remove();
+      window.removeEventListener('mousemove', onMove);
+      el.style.display = 'none';
+      document.documentElement.style.cursor = '';
     };
   }, [cursorMode]);
 
@@ -707,6 +732,11 @@ export default function Home() {
 
       <div className="music-embed-wrap" style={{ display: musicOpen ? 'block' : 'none' }}>
         <div ref={spotifyEmbedRef} />
+      </div>
+
+      {/* ── FAKE CURSOR ── */}
+      <div ref={fakeCursorRef} className="fake-cursor" style={{ display: 'none' }}>
+        <img src="" alt="" draggable={false} />
       </div>
     </>
   );
