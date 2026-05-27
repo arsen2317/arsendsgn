@@ -69,6 +69,7 @@ export default function Home() {
   const drawMusicRef = useRef(null);
   const fahhRef = useRef(null);
   const navRef = useRef(null);
+  const fakeCursorRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -292,28 +293,30 @@ export default function Home() {
     };
   }, [drawMode]);
 
-  /* Custom cursor — animated stylesheets from cursors-4u.com */
+  /* Custom cursor — fake cursor div follows mouse */
   useEffect(() => {
-    document.getElementById('cursor-link')?.remove();
-    document.getElementById('cursor-override')?.remove();
-    if (!cursorMode) return;
-    const urls = {
-      cat:  'https://cdn.cursors-4u.net/cursors/animated/slapping-cat-1348ecde-64.css',
-      nyan: 'https://cdn.cursors-4u.net/cursors/animated/animated-nyan-cat-rainbow-c493f1ef-32.css',
+    const el = fakeCursorRef.current;
+    if (!el) return;
+
+    if (!cursorMode) {
+      el.style.display = 'none';
+      document.documentElement.style.cursor = '';
+      return;
+    }
+
+    el.style.display = 'block';
+    document.documentElement.style.cursor = 'none';
+
+    const onMove = (e) => {
+      el.style.left = e.clientX + 'px';
+      el.style.top  = e.clientY + 'px';
     };
-    const link = document.createElement('link');
-    link.id = 'cursor-link';
-    link.rel = 'stylesheet';
-    link.href = urls[cursorMode];
-    document.head.appendChild(link);
-    /* Force all elements to inherit cursor from html/body so CDN animation isn't overridden */
-    const style = document.createElement('style');
-    style.id = 'cursor-override';
-    style.textContent = '*, *:hover { cursor: inherit !important; }';
-    document.head.appendChild(style);
+
+    window.addEventListener('mousemove', onMove);
     return () => {
-      document.getElementById('cursor-link')?.remove();
-      document.getElementById('cursor-override')?.remove();
+      window.removeEventListener('mousemove', onMove);
+      el.style.display = 'none';
+      document.documentElement.style.cursor = '';
     };
   }, [cursorMode]);
 
@@ -707,6 +710,15 @@ export default function Home() {
 
       <div className="music-embed-wrap" style={{ display: musicOpen ? 'block' : 'none' }}>
         <div ref={spotifyEmbedRef} />
+      </div>
+
+      {/* ── FAKE CURSOR ── */}
+      <div ref={fakeCursorRef} className="fake-cursor" style={{ display: 'none' }}>
+        <img
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/cursors/rainbow-sheep.gif`}
+          alt=""
+          draggable={false}
+        />
       </div>
     </>
   );
