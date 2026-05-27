@@ -22,7 +22,8 @@ const COMMANDS = [
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
   { name: 'draw',     desc: 'Yellow marker overlay' },
-  { name: 'cursor',   desc: 'Random cursor' },
+  { name: 'cursor',   desc: 'Rainbow sheep cursor' },
+  { name: 'cat',      desc: 'Slapping cat cursor' },
   { name: 'noire',    desc: 'Black & white + rain' },
   { name: 'negative', desc: 'Invert colors + fahh' },
   { name: 'reset',    desc: 'Reset all effects' },
@@ -182,8 +183,9 @@ export default function Home() {
       case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
-      case 'cursor':   setCursorMode(prev => prev === 'cat' ? null : 'cat'); break;
-      case 'nyan':     setCursorMode(prev => prev === 'nyan' ? null : 'nyan'); break;
+      case 'cursor':   setCursorMode(prev => prev === 'sheep' ? null : 'sheep'); break;
+      case 'cat':      setCursorMode(prev => prev === 'cat'   ? null : 'cat');   break;
+      case 'nyan':     setCursorMode(prev => prev === 'cat'   ? null : 'cat');   break;
       case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
       case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
       case 'reset':
@@ -304,7 +306,19 @@ export default function Home() {
       return;
     }
 
+    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    const cursors = {
+      sheep: { src: `${base}/cursors/rainbow-sheep.gif`, size: 36 },
+      cat:   { src: `${base}/cursors/slapping-cat.gif`,  size: 40 },
+    };
+    const { src, size } = cursors[cursorMode] || cursors.sheep;
+
+    el.style.width  = size + 'px';
+    el.style.height = size + 'px';
     el.style.display = 'block';
+    const img = el.querySelector('img');
+    if (img) img.src = src;
+
     document.documentElement.style.cursor = 'none';
 
     const onMove = (e) => {
@@ -714,11 +728,7 @@ export default function Home() {
 
       {/* ── FAKE CURSOR ── */}
       <div ref={fakeCursorRef} className="fake-cursor" style={{ display: 'none' }}>
-        <img
-          src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/cursors/rainbow-sheep.gif`}
-          alt=""
-          draggable={false}
-        />
+        <img src="" alt="" draggable={false} />
       </div>
     </>
   );
