@@ -17,13 +17,14 @@ const SAY_HI = ['Say Hi', 'Привет', 'こんにちは', 'Hola', 'Bonjour', 
 const WORDS_1 = ['Empathetic', 'Curious', 'Thoughtful', 'Intentional', 'Holistic'];
 const WORDS_2 = ['Strategic', 'Systematic', 'Analytical', 'Iterative', 'Precise'];
 
+const CURSORS = ['sheep', 'cat'];
+
 const COMMANDS = [
   { name: 'about',    desc: '→ About section' },
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
   { name: 'draw',     desc: 'Yellow marker overlay' },
-  { name: 'cursor',   desc: 'Rainbow sheep cursor' },
-  { name: 'cat',      desc: 'Slapping cat cursor' },
+  { name: 'cursor',   desc: 'Random cursor' },
   { name: 'noire',    desc: 'Black & white + rain' },
   { name: 'negative', desc: 'Invert colors + fahh' },
   { name: 'reset',    desc: 'Reset all effects' },
@@ -183,9 +184,16 @@ export default function Home() {
       case 'cases':    scrollToSection('#cases');    setTerminalOpen(false); break;
       case 'contacts': scrollToSection('#contacts'); setTerminalOpen(false); break;
       case 'draw':     setDrawMode(true);  setTerminalOpen(false); break;
-      case 'cursor':   setCursorMode(prev => prev === 'sheep' ? null : 'sheep'); break;
-      case 'cat':      setCursorMode(prev => prev === 'cat'   ? null : 'cat');   break;
-      case 'nyan':     setCursorMode(prev => prev === 'cat'   ? null : 'cat');   break;
+      case 'cursor': {
+        const arg = cmd.split(/\s+/)[1];
+        if (arg === 'rainbowsheep') { setCursorMode('sheep'); break; }
+        if (arg === 'slappingcat')  { setCursorMode('cat');   break; }
+        // no arg → random (or toggle off if already active)
+        if (cursorMode) { setCursorMode(null); break; }
+        const pick = CURSORS[Math.floor(Math.random() * CURSORS.length)];
+        setCursorMode(pick);
+        break;
+      }
       case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
       case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
       case 'reset':
