@@ -488,10 +488,12 @@ export default function Home() {
         snapLock = true;
         lenis.stop();
         const startY = window.scrollY;
-        const targetY = Math.round(els[next].getBoundingClientRect().top + startY);
+        // Hero (idx 0) always snaps to absolute top
+        const targetY = next === 0
+          ? 0
+          : Math.round(els[next].getBoundingClientRect().top + startY);
         const duration = 900;
         const startTime = performance.now();
-        // Cubic ease-in-out
         const ease = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
         const tick = (now) => {
           const t = Math.min((now - startTime) / duration, 1);
@@ -499,8 +501,10 @@ export default function Home() {
           if (t < 1) {
             requestAnimationFrame(tick);
           } else {
-            lenis.start();
-            snapLock = false;
+            // Lock final position before re-enabling Lenis so trackpad
+            // momentum events don't cause a small inertial overshoot
+            window.scrollTo(0, targetY);
+            setTimeout(() => { lenis.start(); snapLock = false; }, 80);
           }
         };
         requestAnimationFrame(tick);
