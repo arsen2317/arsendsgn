@@ -4,15 +4,15 @@ import { useEffect, useRef } from 'react';
 import styles from './Skills.module.css';
 
 const HARD = [
-  'Prototyping', 'UI Design', ['Design', 'Systems'],
-  ['User', 'Research'], 'Usability', 'User Flow',
-  'CJM', 'JTBD', 'A/B Testing', 'Accessibility',
-];
-
-const ICONS = [
-  { key: 'Figma', src: '/images/figma.svg', alt: 'Figma' },
-  { key: 'After Effects', src: '/images/ae.svg', alt: 'After Effects' },
-  { key: 'Claude Code', src: '/images/claude.svg', alt: 'Claude Code' },
+  'Prototyping',
+  { icon: true, key: 'Figma', src: '/images/figma.svg', alt: 'Figma' },
+  'UI Design', ['Design', 'Systems'],
+  ['User', 'Research'],
+  { icon: true, key: 'After Effects', src: '/images/ae.svg', alt: 'After Effects' },
+  'Usability', 'User Flow',
+  'CJM', 'JTBD',
+  { icon: true, key: 'Claude Code', src: '/images/claude.svg', alt: 'Claude Code' },
+  'A/B Testing', 'Accessibility',
 ];
 
 const SOFT = [
@@ -117,6 +117,13 @@ export default function Skills() {
     <section ref={sectionRef} className={styles.skills}>
       <p className={styles.title}>Skills That Drive<br />All My Projects</p>
       {HARD.map(s => {
+        if (s.icon) {
+          return (
+            <span key={s.key} className={styles.icon} data-skill={s.key} data-type="hard">
+              <img src={s.src} alt={s.alt} className={`${styles.iconImg}${s.key === 'After Effects' ? ' ' + styles.ae : ''}`} />
+            </span>
+          );
+        }
         const key = Array.isArray(s) ? s.join(' ') : s;
         return (
           <span key={key} className={`${styles.hard} ${Array.isArray(s) ? styles.multiline : ''}`} data-skill={key} data-type="hard">
@@ -124,11 +131,6 @@ export default function Skills() {
           </span>
         );
       })}
-      {ICONS.map(({ key, src, alt }) => (
-        <span key={key} className={styles.icon} data-skill={key} data-type="hard">
-          <img src={src} alt={alt} className={`${styles.iconImg}${key === 'After Effects' ? ' ' + styles.ae : ''}`} />
-        </span>
-      ))}
       {SOFT.map(s => {
         const key = Array.isArray(s) ? s.join(' ') : s;
         return (
