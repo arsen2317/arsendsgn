@@ -412,8 +412,9 @@ body {
   font-size: clamp(2.8rem, 1.6571rem + 1.1161vw, 3.8rem);
   padding: 0.4em;
   margin-bottom: 4px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  align-self: flex-start;
 }
 .work-label-square { border-radius: var(--r-xs); }
 .work-label-pill   { border-radius: var(--r-pill); }
