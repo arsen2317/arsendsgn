@@ -4,8 +4,6 @@
   position: relative;
   padding: clamp(64px, 9.17vw, 132px) var(--px) 0;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 .title {
@@ -16,13 +14,8 @@
   letter-spacing: -0.02em;
   color: var(--text-primary);
   margin: 0;
-  flex-shrink: 0;
-}
-
-.arena {
-  flex: 1;
   position: relative;
-  overflow: hidden;
+  z-index: 1;
 }
 
 /* ─── Skill tags ─────────────────────────── */
