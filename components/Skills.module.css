@@ -45,3 +45,24 @@
 .soft {
   border-radius: var(--r-pill);
 }
+
+.icon {
+  position: absolute;
+  visibility: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-darker);
+  user-select: none;
+  will-change: transform;
+}
+
+.iconImg {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}

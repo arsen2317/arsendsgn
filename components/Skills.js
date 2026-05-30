@@ -4,10 +4,15 @@ import { useEffect, useRef } from 'react';
 import styles from './Skills.module.css';
 
 const HARD = [
-  'Figma', 'Prototyping', 'UI Design', 'Design Systems',
+  'Prototyping', 'UI Design', 'Design Systems',
   'User Research', 'Usability', 'User Flow',
-  'CJM', 'JTBD', 'A/B Testing',
-  'After Effects', 'Claude Code', 'Accessibility',
+  'CJM', 'JTBD', 'A/B Testing', 'Accessibility',
+];
+
+const ICONS = [
+  { key: 'Figma', src: '/images/figma.svg', alt: 'Figma' },
+  { key: 'After Effects', src: '/images/ae.svg', alt: 'After Effects' },
+  { key: 'Claude Code', src: '/images/claude.svg', alt: 'Claude Code' },
 ];
 
 const SOFT = [
@@ -109,6 +114,11 @@ export default function Skills() {
       <p className={styles.title}>Skills That Drive<br />All My Projects</p>
       {HARD.map(s => (
         <span key={s} className={styles.hard} data-skill={s} data-type="hard">{s}</span>
+      ))}
+      {ICONS.map(({ key, src, alt }) => (
+        <span key={key} className={styles.icon} data-skill={key} data-type="hard">
+          <img src={src} alt={alt} className={styles.iconImg} />
+        </span>
       ))}
       {SOFT.map(s => (
         <span key={s} className={styles.soft} data-skill={s} data-type="soft">{s}</span>
