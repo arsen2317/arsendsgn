@@ -450,13 +450,9 @@ export default function Home() {
         gsap.from('.dark-img-placeholder', { scale: 0.94, opacity: 0, duration: 1, ease: 'power3.out',
           scrollTrigger: { trigger: '.dark-row', start: 'top 80%' } });
 
-        gsap.utils.toArray('.divider').forEach((el) => {
-          gsap.from(el, { scaleX: 0, duration: 1.2, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 90%' } });
-        });
-        gsap.utils.toArray('.case-row').forEach((el) => {
-          gsap.from(el, { y: 48, opacity: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' } });
+        gsap.from('.work-item', {
+          y: 48, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1,
+          scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
         });
       });
     }
@@ -617,98 +613,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CASES ── */}
-      <section className="cases-section" id="cases">
-        <div className="divider" />
-        <div className="case-row">
-          <div className="case-img-box">
-            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/sber.webp`} alt="Sber case" />
-          </div>
-          <div className="case-info">
-            <div className="case-header">
-              <div className="case-title-row">
-                <div className="glass-tag"><span className="case-num">(01)</span></div>
-                <div className="glass-tag"><span className="case-title">Sber</span></div>
-              </div>
-              <div className="case-tags">
-                <span className="case-tag">ux/ui design</span>
-                <span className="case-tag">research</span>
-                <span className="case-tag">usability testing</span>
-                <span className="case-tag">3d animation</span>
-                <span className="case-tag">product design</span>
-              </div>
+      {/* ── WORK GRID ── */}
+      <section className="work-section" id="cases">
+        <div className="work-grid">
+          <a href="/cases/sber" className="work-item">
+            <div className="work-thumb">
+              <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/sber.webp`} alt="Sber" />
             </div>
-            <div className="case-desc">
-              <p>Sber terminals accept payments via QR, cards, and biometrics. This case explores how to expand the user experience by moving beyond the terminal's traditional role as just a payment device.</p>
+            <p className="work-title">Sber</p>
+          </a>
+          <a href="/cases/tj" className="work-item">
+            <div className="work-thumb work-thumb--portrait">
+              <iframe
+                src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
+                frameBorder="0"
+                allowFullScreen
+                style={{width:'100%',height:'100%',border:'none'}}
+              />
             </div>
-          </div>
+            <p className="work-title">T-Journal</p>
+          </a>
+          <a href="/cases/vibes" className="work-item">
+            <div className="work-thumb">
+              <video
+                src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
+                autoPlay loop muted playsInline
+              />
+            </div>
+            <p className="work-title">Vibes</p>
+          </a>
+          <a href="/cases/tbank" className="work-item">
+            <div className="work-thumb" />
+            <p className="work-title">T-Bank</p>
+          </a>
         </div>
-
-        <div className="divider" />
-
-        <div className="case-row case-row--reverse">
-          <div className="case-info">
-            <div className="case-header">
-              <div className="case-title-row">
-                <div className="glass-tag"><span className="case-num">(02)</span></div>
-                <div className="glass-tag"><span className="case-title">t-journal</span></div>
-              </div>
-              <div className="case-tags">
-                <span className="case-tag">ux/ui design</span>
-                <span className="case-tag">In-depth interviews</span>
-                <span className="case-tag">usability testing</span>
-                <span className="case-tag">feature ideation</span>
-                <span className="case-tag">scaling concept</span>
-              </div>
-            </div>
-            <div className="case-desc">
-              <p>T-j reaches 42 million readers, but fewer than 20% are T-Bank clients. The project goal is to connect T-j and T-Bank through user scenarios without undermining trust in the media. The focus is on the "Travel" section.</p>
-            </div>
-          </div>
-          <div className="case-img-box case-img-box--video">
-            <iframe
-              src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
-              frameBorder="0"
-              allowFullScreen
-              style={{width:'100%',height:'100%',border:'none'}}
-            />
-          </div>
-        </div>
-
-        <div className="divider" />
-
-        <div className="case-row">
-          <div className="case-img-box">
-            <video
-              src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-          </div>
-          <div className="case-info">
-            <div className="case-header">
-              <div className="case-title-row">
-                <div className="glass-tag"><span className="case-num">(03)</span></div>
-                <div className="glass-tag"><span className="case-title">Vibes</span></div>
-              </div>
-              <div className="case-tags">
-                <span className="case-tag">ux/ui design</span>
-                <span className="case-tag">research</span>
-                <span className="case-tag">usability testing</span>
-                <span className="case-tag">mobile app</span>
-                <span className="case-tag">product design</span>
-              </div>
-            </div>
-            <div className="case-desc">
-              <p>Vibes is an app for creating and sharing mood-driven playlists. The project explores how to convey emotion through interface design and help users discover music for any state of mind.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="divider" />
       </section>
 
       {/* ── FOOTER ── */}
