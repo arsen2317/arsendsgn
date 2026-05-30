@@ -7,7 +7,7 @@ const HARD = [
   'Figma', 'Prototyping', 'UI Design', 'Design Systems',
   'User Research', 'Usability Testing', 'User Flow',
   'Customer Journey Map', 'JTBD', 'A/B Testing',
-  'After Effects', 'Stable Diffusion', 'Accessibility',
+  'After Effects', 'Claude Code', 'Accessibility',
 ];
 
 const SOFT = [
