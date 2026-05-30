@@ -5,7 +5,7 @@ import styles from './Skills.module.css';
 
 const HARD = [
   'Figma', 'Prototyping', 'UI Design', 'Design Systems',
-  'User Research', 'Usability Testing', 'User Flow',
+  'User Research', 'Usability', 'User Flow',
   'CJM', 'JTBD', 'A/B Testing',
   'After Effects', 'Claude Code', 'Accessibility',
 ];
@@ -47,7 +47,7 @@ export default function Skills() {
         const chamfer = isSoft ? h / 2 : 6;
 
         // Start clustered around center, above viewport top
-        const spread = W * 0.25;
+        const spread = W * 0.1;
         const x = Math.max(w / 2, Math.min(W - w / 2, W / 2 + (Math.random() - 0.5) * 2 * spread));
         const y = -h - Math.random() * H * 0.9;
 
