@@ -384,6 +384,7 @@ export default function Home() {
     let ctx;
     let tiltRafId;
     let onMouseMove;
+    let onSnapWheel;
 
     async function init() {
       const { default: Lenis }    = await import('lenis');
@@ -455,6 +456,47 @@ export default function Home() {
           scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
         });
       });
+
+      // ── Section snap ──────────────────────────────────────
+      const SNAP_IDS = ['#hero', '#about', '#cases', '#contacts'];
+      let snapLock = false;
+      let wheelAccum = 0;
+      let wheelResetId = null;
+
+      const getActiveIdx = () => {
+        const trigger = window.innerHeight * 0.4;
+        const els = SNAP_IDS.map(s => document.querySelector(s)).filter(Boolean);
+        for (let i = els.length - 1; i >= 0; i--) {
+          if (els[i].getBoundingClientRect().top <= trigger) return i;
+        }
+        return 0;
+      };
+
+      const snapTo = (dir) => {
+        if (snapLock || lenis.isStopped) return;
+        const els = SNAP_IDS.map(s => document.querySelector(s)).filter(Boolean);
+        const next = getActiveIdx() + dir;
+        if (next < 0 || next >= els.length) return;
+        snapLock = true;
+        lenis.scrollTo(els[next], {
+          offset: 0,
+          duration: 1.0,
+          easing: (t) => 1 - Math.pow(1 - t, 3),
+        });
+        setTimeout(() => { snapLock = false; }, 1100);
+      };
+
+      onSnapWheel = (e) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        clearTimeout(wheelResetId);
+        wheelAccum += e.deltaY;
+        wheelResetId = setTimeout(() => { wheelAccum = 0; }, 400);
+        if (Math.abs(wheelAccum) >= 100) {
+          snapTo(wheelAccum > 0 ? 1 : -1);
+          wheelAccum = 0;
+        }
+      };
+      window.addEventListener('wheel', onSnapWheel, { passive: true });
     }
 
     init();
@@ -464,6 +506,7 @@ export default function Home() {
       ctx?.revert();
       cancelAnimationFrame(tiltRafId);
       if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
+      if (onSnapWheel) window.removeEventListener('wheel', onSnapWheel);
     };
   }, []);
 
