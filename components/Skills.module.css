@@ -1,0 +1,53 @@
+.skills {
+  background: var(--bg-primary);
+  flex: 1;
+  position: relative;
+  padding: clamp(64px, 9.17vw, 132px) var(--px) 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(32px, 3.33vw + 14px, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.arena {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Skill tags ─────────────────────────── */
+.hard,
+.soft {
+  position: absolute;
+  visibility: hidden;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  background: var(--bg-darker);
+  color: var(--text-light);
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: -0.3px;
+  padding: 10px 14px;
+  user-select: none;
+  will-change: transform;
+}
+
+.hard {
+  border-radius: 0.4rem;
+}
+
+.soft {
+  border-radius: var(--r-pill);
+}

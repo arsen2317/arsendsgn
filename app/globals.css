@@ -510,6 +510,13 @@ body {
   white-space: nowrap;
 }
 
+/* ─── SKILLS + FOOTER WRAPPER ────────────────────────── */
+.skills-footer-wrap {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ─── FOOTER ──────────────────────────────────────────── */
 .footer {
   background: var(--bg-button);

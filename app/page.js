@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Skills from '../components/Skills';
 
 const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf';
 const downloadCV = () => {
@@ -731,8 +732,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="footer" id="contacts">
+      {/* ── SKILLS + FOOTER (100vh) ── */}
+      <div className="skills-footer-wrap">
+        <Skills />
+        <footer className="footer" id="contacts">
         <nav className="footer-nav">
           <div className="footer-nav-item square">Product</div>
           <div className={`footer-nav-item lavender cycling${fade1 ? ' fade' : ''}`}>{word1}</div>
@@ -749,6 +752,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </div>{/* end skills-footer-wrap */}
 
       <div className="music-embed-wrap" style={{ display: musicOpen ? 'block' : 'none' }}>
         <div ref={spotifyEmbedRef} />
