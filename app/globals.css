@@ -407,7 +407,7 @@ body {
 
 .work-thumb {
   background: var(--bg-darker);
-  border-radius: var(--r-lg);
+  border-radius: 0.4rem;
   padding: clamp(24px, 3.33vw, 48px) clamp(12px, 1.53vw, 22px);
   overflow: hidden;
 }
