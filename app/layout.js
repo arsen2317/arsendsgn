@@ -1,5 +1,5 @@
 import localFont from 'next/font/local';
-import { Cormorant } from 'next/font/google';
+import { Forum } from 'next/font/google';
 import './globals.css';
 
 const fkRaster = localFont({
@@ -8,9 +8,9 @@ const fkRaster = localFont({
   display: 'swap',
 });
 
-const cormorant = Cormorant({
+const forum = Forum({
   subsets: ['latin'],
-  weight: ['500'],
+  weight: ['400'],
   variable: '--font-body',
   display: 'swap',
 });
@@ -22,7 +22,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${fkRaster.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${fkRaster.variable} ${forum.variable}`}>
       <body>{children}</body>
     </html>
   );
