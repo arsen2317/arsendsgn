@@ -406,12 +406,14 @@ body {
   padding-bottom: clamp(40px, 5.65vw, 82px);
 }
 
-/* Font styles from reference (converted from 10px rem base to px) */
+/* Font styles from reference */
 .work-label-tag .tag-xl {
-  font-size: clamp(28px, 16.571px + 1.1161vw, 38px);
+  font-size: clamp(2.8rem, 1.6571rem + 1.1161vw, 3.8rem);
   letter-spacing: -0.02em;
   line-height: 1.1;
   font-weight: 400;
+  font-family: var(--font-body), 'FKRasterGrotesk Fallback', serif;
+  font-variation-settings: "pxls" 30, "jnts" 100;
 }
 
 .work-section-labels {
@@ -423,7 +425,7 @@ body {
 
 .work-label-tag {
   background: var(--bg-button);
-  padding: 0.4rem;
+  padding: 0.4em;
   margin-bottom: 4px;
 }
 
