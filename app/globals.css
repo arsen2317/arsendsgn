@@ -402,10 +402,12 @@ body {
   padding-bottom: clamp(40px, 5.65vw, 82px);
 }
 
-/* Font size for label tags calibrated to ~60px at 1440px */
+/* Font styles from reference (converted from 10px rem base to px) */
 .work-label-tag .tag-xl {
-  font-size: clamp(28px, 4.17vw, 60px);
-  letter-spacing: clamp(-2px, -0.28vw, -4px);
+  font-size: clamp(28px, 16.571px + 1.1161vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-weight: 400;
 }
 
 .work-section-labels {
