@@ -42,6 +42,12 @@
   border-radius: 0.4rem;
 }
 
+.multiline {
+  white-space: normal;
+  text-align: center;
+  line-height: 1.2;
+}
+
 .soft {
   border-radius: var(--r-pill);
 }
