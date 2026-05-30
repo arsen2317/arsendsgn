@@ -615,6 +615,18 @@ export default function Home() {
 
       {/* ── WORK GRID ── */}
       <section className="work-section" id="cases">
+        <div className="work-section-header">
+          <div className="work-section-labels">
+            <div className="tag square work-label-tag"><span className="tag-xl">Recent</span></div>
+            <div className="tag pill work-label-tag"><span className="tag-xl">Projects</span></div>
+          </div>
+          <div className="work-disciplines">
+            <span className="work-disciplines-header">Disciplines</span>
+            {['UX/UI Design', 'Research', 'Usability Testing', 'Product Design', 'In-depth Interviews', 'Mobile App', 'Feature Ideation', '3D Animation'].map(tag => (
+              <span key={tag} className="work-discipline-tag">{tag}</span>
+            ))}
+          </div>
+        </div>
         <div className="work-grid">
           <a href="/cases/sber" className="work-item">
             <div className="work-thumb">
