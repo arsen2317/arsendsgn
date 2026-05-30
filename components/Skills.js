@@ -50,22 +50,22 @@ export default function Skills() {
         const isSoft = el.dataset.type === 'soft';
         const chamfer = isSoft ? h / 2 : 6;
 
-        // All start from same burst point: center, just above viewport top
-        const x = W / 2 + (Math.random() - 0.5) * 40;
-        const y = -h / 2 - 20 - Math.random() * 30;
+        // Staggered start: spread across height and horizontally so they don't fall in flat stacks
+        const x = W / 2 + (Math.random() - 0.5) * W * 0.6;
+        const y = -h / 2 - Math.random() * H * 1.2;
 
         const body = Bodies.rectangle(x, y, w, h, {
           chamfer: { radius: chamfer },
           restitution: 0.25,
           friction: 0.8,
           frictionAir: 0.015,
-          angle: (Math.random() - 0.5) * 0.3,
+          angle: (Math.random() - 0.5) * 0.8,
         });
 
-        // Random burst velocity: spread outward in all directions
+        // Varied horizontal velocity to prevent lockstep falling
         Body.setVelocity(body, {
-          x: (Math.random() - 0.5) * 14,
-          y: Math.random() * -3,
+          x: (Math.random() - 0.5) * 8,
+          y: Math.random() * 2,
         });
 
         Composite.add(engine.world, body);
