@@ -415,10 +415,15 @@ body {
 }
 
 .work-label-tag .tag-xl {
+  font-size: inherit;
   letter-spacing: -0.02em;
   line-height: 1.1;
   font-weight: 400;
   font-variation-settings: "pxls" 30, "jnts" 100;
+  text-transform: none;
+  white-space: nowrap;
+  color: inherit;
+  text-align: left;
 }
 
 .work-disciplines {
