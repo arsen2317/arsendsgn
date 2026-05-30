@@ -419,6 +419,8 @@ body {
 
 .work-label-tag {
   background: var(--bg-button);
+  padding: 0.4em;
+  margin-bottom: 4px;
 }
 
 .work-disciplines {
