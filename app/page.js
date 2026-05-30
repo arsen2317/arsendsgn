@@ -691,8 +691,8 @@ export default function Home() {
       <section className="work-section" id="cases">
         <div className="work-section-header">
           <div className="work-section-labels">
-            <div className="tag square work-label-tag"><span className="tag-xl">Recent</span></div>
-            <div className="tag pill work-label-tag"><span className="tag-xl">Projects</span></div>
+            <div className="work-label-tag work-label-square"><span className="tag-xl">Recent</span></div>
+            <div className="work-label-tag work-label-pill"><span className="tag-xl">Projects</span></div>
           </div>
           <div className="work-disciplines">
             <span className="work-disciplines-header">Disciplines</span>
