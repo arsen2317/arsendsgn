@@ -211,7 +211,7 @@ export default function Home() {
     setMenuOpen(false);
     // Wait for menu fade-out (300ms) before scrolling
     setTimeout(() => {
-      lenisRef.current?.scrollTo(id, { offset: -72, duration: 1.2 });
+      lenisRef.current?.scrollTo(id, { duration: 1.2 });
     }, 350);
   };
 
