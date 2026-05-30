@@ -463,6 +463,13 @@ export default function Home() {
       let wheelAccum = 0;
       let wheelResetId = null;
 
+      // Normalize delta across deltaMode (Firefox uses lines, not pixels)
+      const normDelta = (e) => {
+        if (e.deltaMode === 1) return e.deltaY * 16;
+        if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
+        return e.deltaY;
+      };
+
       const getActiveIdx = () => {
         const trigger = window.innerHeight * 0.4;
         const els = SNAP_IDS.map(s => document.querySelector(s)).filter(Boolean);
@@ -473,23 +480,22 @@ export default function Home() {
       };
 
       const snapTo = (dir) => {
-        if (snapLock || lenis.isStopped) return;
+        if (snapLock) return;
         const els = SNAP_IDS.map(s => document.querySelector(s)).filter(Boolean);
         const next = getActiveIdx() + dir;
         if (next < 0 || next >= els.length) return;
         snapLock = true;
-        lenis.scrollTo(els[next], {
-          offset: 0,
-          duration: 1.0,
-          easing: (t) => 1 - Math.pow(1 - t, 3),
-        });
-        setTimeout(() => { snapLock = false; }, 1100);
+        // Stop Lenis so its own wheel handler doesn't fight the snap
+        lenis.stop();
+        const targetY = Math.round(els[next].getBoundingClientRect().top + window.scrollY);
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+        setTimeout(() => { lenis.start(); snapLock = false; }, 1100);
       };
 
       onSnapWheel = (e) => {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
         clearTimeout(wheelResetId);
-        wheelAccum += e.deltaY;
+        wheelAccum += normDelta(e);
         wheelResetId = setTimeout(() => { wheelAccum = 0; }, 400);
         if (Math.abs(wheelAccum) >= 100) {
           snapTo(wheelAccum > 0 ? 1 : -1);
