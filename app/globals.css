@@ -417,6 +417,7 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 0.4rem;
 }
 
 .work-thumb iframe {
@@ -424,6 +425,7 @@ body {
   aspect-ratio: 16 / 9;
   display: block;
   border: none;
+  border-radius: 0.4rem;
   pointer-events: none;
 }
 
