@@ -29,7 +29,7 @@
   background: var(--bg-darker);
   color: var(--text-light);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 13px;
+  font-size: clamp(14px, 0.972vw, 18px);
   line-height: 1;
   letter-spacing: -0.3px;
   font-weight: 400;
