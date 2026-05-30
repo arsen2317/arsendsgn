@@ -6,14 +6,13 @@ import styles from './Skills.module.css';
 const HARD = [
   'Figma', 'Prototyping', 'UI Design', 'Design Systems',
   'User Research', 'Usability Testing', 'User Flow',
-  'Customer Journey Map', 'JTBD', 'A/B Testing',
+  'CJM', 'JTBD', 'A/B Testing',
   'After Effects', 'Claude Code', 'Accessibility',
 ];
 
 const SOFT = [
   'Empathy', 'Curiosity', 'Critical Thinking',
-  'Attention to Detail', 'Proactivity',
-  'Teamwork', 'Emotional Intelligence',
+  'Attention to Detail', 'Proactivity', 'Teamwork',
 ];
 
 export default function Skills() {
@@ -47,8 +46,9 @@ export default function Skills() {
         const isSoft = el.dataset.type === 'soft';
         const chamfer = isSoft ? h / 2 : 6;
 
-        // Start above the section top edge (viewport top when snapped)
-        const x = w / 2 + Math.random() * (W - w);
+        // Start clustered around center, above viewport top
+        const spread = W * 0.25;
+        const x = Math.max(w / 2, Math.min(W - w / 2, W / 2 + (Math.random() - 0.5) * 2 * spread));
         const y = -h - Math.random() * H * 0.9;
 
         const body = Bodies.rectangle(x, y, w, h, {
@@ -106,7 +106,7 @@ export default function Skills() {
 
   return (
     <section ref={sectionRef} className={styles.skills}>
-      <p className={styles.title}>Hard Skills Meet<br />Soft Instincts</p>
+      <p className={styles.title}>Skills That Drive<br />All My Projects</p>
       {HARD.map(s => (
         <span key={s} className={styles.hard} data-skill={s} data-type="hard">{s}</span>
       ))}
