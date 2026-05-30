@@ -485,11 +485,24 @@ export default function Home() {
         const next = getActiveIdx() + dir;
         if (next < 0 || next >= els.length) return;
         snapLock = true;
-        // Stop Lenis so its own wheel handler doesn't fight the snap
         lenis.stop();
-        const targetY = Math.round(els[next].getBoundingClientRect().top + window.scrollY);
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-        setTimeout(() => { lenis.start(); snapLock = false; }, 1100);
+        const startY = window.scrollY;
+        const targetY = Math.round(els[next].getBoundingClientRect().top + startY);
+        const duration = 900;
+        const startTime = performance.now();
+        // Cubic ease-in-out
+        const ease = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+        const tick = (now) => {
+          const t = Math.min((now - startTime) / duration, 1);
+          window.scrollTo(0, startY + (targetY - startY) * ease(t));
+          if (t < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            lenis.start();
+            snapLock = false;
+          }
+        };
+        requestAnimationFrame(tick);
       };
 
       onSnapWheel = (e) => {
