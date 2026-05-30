@@ -407,26 +407,18 @@ body {
 }
 
 /* Font styles from reference */
-.work-label-tag .tag-xl {
+.work-label-tag {
+  background: var(--bg-button);
   font-size: clamp(2.8rem, 1.6571rem + 1.1161vw, 3.8rem);
+  padding: 0.4em;
+  margin-bottom: 4px;
+}
+
+.work-label-tag .tag-xl {
   letter-spacing: -0.02em;
   line-height: 1.1;
   font-weight: 400;
-  font-family: var(--font-body), 'FKRasterGrotesk Fallback', serif;
   font-variation-settings: "pxls" 30, "jnts" 100;
-}
-
-.work-section-labels {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.work-label-tag {
-  background: var(--bg-button);
-  padding: 0.4em;
-  margin-bottom: 4px;
 }
 
 .work-disciplines {
