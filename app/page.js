@@ -507,6 +507,13 @@ export default function Home() {
 
       onSnapWheel = (e) => {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        // While snap is animating, drain the accumulator so the gesture
+        // can't pre-charge a second snap before the lock releases
+        if (snapLock) {
+          wheelAccum = 0;
+          clearTimeout(wheelResetId);
+          return;
+        }
         clearTimeout(wheelResetId);
         wheelAccum += normDelta(e);
         wheelResetId = setTimeout(() => { wheelAccum = 0; }, 400);
