@@ -34,34 +34,38 @@ export default function Skills() {
       startedRef.current = true;
 
       const Matter = await import('matter-js');
-      const { Engine, Bodies, Composite, Runner } = Matter;
+      const { Engine, Bodies, Body, Composite, Runner } = Matter;
 
       const W = section.offsetWidth;
       const H = section.offsetHeight;
 
-      // Gravity ~3x slower than default (was 2.2)
       const engine = Engine.create({ gravity: { y: 0.7 } });
       const bodies = [];
 
       const elements = section.querySelectorAll('[data-skill]');
 
-      elements.forEach((el, i) => {
+      elements.forEach((el) => {
         const w = el.offsetWidth;
         const h = el.offsetHeight;
         const isSoft = el.dataset.type === 'soft';
         const chamfer = isSoft ? h / 2 : 6;
 
-        // Start clustered around center, above viewport top
-        const spread = W * 0.1;
-        const x = Math.max(w / 2, Math.min(W - w / 2, W / 2 + (Math.random() - 0.5) * 2 * spread));
-        const y = -h - Math.random() * H * 0.9;
+        // All start from same burst point: center, just above viewport top
+        const x = W / 2 + (Math.random() - 0.5) * 40;
+        const y = -h / 2 - 20 - Math.random() * 30;
 
         const body = Bodies.rectangle(x, y, w, h, {
           chamfer: { radius: chamfer },
-          restitution: 0.18,
-          friction: 0.85,
-          frictionAir: 0.018,
-          angle: (Math.random() - 0.5) * 0.5,
+          restitution: 0.25,
+          friction: 0.8,
+          frictionAir: 0.015,
+          angle: (Math.random() - 0.5) * 0.3,
+        });
+
+        // Random burst velocity: spread outward in all directions
+        Body.setVelocity(body, {
+          x: (Math.random() - 0.5) * 14,
+          y: Math.random() * -3,
         });
 
         Composite.add(engine.world, body);
@@ -117,7 +121,7 @@ export default function Skills() {
       ))}
       {ICONS.map(({ key, src, alt }) => (
         <span key={key} className={styles.icon} data-skill={key} data-type="hard">
-          <img src={src} alt={alt} className={styles.iconImg} />
+          <img src={src} alt={alt} className={`${styles.iconImg}${key === 'After Effects' ? ' ' + styles.ae : ''}`} />
         </span>
       ))}
       {SOFT.map(s => (
