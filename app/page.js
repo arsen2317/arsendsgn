@@ -623,7 +623,7 @@ export default function Home() {
             <p className="work-title">Sber</p>
           </a>
           <a href="/cases/tj" className="work-item">
-            <div className="work-thumb work-thumb--portrait">
+            <div className="work-thumb">
               <iframe
                 src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
                 allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"

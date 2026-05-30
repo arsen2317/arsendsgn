@@ -392,62 +392,52 @@ body {
 
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: clamp(8px, 0.4vw + 5px, 12px);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(8px, 0.83vw, 12px);
+  align-items: start;
 }
 
 .work-item {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
   text-decoration: none;
   color: inherit;
 }
 
-/* Column spans: 7+5 on row 1, 4+8 on row 2 */
-.work-item:nth-child(1) { grid-column: span 7; }
-.work-item:nth-child(2) { grid-column: span 5; }
-.work-item:nth-child(3) { grid-column: span 4; }
-.work-item:nth-child(4) { grid-column: span 8; }
-
 .work-thumb {
+  background: var(--bg-darker);
+  border-radius: var(--r-lg);
+  padding: clamp(24px, 3.33vw, 48px) clamp(12px, 1.53vw, 22px);
   overflow: hidden;
-  border-radius: var(--r-xs);
-  background: var(--bg-dark);
-  position: relative;
-  aspect-ratio: 16 / 9;
 }
-
-/* Portrait ratio for item 2 (T-Journal) */
-.work-thumb--portrait { aspect-ratio: 4 / 5; }
 
 .work-thumb img,
 .work-thumb video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
-  transition: transform 0.65s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .work-thumb iframe {
   width: 100%;
-  height: 100%;
-  border: none;
+  aspect-ratio: 16 / 9;
   display: block;
+  border: none;
   pointer-events: none;
 }
 
-.work-item:hover .work-thumb img,
-.work-item:hover .work-thumb video { transform: scale(1.04); }
-
 .work-title {
-  font-size: 12px;
-  letter-spacing: -0.32px;
-  color: var(--text-primary);
-  text-transform: uppercase;
+  align-self: flex-start;
+  background: var(--bg-darker);
+  color: var(--text-light);
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  line-height: 1;
+  padding: 6px 10px;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  opacity: 0.65;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
 }
 
 /* ─── FOOTER ──────────────────────────────────────────── */
@@ -718,12 +708,6 @@ body {
   /* Work grid */
   .work-section { padding: 48px var(--px); }
   .work-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .work-item:nth-child(1),
-  .work-item:nth-child(2),
-  .work-item:nth-child(3),
-  .work-item:nth-child(4) { grid-column: span 1; }
-  .work-thumb,
-  .work-thumb--portrait { aspect-ratio: 4 / 3; }
 
   /* Footer */
   .footer {
