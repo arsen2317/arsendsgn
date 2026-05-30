@@ -29,11 +29,11 @@
   background: var(--bg-darker);
   color: var(--text-light);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(28px, 16.571px + 1.1161vw, 38px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: -0.3px;
   font-weight: 400;
-  padding: 0.4rem;
+  padding: 10px 16px;
   user-select: none;
   will-change: transform;
 }
