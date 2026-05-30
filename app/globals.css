@@ -387,18 +387,25 @@ body {
 /* ─── WORK GRID SECTION ───────────────────────────────── */
 .work-section {
   background: var(--bg-primary);
-  padding: 80px var(--px);
+  padding: 0 var(--px) 80px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 48px;
 }
 
 .work-section-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  padding-top: clamp(64px, 9.17vw, 132px);
+  padding-bottom: clamp(40px, 5.65vw, 82px);
+}
+
+/* Font size for label tags calibrated to ~60px at 1440px */
+.work-label-tag .tag-xl {
+  font-size: clamp(28px, 4.17vw, 60px);
+  letter-spacing: clamp(-2px, -0.28vw, -4px);
 }
 
 .work-section-labels {
@@ -762,8 +769,8 @@ body {
   .dark-img-placeholder { width: 100%; height: 220px; }
 
   /* Work grid */
-  .work-section { padding: 48px var(--px); gap: 32px; min-height: auto; }
-  .work-section-header { flex-direction: column; gap: 24px; }
+  .work-section { padding: 0 var(--px) 48px; min-height: auto; }
+  .work-section-header { flex-direction: column; gap: 24px; padding-top: 48px; padding-bottom: 32px; }
   .work-disciplines { align-items: flex-start; }
   .work-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
 
