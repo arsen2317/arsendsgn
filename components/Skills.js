@@ -3,15 +3,17 @@
 import { useEffect, useRef } from 'react';
 import styles from './Skills.module.css';
 
+const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const HARD = [
   'Prototyping',
-  { icon: true, key: 'Figma', src: '/images/figma.svg', alt: 'Figma' },
+  { icon: true, key: 'Figma', src: `${base}/images/figma.svg`, alt: 'Figma' },
   'UI Design', ['Design', 'Systems'],
   ['User', 'Research'],
-  { icon: true, key: 'After Effects', src: '/images/ae.svg', alt: 'After Effects' },
+  { icon: true, key: 'After Effects', src: `${base}/images/ae.svg`, alt: 'After Effects' },
   'Usability', 'User Flow',
   'CJM', 'JTBD',
-  { icon: true, key: 'Claude Code', src: '/images/claude.svg', alt: 'Claude Code' },
+  { icon: true, key: 'Claude Code', src: `${base}/images/claude.svg`, alt: 'Claude Code' },
   'A/B Testing', 'Accessibility',
 ];
 

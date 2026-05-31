@@ -52,6 +52,7 @@ useGLTF.preload(MODEL_URL);
 
 
 export default function PortraitScene() {
+  if (process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true') return null;
   const mouseRef = useRef({ x: 0, y: 0 });
   const isMobile = useRef(false);
 
