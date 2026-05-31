@@ -27,10 +27,10 @@ const COMMANDS = [
   { name: 'about',    desc: '→ About section' },
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
-  { name: 'draw',     desc: 'Yellow marker overlay' },
+  { name: 'draw',     desc: 'Have fun' },
   { name: 'cursor',   desc: 'Random cursor' },
-  { name: 'noire',    desc: 'Black & white + rain' },
-  { name: 'negative', desc: 'Invert colors + fahh' },
+  { name: 'noire',    desc: 'Black & white' },
+  { name: 'negative', desc: 'Invert colors' },
   { name: 'reset',    desc: 'Reset all effects' },
   { name: 'close',    desc: 'Close terminal' },
 ];
