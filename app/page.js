@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
 const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf';
 const downloadCV = () => {
@@ -382,8 +385,6 @@ export default function Home() {
   useEffect(() => {
     let lenis;
     let ctx;
-    let tiltRafId;
-    let onMouseMove;
 
     async function init() {
       const { default: Lenis }    = await import('lenis');
@@ -398,48 +399,9 @@ export default function Home() {
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
 
-      /* Portrait 3D cursor tracking */
-      const portrait3d = document.getElementById('portrait-3d');
-      let targetRotX = 0, targetRotY = 0;
-      let currentRotX = 0, currentRotY = 0;
-
-      onMouseMove = (e) => {
-        if (!portrait3d) return;
-        const rect = portrait3d.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / (window.innerWidth * 0.5);
-        const dy = (e.clientY - cy) / (window.innerHeight * 0.5);
-        const max = 22;
-        targetRotY = Math.max(-max, Math.min(max, dx * max));
-        targetRotX = Math.max(-max, Math.min(max, -dy * max));
-      };
-
-      const tiltTick = () => {
-        const lerp = 0.06;
-        const tx = drawModeRef.current ? 0 : targetRotX;
-        const ty = drawModeRef.current ? 0 : targetRotY;
-        currentRotX += (tx - currentRotX) * lerp;
-        currentRotY += (ty - currentRotY) * lerp;
-        if (portrait3d) {
-          gsap.set(portrait3d, {
-            rotateX: currentRotX,
-            rotateY: currentRotY,
-            transformPerspective: 700,
-          });
-        }
-        tiltRafId = requestAnimationFrame(tiltTick);
-      };
-
-      if (window.matchMedia('(pointer: fine)').matches) {
-        window.addEventListener('mousemove', onMouseMove);
-        tiltRafId = requestAnimationFrame(tiltTick);
-      }
-
-
       ctx = gsap.context(() => {
         gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
-        gsap.from('.hero-portrait', { y: -24, opacity: 0, scale: 0.92, duration: 0.8, delay: 0.25, ease: 'power3.out' });
+        gsap.from('.portrait-wrap', { y: -24, opacity: 0, scale: 0.92, duration: 0.8, delay: 0.25, ease: 'power3.out' });
         gsap.from('[data-word]', { y: 70, opacity: 0, duration: 0.9, delay: 0.35, stagger: 0.1, ease: 'back.out(2)' });
         gsap.from('.hero-bottom', { opacity: 0, duration: 0.6, delay: 0.85, ease: 'power2.out' });
 
@@ -466,8 +428,6 @@ export default function Home() {
     return () => {
       lenis?.destroy();
       ctx?.revert();
-      cancelAnimationFrame(tiltRafId);
-      if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
@@ -570,12 +530,7 @@ export default function Home() {
         />
         <div className="portrait-wrap">
           <div className="portrait-3d" id="portrait-3d">
-            <img
-              className="hero-portrait"
-              src="https://www.figma.com/api/mcp/asset/d1a20262-c7eb-4dc1-a238-2f49346f8228"
-              alt="Arsen Arakelyan"
-            />
-            <div className="portrait-edge" />
+            <PortraitScene />
           </div>
         </div>
 

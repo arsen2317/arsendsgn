@@ -181,8 +181,6 @@ body {
 }
 
 .portrait-wrap {
-  perspective: 700px;
-  perspective-origin: center center;
   margin-bottom: -20px;
   position: relative;
   z-index: 0;
@@ -190,11 +188,15 @@ body {
 }
 
 .portrait-3d {
-  transform-style: preserve-3d;
   position: relative;
   width: 205px;
   height: 205px;
-  will-change: transform;
+}
+
+.portrait-3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .hero-portrait {
@@ -755,8 +757,6 @@ body {
   .hero { padding: 32px var(--px) 80px; min-height: calc(100svh - 72px); }
 
   .portrait-3d { width: 160px; height: 160px; }
-  .portrait-edge { border-radius: 10px; }
-  .hero-portrait { border-radius: 10px; }
 
   .tag { padding: 14px 18px; }
   .tag-xl { letter-spacing: -3px; }
