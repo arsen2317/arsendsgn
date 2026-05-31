@@ -38,7 +38,21 @@
   gap: 0.8rem;
   align-items: center;
 }
+/* Tag overrides for case page */
+.caseTag {
+  background: var(--bg-button) !important;
+  padding: 1.6rem 2rem !important;
+}
 
+.caseTagText {
+  font-size: clamp(2.8rem, 1.4vw + 2rem, 4rem);
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+  white-space: nowrap;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
 
 /* Subtitle card */
 .subtitleBox {
@@ -63,20 +77,6 @@
   gap: 0.4rem;
 }
 
-.skillTag {
-  display: inline-flex;
-  align-items: center;
-  height: 2rem;
-  padding: 0 0.8rem;
-  border-radius: var(--r-xs);
-  font-size: 1.1rem;
-  background: transparent;
-  color: var(--text-primary);
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  opacity: 0.5;
-}
 
 /* Description block — animated between slides */
 .leftDesc {

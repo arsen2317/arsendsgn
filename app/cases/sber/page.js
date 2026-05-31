@@ -221,11 +221,17 @@ export default function SberCase() {
             {/* Title tags */}
             <div className={styles.titleRows}>
               <div className={styles.titleRow}>
-                <span className="badge primary" style={{ cursor: 'default' }} data-case-tag>Sber</span>
-                <span className="badge primary" style={{ cursor: 'default' }} data-case-tag>POS</span>
+                <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                  <span className={styles.caseTagText}>Sber</span>
+                </div>
+                <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                  <span className={styles.caseTagText}>POS</span>
+                </div>
               </div>
               <div className={styles.titleRow}>
-                <span className="badge primary" style={{ cursor: 'default' }} data-case-tag>Terminal</span>
+                <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                  <span className={styles.caseTagText}>Terminal</span>
+                </div>
               </div>
             </div>
 
@@ -237,7 +243,7 @@ export default function SberCase() {
             {/* Skill tags */}
             <div className={styles.skillTags}>
               {['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'].map((tag, i) => (
-                <span key={tag} className={styles.skillTag} data-skill style={{ '--i': i }}>
+                <span key={tag} className="badge primary" style={{ cursor: 'default' }} data-skill>
                   {tag}
                 </span>
               ))}
