@@ -790,10 +790,10 @@ body {
   /* Dark section */
   .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100svh; overflow: visible; }
   .dark-quote p { font-size: 24px; max-width: 100%; text-align: left; margin-left: 0; }
-  .dark-row { flex-direction: column; height: auto; gap: 28px; }
-  .dark-desc { align-items: flex-start; }
+  .dark-row { display: block; height: auto; }
+  .dark-desc { display: block; flex: none; overflow: visible; margin-bottom: 28px; }
   .dark-desc p { font-size: 20px; width: 100%; }
-  .dark-img-placeholder { width: 100%; height: 220px; }
+  .dark-img-placeholder { display: block; width: 100%; height: 220px; }
 
   /* Work grid */
   .work-section { padding: 0 var(--px) 48px; min-height: auto; }
