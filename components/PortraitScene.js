@@ -4,7 +4,7 @@ import { Component, useRef, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 
-const MODEL_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/3d/voxel.character.3d.model.glb';
+const MODEL_URL = '/api/model';
 
 class ErrorBoundary extends Component {
   constructor(props) {
