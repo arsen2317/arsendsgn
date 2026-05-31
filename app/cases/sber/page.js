@@ -263,8 +263,8 @@ export default function SberCase() {
         {/* RIGHT PANEL */}
         <div className={styles.right}>
 
-          {/* Dark slides container — border-radius clips content */}
-          <div className={styles.slidesContainer} data-slide>
+          {/* Dark container */}
+          <div className={styles.dark} data-slide>
 
             {SLIDES.map((slide, i) => (
               <div
@@ -298,9 +298,6 @@ export default function SberCase() {
               ))}
             </div>
           </div>
-
-          {/* Frame overlay — cream border creates visual gap on top/right/bottom */}
-          <div className={styles.frame} aria-hidden="true" />
         </div>
       </div>
     </>

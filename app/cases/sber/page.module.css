@@ -123,46 +123,19 @@
 
 .right {
   flex: 1;
-  position: relative;
-  /* overflow: hidden clips the frame's -0.1rem top extension */
-  overflow: hidden;
+  min-width: 80rem;
+  background: var(--bg-primary);
+  padding: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
 }
 
-/*
-  Dark container that holds all slides.
-  border-radius + overflow: hidden round the dark area.
-*/
-.slidesContainer {
-  position: absolute;
-  inset: 0;
+/* Dark container */
+.dark {
+  width: 100%;
+  height: 100%;
   background: var(--bg-darker);
   border-radius: 0.4rem;
   overflow: hidden;
-}
-
-/*
-  Frame overlay — mirrors the reference technique:
-  positioned at top: -0.1rem with height: calc(0.1rem + 100vh) so
-  the top border fully covers the edge; cream-colored border on all
-  sides creates the visual gap. Left border is invisible because it
-  sits behind the cream left panel. pointer-events: none.
-*/
-.frame {
-  position: absolute;
-  width: 100%;
-  height: calc(0.1rem + 100vh);
-  top: -0.1rem;
-  left: 0;
-  border-width: calc(0.1rem + clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem))
-                clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem)
-                clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
-  border-style: solid;
-  border-color: var(--bg-primary);
-  /* outer_radius = inner_radius + border_width
-     inner_radius = outer - border = 0.4rem → matches .slidesContainer */
-  border-radius: calc(0.4rem + clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem));
-  z-index: 10;
-  pointer-events: none;
+  position: relative;
 }
 
 /* Individual slide */
@@ -172,7 +145,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(2.4rem, 4vw, 5.6rem) clamp(3.2rem, 5vw, 8rem);
+  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
   transition: transform 0.9s cubic-bezier(0.13, 0.47, 0.13, 0.98),
               opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
@@ -180,11 +153,10 @@
 /* Illustration placeholder */
 .illustration {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   background: #d4d4d4;
   border-radius: clamp(0.8rem, 0.7029rem + 0.2589vw, 1.2rem);
   overflow: hidden;
-  flex-shrink: 1;
 }
 
 /* Slide counter (bottom-left) */
