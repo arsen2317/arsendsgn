@@ -12,31 +12,28 @@ const ST = ({ children }) => (
 );
 
 /**
- * Shared site header used on all pages.
+ * Shared site header.
  *
- * Props:
- *  backHref     – if set, renders ← back button next to logo linking there
- *  menuOpen     – bool controlling mobile overlay state
- *  onMenuToggle – fn to open/close mobile menu
- *  playFx       – fn to play click sound
- *  navRef       – ref forwarded to <nav> for hover radius morph
- *  navItems     – array of { label, pill?, href?, onClick? }
- *  rightSlot    – optional ReactNode rendered between hint and menu button
- *  hintLabel    – text for the hint button (default "Press / for?")
- *  hintReset    – if true, hint button renders as "reset"
- *  onHint       – fn called when hint button is clicked
+ * backHref   – if set, logo becomes a link there and a ← button is added
+ * menuOpen   – mobile overlay state
+ * onMenuToggle
+ * playFx
+ * navRef     – forwarded to <nav> for the radius-morph hover effect
+ * navItems   – [{ label, pill?, href?, onClick? }]
+ * hintReset  – shows "reset" instead of hintLabel
+ * onHint     – if provided, renders the hint button; if null, button is hidden
+ * hintLabel  – defaults to "Press / for?"
  */
 export default function SiteHeader({
-  backHref    = null,
-  menuOpen    = false,
+  backHref     = null,
+  menuOpen     = false,
   onMenuToggle,
-  playFx      = () => {},
+  playFx       = () => {},
   navRef,
-  navItems    = [],
-  rightSlot   = null,
-  hintLabel   = 'Press / for?',
-  hintReset   = false,
-  onHint      = null,
+  navItems     = [],
+  hintReset    = false,
+  onHint       = null,
+  hintLabel    = 'Press / for?',
 }) {
   const internalNavRef = useRef(null);
   const ref = navRef ?? internalNavRef;
@@ -47,34 +44,30 @@ export default function SiteHeader({
   return (
     <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
 
-      {/* Logo + optional back button */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-        {backHref ? (
+      {/*
+        Logo:
+        • main page  → plain <button class="logo"> as direct header child,
+                        identical to what was inline before
+        • case page  → <div class="header-logo-group"> wraps logo link + back arrow
+      */}
+      {backHref ? (
+        <div className="header-logo-group">
           <a href={backHref} className="logo" onMouseEnter={playFx}>
             <ST>arsendsgn</ST>
           </a>
-        ) : (
-          <button
-            className="logo"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            onMouseEnter={playFx}
-          >
-            <ST>arsendsgn</ST>
-          </button>
-        )}
-
-        {backHref && (
-          <a
-            href={backHref}
-            className="nav-item square"
-            onMouseEnter={playFx}
-            aria-label="Back"
-            style={{ minWidth: 'unset', padding: '0 1rem' }}
-          >
+          <a href={backHref} className="header-back" onMouseEnter={playFx} aria-label="Back">
             ←
           </a>
-        )}
-      </div>
+        </div>
+      ) : (
+        <button
+          className="logo"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onMouseEnter={playFx}
+        >
+          <ST>arsendsgn</ST>
+        </button>
+      )}
 
       {/* Nav */}
       <nav
@@ -106,10 +99,8 @@ export default function SiteHeader({
         )}
       </nav>
 
-      {/* Right controls */}
+      {/* Right — hint + mobile menu toggle */}
       <div className="header-right">
-        {rightSlot}
-
         {onHint && (
           <button
             className={`header-hint${hintReset ? ' header-hint--reset' : ''}`}

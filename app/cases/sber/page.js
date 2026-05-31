@@ -206,6 +206,7 @@ export default function SberCase() {
           { label: 'Contacts', href: '/#contacts' },
           { label: 'My CV',    onClick: downloadCV, pill: true },
         ]}
+        onHint={() => {}}
       />
 
       {/* ── CASE LAYOUT ── */}
