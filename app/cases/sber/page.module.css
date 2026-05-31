@@ -15,10 +15,9 @@
   background: var(--bg-primary);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   /* Top padding = header height (10.4rem = 104px) + content spacing */
   padding: calc(10.4rem + clamp(2rem, 2.5vw, 3.2rem)) var(--px) clamp(2.4rem, 3vw, 4rem);
-  overflow: hidden;
+  overflow: clip;
   flex-shrink: 0;
 }
 
@@ -40,26 +39,6 @@
   align-items: center;
 }
 
-/* Tag overrides for case page */
-.caseTag {
-  background: var(--bg-button) !important;
-  padding: 1.6rem 2rem !important;
-}
-
-.caseTagPill {
-  background: var(--bg-secondary) !important;
-  padding: 1.6rem 2rem !important;
-}
-
-.caseTagText {
-  font-size: clamp(2.8rem, 1.4vw + 2rem, 4rem);
-  letter-spacing: -0.04em;
-  color: var(--text-primary);
-  line-height: 1;
-  white-space: nowrap;
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-variation-settings: "pxls" 0, "jnts" 100;
-}
 
 /* Subtitle card */
 .subtitleBox {
@@ -101,6 +80,7 @@
 
 /* Description block — animated between slides */
 .leftDesc {
+  margin-top: auto;
   transition: opacity 0.25s ease,
               transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }

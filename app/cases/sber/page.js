@@ -113,7 +113,6 @@ export default function SberCase() {
         gsap.from('[data-case-tag]',{ y: 40,  opacity: 0, duration: 0.8, delay: 0.2, stagger: 0.08, ease: 'back.out(2)' });
         gsap.from('[data-subtitle]',{ y: 20,  opacity: 0, duration: 0.7, delay: 0.45, ease: 'power3.out' });
         gsap.from('[data-skill]',   { y: 16,  opacity: 0, duration: 0.6, delay: 0.55, stagger: 0.04, ease: 'power2.out' });
-        gsap.from('[data-desc]',    { y: 24,  opacity: 0, duration: 0.8, delay: 0.65, ease: 'power3.out' });
         gsap.from('[data-slide]',   { scale: 0.96, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
       });
     }
@@ -222,17 +221,11 @@ export default function SberCase() {
             {/* Title tags */}
             <div className={styles.titleRows}>
               <div className={styles.titleRow}>
-                <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                  <span className={styles.caseTagText}>Sber</span>
-                </div>
-                <div className={`tag pill ${styles.caseTagPill}`} data-case-tag>
-                  <span className={styles.caseTagText}>POS</span>
-                </div>
+                <span className="badge primary" style={{ cursor: 'default' }} data-case-tag>Sber</span>
+                <span className="badge primary" style={{ cursor: 'default' }} data-case-tag>POS</span>
               </div>
               <div className={styles.titleRow}>
-                <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                  <span className={styles.caseTagText}>Terminal</span>
-                </div>
+                <span className="badge primary" style={{ cursor: 'default' }} data-case-tag>Terminal</span>
               </div>
             </div>
 
