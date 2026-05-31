@@ -369,9 +369,8 @@ body {
 .dark-desc p {
   font-family: var(--font-body), Georgia, serif;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 32px;
   color: var(--text-light);
-  letter-spacing: -0.84px;
   width: 325px;
   line-height: 1.2;
 }
@@ -508,7 +507,6 @@ body {
   font-weight: 500;
   font-size: 18px;
   color: var(--text-primary);
-  letter-spacing: -0.54px;
   width: 325px;
   line-height: 1.2;
 }
