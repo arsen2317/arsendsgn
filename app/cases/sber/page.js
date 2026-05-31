@@ -224,7 +224,7 @@ export default function SberCase() {
                 <div className={`tag square ${styles.caseTag}`} data-case-tag>
                   <span className={styles.caseTagText}>Sber</span>
                 </div>
-                <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                <div className={`tag pill ${styles.caseTag}`} data-case-tag>
                   <span className={styles.caseTagText}>POS</span>
                 </div>
               </div>
