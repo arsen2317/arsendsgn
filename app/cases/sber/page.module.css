@@ -123,13 +123,44 @@
 
 .right {
   flex: 1;
-  /* 8px margins on top / right / bottom, flush to left panel */
-  margin: 0.8rem 0.8rem 0.8rem 0;
+  position: relative;
+  /* overflow: hidden clips the frame's -0.1rem top extension */
+  overflow: hidden;
+}
+
+/*
+  Dark container that holds all slides.
+  border-radius + overflow: hidden round the dark area.
+*/
+.slidesContainer {
+  position: absolute;
+  inset: 0;
   background: var(--bg-darker);
   border-radius: 0.4rem;
-  position: relative;
   overflow: hidden;
-  /* height comes from flex stretch — no explicit value needed */
+}
+
+/*
+  Frame overlay — mirrors the reference technique:
+  positioned at top: -0.1rem with height: calc(0.1rem + 100vh) so
+  the top border fully covers the edge; cream-colored border on all
+  sides creates the visual gap. Left border is invisible because it
+  sits behind the cream left panel. pointer-events: none.
+*/
+.frame {
+  position: absolute;
+  width: 100%;
+  height: calc(0.1rem + 100vh);
+  top: -0.1rem;
+  left: 0;
+  border-width: calc(0.1rem + clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem))
+                clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem)
+                clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  border-style: solid;
+  border-color: var(--bg-primary);
+  border-radius: 0.4rem;
+  z-index: 10;
+  pointer-events: none;
 }
 
 /* Individual slide */
@@ -232,8 +263,6 @@
   .right {
     flex: 1;
     min-height: 0;
-    margin: 0 0.8rem 0.8rem 0.8rem;
-    border-radius: 0.4rem;
   }
 
   .caseTagText {

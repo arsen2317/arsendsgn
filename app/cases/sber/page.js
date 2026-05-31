@@ -263,39 +263,44 @@ export default function SberCase() {
         {/* RIGHT PANEL */}
         <div className={styles.right}>
 
-          {/* Slides */}
-          {SLIDES.map((slide, i) => (
-            <div
-              key={slide.id}
-              className={styles.slide}
-              data-slide
-              style={{
-                transform: `translateY(${(i - activeIdx) * 100}%)`,
-                opacity: i === activeIdx ? 1 : 0,
-              }}
-            >
-              <div className={styles.illustration} />
-            </div>
-          ))}
+          {/* Dark slides container — border-radius clips content */}
+          <div className={styles.slidesContainer} data-slide>
 
-          {/* Slide counter */}
-          <div className={styles.counter}>
-            <span className={styles.counterCurrent}>{String(activeIdx + 1).padStart(2, '0')}</span>
-            <span className={styles.counterSep}>/</span>
-            <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
-          </div>
-
-          {/* Dot indicators */}
-          <div className={styles.dots}>
-            {SLIDES.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
-                onClick={() => go(i)}
-                aria-label={`Slide ${i + 1}`}
-              />
+            {SLIDES.map((slide, i) => (
+              <div
+                key={slide.id}
+                className={styles.slide}
+                style={{
+                  transform: `translateY(${(i - activeIdx) * 100}%)`,
+                  opacity: i === activeIdx ? 1 : 0,
+                }}
+              >
+                <div className={styles.illustration} />
+              </div>
             ))}
+
+            {/* Slide counter */}
+            <div className={styles.counter}>
+              <span className={styles.counterCurrent}>{String(activeIdx + 1).padStart(2, '0')}</span>
+              <span className={styles.counterSep}>/</span>
+              <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
+            </div>
+
+            {/* Dot indicators */}
+            <div className={styles.dots}>
+              {SLIDES.map((_, i) => (
+                <button
+                  key={i}
+                  className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
+                  onClick={() => go(i)}
+                  aria-label={`Slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
+
+          {/* Frame overlay — cream border creates visual gap on top/right/bottom */}
+          <div className={styles.frame} aria-hidden="true" />
         </div>
       </div>
     </>
