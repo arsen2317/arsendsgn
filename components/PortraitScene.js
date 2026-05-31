@@ -4,7 +4,7 @@ import { useRef, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 
-const MODEL_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/3d/avatar.glb';
+const MODEL_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/3d/voxel.character.3d.model.glb';
 
 function AvatarModel({ mouseRef }) {
   const { scene } = useGLTF(MODEL_URL);
@@ -22,6 +22,7 @@ function AvatarModel({ mouseRef }) {
 }
 
 useGLTF.preload(MODEL_URL);
+
 
 export default function PortraitScene() {
   const mouseRef = useRef({ x: 0, y: 0 });
