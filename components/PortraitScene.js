@@ -6,16 +6,24 @@ import { useGLTF } from '@react-three/drei';
 
 const MODEL_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/3d/voxel.character.3d.model.glb';
 
-function AvatarModel({ mouseRef }) {
+function AvatarModel({ mouseRef, isMobile }) {
   const { scene } = useGLTF(MODEL_URL);
   const ref = useRef();
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (!ref.current) return;
-    const tx = mouseRef.current.x * 0.45;
-    const ty = -mouseRef.current.y * 0.28;
-    ref.current.rotation.y += (tx - ref.current.rotation.y) * 0.06;
-    ref.current.rotation.x += (ty - ref.current.rotation.x) * 0.06;
+    const t = clock.getElapsedTime();
+
+    if (isMobile) {
+      // Slow side-to-side sway on Y rotation, gentle bob on Y position
+      ref.current.rotation.y = Math.sin(t * 0.4) * 0.3;
+      ref.current.position.y = Math.sin(t * 0.8) * 0.05;
+    } else {
+      const tx = mouseRef.current.x * 0.45;
+      const ty = -mouseRef.current.y * 0.28;
+      ref.current.rotation.y += (tx - ref.current.rotation.y) * 0.06;
+      ref.current.rotation.x += (ty - ref.current.rotation.x) * 0.06;
+    }
   });
 
   return <primitive ref={ref} object={scene} />;
@@ -23,16 +31,18 @@ function AvatarModel({ mouseRef }) {
 
 useGLTF.preload(MODEL_URL);
 
-
 export default function PortraitScene() {
   const mouseRef = useRef({ x: 0, y: 0 });
+  const isMobile = useRef(false);
 
   useEffect(() => {
+    isMobile.current = !window.matchMedia('(pointer: fine)').matches;
+
     const onMove = (e) => {
       mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
       mouseRef.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
     };
-    window.addEventListener('mousemove', onMove);
+    if (!isMobile.current) window.addEventListener('mousemove', onMove);
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
@@ -46,7 +56,7 @@ export default function PortraitScene() {
       <directionalLight position={[2, 4, 3]} intensity={1.5} />
       <directionalLight position={[-2, 0, 2]} intensity={0.4} />
       <Suspense fallback={null}>
-        <AvatarModel mouseRef={mouseRef} />
+        <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
       </Suspense>
     </Canvas>
   );
