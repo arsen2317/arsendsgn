@@ -773,7 +773,7 @@ body {
   .menu-btn   { display: flex; }
 
   /* Hero */
-  .hero { padding: 32px var(--px) 80px; min-height: calc(100svh - 72px); }
+  .hero { padding: 32px var(--px) 80px; min-height: calc(100vh - 72px); min-height: calc(100dvh - 72px); }
 
   .portrait-3d { width: 180px; height: 230px; }
 
@@ -788,7 +788,7 @@ body {
   .hero-exp span { font-size: 11px; }
 
   /* Dark section */
-  .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100svh; overflow: visible; }
+  .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100vh; min-height: 100dvh; overflow: visible; }
   .dark-quote p { font-size: 24px; max-width: 100%; text-align: left; margin-left: 0; }
   .dark-row { display: block; height: auto; }
   .dark-desc { display: block; flex: none; overflow: visible; margin-bottom: 28px; }
