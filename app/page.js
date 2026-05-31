@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Skills from '../components/Skills';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
@@ -214,7 +215,7 @@ export default function Home() {
     setMenuOpen(false);
     // Wait for menu fade-out (300ms) before scrolling
     setTimeout(() => {
-      lenisRef.current?.scrollTo(id, { offset: -72, duration: 1.2 });
+      lenisRef.current?.scrollTo(id, { duration: 1.2 });
     }, 350);
   };
 
@@ -385,6 +386,7 @@ export default function Home() {
   useEffect(() => {
     let lenis;
     let ctx;
+    let onSnapWheel;
 
     async function init() {
       const { default: Lenis }    = await import('lenis');
@@ -412,15 +414,82 @@ export default function Home() {
         gsap.from('.dark-img-placeholder', { scale: 0.94, opacity: 0, duration: 1, ease: 'power3.out',
           scrollTrigger: { trigger: '.dark-row', start: 'top 80%' } });
 
-        gsap.utils.toArray('.divider').forEach((el) => {
-          gsap.from(el, { scaleX: 0, duration: 1.2, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 90%' } });
-        });
-        gsap.utils.toArray('.case-row').forEach((el) => {
-          gsap.from(el, { y: 48, opacity: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' } });
+        gsap.from('.work-item', {
+          y: 48, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1,
+          scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
         });
       });
+
+      // ── Section snap ──────────────────────────────────────
+      const SNAP_IDS = ['#hero', '#about', '#cases', '#contacts'];
+      let snapLock = false;
+      let wheelAccum = 0;
+      let wheelResetId = null;
+
+      // Normalize delta across deltaMode (Firefox uses lines, not pixels)
+      const normDelta = (e) => {
+        if (e.deltaMode === 1) return e.deltaY * 16;
+        if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
+        return e.deltaY;
+      };
+
+      const getActiveIdx = () => {
+        const trigger = window.innerHeight * 0.4;
+        const els = SNAP_IDS.map(s => document.querySelector(s)).filter(Boolean);
+        for (let i = els.length - 1; i >= 0; i--) {
+          if (els[i].getBoundingClientRect().top <= trigger) return i;
+        }
+        return 0;
+      };
+
+      const snapTo = (dir) => {
+        if (snapLock) return;
+        const els = SNAP_IDS.map(s => document.querySelector(s)).filter(Boolean);
+        const next = getActiveIdx() + dir;
+        if (next < 0 || next >= els.length) return;
+        snapLock = true;
+        lenis.stop();
+        const startY = window.scrollY;
+        // Hero (idx 0) always snaps to absolute top
+        const targetY = next === 0
+          ? 0
+          : Math.round(els[next].getBoundingClientRect().top + startY);
+        const duration = 900;
+        const startTime = performance.now();
+        const ease = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+        const tick = (now) => {
+          const t = Math.min((now - startTime) / duration, 1);
+          window.scrollTo(0, startY + (targetY - startY) * ease(t));
+          if (t < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            // Lock final position before re-enabling Lenis so trackpad
+            // momentum events don't cause a small inertial overshoot
+            window.scrollTo(0, targetY);
+            setTimeout(() => { lenis.start(); snapLock = false; }, 80);
+          }
+        };
+        requestAnimationFrame(tick);
+      };
+
+      onSnapWheel = (e) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        // While snap is animating, drain the accumulator so the gesture
+        // can't pre-charge a second snap before the lock releases
+        if (snapLock) {
+          wheelAccum = 0;
+          clearTimeout(wheelResetId);
+          return;
+        }
+        clearTimeout(wheelResetId);
+        wheelAccum += normDelta(e);
+        wheelResetId = setTimeout(() => { wheelAccum = 0; }, 400);
+        if (Math.abs(wheelAccum) >= 100) {
+          snapTo(wheelAccum > 0 ? 1 : -1);
+          wheelAccum = 0;
+        }
+      };
+      window.addEventListener('wheel', onSnapWheel, { passive: true });
     }
 
     init();
@@ -428,6 +497,7 @@ export default function Home() {
     return () => {
       lenis?.destroy();
       ctx?.revert();
+      if (onSnapWheel) window.removeEventListener('wheel', onSnapWheel);
     };
   }, []);
 
@@ -572,102 +642,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CASES ── */}
-      <section className="cases-section" id="cases">
-        <div className="divider" />
-        <div className="case-row">
-          <div className="case-img-box">
-            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/sber.webp`} alt="Sber case" />
+      {/* ── WORK GRID ── */}
+      <section className="work-section" id="cases">
+        <div className="work-section-header">
+          <div className="work-section-labels">
+            <div className="work-label-tag work-label-square"><span className="tag-xl">Recent</span></div>
+            <div className="work-label-tag work-label-pill"><span className="tag-xl">Projects</span></div>
           </div>
-          <div className="case-info">
-            <div className="case-header">
-              <div className="case-title-row">
-                <div className="glass-tag"><span className="case-num">(01)</span></div>
-                <div className="glass-tag"><span className="case-title">Sber</span></div>
-              </div>
-              <div className="case-tags">
-                <span className="case-tag">ux/ui design</span>
-                <span className="case-tag">research</span>
-                <span className="case-tag">usability testing</span>
-                <span className="case-tag">3d animation</span>
-                <span className="case-tag">product design</span>
-              </div>
-            </div>
-            <div className="case-desc">
-              <p>Sber terminals accept payments via QR, cards, and biometrics. This case explores how to expand the user experience by moving beyond the terminal's traditional role as just a payment device.</p>
-            </div>
+          <div className="work-disciplines">
+            <span className="work-disciplines-header">Disciplines</span>
+            {['UX/UI Design', 'Research', 'Usability Testing', 'Product Design', 'In-depth Interviews', 'Mobile App', 'Feature Ideation', '3D Animation'].map(tag => (
+              <span key={tag} className="work-discipline-tag">{tag}</span>
+            ))}
           </div>
         </div>
-
-        <div className="divider" />
-
-        <div className="case-row case-row--reverse">
-          <div className="case-info">
-            <div className="case-header">
-              <div className="case-title-row">
-                <div className="glass-tag"><span className="case-num">(02)</span></div>
-                <div className="glass-tag"><span className="case-title">t-journal</span></div>
-              </div>
-              <div className="case-tags">
-                <span className="case-tag">ux/ui design</span>
-                <span className="case-tag">In-depth interviews</span>
-                <span className="case-tag">usability testing</span>
-                <span className="case-tag">feature ideation</span>
-                <span className="case-tag">scaling concept</span>
-              </div>
+        <div className="work-grid">
+          <a href="/cases/sber" className="work-item">
+            <div className="work-thumb">
+              <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/sber.webp`} alt="Sber" />
             </div>
-            <div className="case-desc">
-              <p>T-j reaches 42 million readers, but fewer than 20% are T-Bank clients. The project goal is to connect T-j and T-Bank through user scenarios without undermining trust in the media. The focus is on the "Travel" section.</p>
+            <p className="work-title">Sber</p>
+          </a>
+          <a href="/cases/tj" className="work-item">
+            <div className="work-thumb">
+              <iframe
+                src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
+                frameBorder="0"
+                allowFullScreen
+                style={{width:'100%',height:'100%',border:'none'}}
+              />
             </div>
-          </div>
-          <div className="case-img-box case-img-box--video">
-            <iframe
-              src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
-              frameBorder="0"
-              allowFullScreen
-              style={{width:'100%',height:'100%',border:'none'}}
-            />
-          </div>
+            <p className="work-title">T-Journal</p>
+          </a>
+          <a href="/cases/vibes" className="work-item">
+            <div className="work-thumb">
+              <video
+                src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
+                autoPlay loop muted playsInline
+              />
+            </div>
+            <p className="work-title">Vibes</p>
+          </a>
+          <a href="/cases/tbank" className="work-item">
+            <div className="work-thumb" />
+            <p className="work-title">T-Bank</p>
+          </a>
         </div>
-
-        <div className="divider" />
-
-        <div className="case-row">
-          <div className="case-img-box">
-            <video
-              src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-          </div>
-          <div className="case-info">
-            <div className="case-header">
-              <div className="case-title-row">
-                <div className="glass-tag"><span className="case-num">(03)</span></div>
-                <div className="glass-tag"><span className="case-title">Vibes</span></div>
-              </div>
-              <div className="case-tags">
-                <span className="case-tag">ux/ui design</span>
-                <span className="case-tag">research</span>
-                <span className="case-tag">usability testing</span>
-                <span className="case-tag">mobile app</span>
-                <span className="case-tag">product design</span>
-              </div>
-            </div>
-            <div className="case-desc">
-              <p>Vibes is an app for creating and sharing mood-driven playlists. The project explores how to convey emotion through interface design and help users discover music for any state of mind.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="divider" />
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="footer" id="contacts">
+      {/* ── SKILLS + FOOTER (100vh) ── */}
+      <div className="skills-footer-wrap">
+        <Skills />
+        <footer className="footer" id="contacts">
         <nav className="footer-nav">
           <div className="footer-nav-item square">Product</div>
           <div className={`footer-nav-item lavender cycling${fade1 ? ' fade' : ''}`}>{word1}</div>
@@ -684,6 +711,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </div>{/* end skills-footer-wrap */}
 
       <div className="music-embed-wrap" style={{ display: musicOpen ? 'block' : 'none' }}>
         <div ref={spotifyEmbedRef} />
