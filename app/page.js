@@ -76,6 +76,7 @@ export default function Home() {
   const fahhRef = useRef(null);
   const navRef = useRef(null);
   const fakeCursorRef = useRef(null);
+  const terminalRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -198,8 +199,14 @@ export default function Home() {
         setCursorMode(pick);
         break;
       }
-      case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
-      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
+      case 'noire':
+        if (filterMode === 'noire') { document.documentElement.style.filter = ''; setFilterMode(null); }
+        else { document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); }
+        break;
+      case 'negative':
+        if (filterMode === 'negative') { document.documentElement.style.filter = ''; setFilterMode(null); }
+        else { document.documentElement.style.filter = 'invert(1)'; setFilterMode('negative'); }
+        break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
@@ -233,6 +240,18 @@ export default function Home() {
     terminalOpenRef.current = terminalOpen;
     if (terminalOpen) setTimeout(() => terminalInputRef.current?.focus(), 320);
   }, [terminalOpen]);
+
+  /* Close terminal on click outside */
+  useEffect(() => {
+    const handleOutside = (e) => {
+      if (!terminalOpenRef.current) return;
+      if (terminalRef.current && !terminalRef.current.contains(e.target)) {
+        setTerminalOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleOutside);
+    return () => window.removeEventListener('pointerdown', handleOutside);
+  }, []);
 
   /* Sync draw mode ref */
   useEffect(() => { drawModeRef.current = drawMode; }, [drawMode]);
@@ -529,7 +548,7 @@ export default function Home() {
       </div>
 
       {/* ── TOS COMMAND TERMINAL ── */}
-      <div className={`terminal${terminalOpen ? ' terminal--open' : ''}`}>
+      <div ref={terminalRef} className={`terminal${terminalOpen ? ' terminal--open' : ''}`}>
         <div className="terminal-header">
           <span className="terminal-title">ASD Terminal</span>
           <button className="terminal-esc-btn" onClick={() => setTerminalOpen(false)}>ESC</button>
