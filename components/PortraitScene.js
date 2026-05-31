@@ -42,7 +42,8 @@ function AvatarModel({ mouseRef, isMobile }) {
     }
   });
 
-  return <primitive ref={ref} object={scene} />;
+  // rotation.y = Math.PI faces model forward if it exported sideways
+  return <primitive ref={ref} object={scene} scale={2} rotation={[0, Math.PI, 0]} />;
 }
 
 useGLTF.preload(MODEL_URL);
@@ -72,9 +73,10 @@ export default function PortraitScene() {
           gl.setClearColor(0x000000, 0);
         }}
       >
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[2, 4, 3]} intensity={1.5} />
-        <directionalLight position={[-2, 0, 2]} intensity={0.4} />
+        <ambientLight intensity={1.2} />
+        <directionalLight position={[0, 4, 6]} intensity={2.0} />
+        <directionalLight position={[4, 2, 2]} intensity={0.8} />
+        <directionalLight position={[-4, 2, 2]} intensity={0.5} />
         <Suspense fallback={null}>
           <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
         </Suspense>
