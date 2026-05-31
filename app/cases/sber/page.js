@@ -243,7 +243,7 @@ export default function SberCase() {
             {/* Skill tags */}
             <div className={styles.skillTags}>
               {['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'].map((tag, i) => (
-                <span key={tag} className="badge primary" style={{ cursor: 'default' }} data-skill>
+                <span key={tag} className="badge button" style={{ cursor: 'default' }} data-skill>
                   {tag}
                 </span>
               ))}
