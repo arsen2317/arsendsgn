@@ -45,7 +45,7 @@ function AvatarModel({ mouseRef, isMobile }) {
     }
   });
 
-  return <primitive ref={ref} object={scene} scale={3} />;
+  return <primitive ref={ref} object={scene} scale={3.4} />;
 }
 
 useGLTF.preload(MODEL_URL);
