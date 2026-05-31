@@ -10,6 +10,7 @@ const nextConfig = {
   assetPrefix: basePath,
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_STATIC_EXPORT: isGHPages ? 'true' : 'false',
   },
 };
 export default nextConfig;
