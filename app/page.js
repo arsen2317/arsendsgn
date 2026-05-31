@@ -262,10 +262,8 @@ export default function Home() {
     if (!canvas) return;
     if (!drawMode) { canvas.style.pointerEvents = 'none'; return; }
 
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-    canvas.width = hero.offsetWidth;
-    canvas.height = hero.offsetHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     canvas.style.pointerEvents = 'all';
 
     const ctx = canvas.getContext('2d');
@@ -591,13 +589,14 @@ export default function Home() {
         );
       })()}
 
+      <canvas
+        ref={drawingCanvasRef}
+        className={`draw-canvas${drawMode ? ' draw-canvas--active' : ''}`}
+        aria-hidden="true"
+      />
+
       {/* ── HERO ── */}
       <section className="hero" id="hero">
-        <canvas
-          ref={drawingCanvasRef}
-          className={`draw-canvas${drawMode ? ' draw-canvas--active' : ''}`}
-          aria-hidden="true"
-        />
         <div className="portrait-wrap">
           <div className="portrait-3d" id="portrait-3d">
             <PortraitScene />
