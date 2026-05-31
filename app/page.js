@@ -70,6 +70,7 @@ export default function Home() {
   const terminalOpenRef = useRef(false);
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
+  const strokesRef = useRef([]);
   const fxRef = useRef(null);
   const noireRef = useRef(null);
   const drawMusicRef = useRef(null);
@@ -179,6 +180,7 @@ export default function Home() {
   }, [musicOpen]);
 
   const clearCanvas = () => {
+    strokesRef.current = [];
     const c = drawingCanvasRef.current;
     if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
   };
@@ -275,52 +277,73 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  /* Drawing canvas — set up pointer events when draw mode is active */
+  /* Drawing canvas — strokes stored in page coords, re-rendered on scroll */
   useEffect(() => {
     const canvas = drawingCanvasRef.current;
     if (!canvas) return;
     if (!drawMode) { canvas.style.pointerEvents = 'none'; return; }
 
-    canvas.width = window.innerWidth;
+    canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.style.pointerEvents = 'all';
 
     const ctx = canvas.getContext('2d');
-    ctx.strokeStyle = 'rgba(255, 229, 0, 0.88)';
     ctx.lineWidth = 14;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap   = 'round';
+    ctx.lineJoin  = 'round';
 
-    let drawing = false, lx = 0, ly = 0;
+    const strokes = strokesRef.current;
+
+    const render = () => {
+      const sx = window.scrollX;
+      const sy = window.scrollY;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255, 229, 0, 0.88)';
+      strokes.forEach((stroke) => {
+        if (stroke.length < 2) return;
+        ctx.beginPath();
+        ctx.moveTo(stroke[0].x - sx, stroke[0].y - sy);
+        for (let i = 1; i < stroke.length; i++) {
+          ctx.lineTo(stroke[i].x - sx, stroke[i].y - sy);
+        }
+        ctx.stroke();
+      });
+    };
+
+    // Page coords = client coords + scroll offset
     const pos = (e) => {
-      const r = canvas.getBoundingClientRect();
-      if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
-      return { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (e.touches) return { x: e.touches[0].clientX + window.scrollX, y: e.touches[0].clientY + window.scrollY };
+      return { x: e.clientX + window.scrollX, y: e.clientY + window.scrollY };
     };
-    const start = (e) => { drawing = true; ({ x: lx, y: ly } = pos(e)); e.preventDefault(); };
+
+    let currentStroke = null;
+    const start = (e) => { currentStroke = [pos(e)]; strokes.push(currentStroke); e.preventDefault(); };
     const draw  = (e) => {
-      if (!drawing) return; e.preventDefault();
-      const { x, y } = pos(e);
-      ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
-      lx = x; ly = y;
+      if (!currentStroke) return; e.preventDefault();
+      currentStroke.push(pos(e));
+      render();
     };
-    const stop  = () => { drawing = false; };
+    const stop  = () => { currentStroke = null; };
+    const onScroll = () => render();
 
     canvas.addEventListener('mousedown', start);
     canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stop);
+    canvas.addEventListener('mouseup',   stop);
     canvas.addEventListener('mouseleave', stop);
     canvas.addEventListener('touchstart', start, { passive: false });
     canvas.addEventListener('touchmove',  draw,  { passive: false });
     canvas.addEventListener('touchend',   stop);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
     return () => {
       canvas.removeEventListener('mousedown', start);
       canvas.removeEventListener('mousemove', draw);
-      canvas.removeEventListener('mouseup', stop);
+      canvas.removeEventListener('mouseup',   stop);
       canvas.removeEventListener('mouseleave', stop);
       canvas.removeEventListener('touchstart', start);
       canvas.removeEventListener('touchmove',  draw);
       canvas.removeEventListener('touchend',   stop);
+      window.removeEventListener('scroll', onScroll);
     };
   }, [drawMode]);
 
