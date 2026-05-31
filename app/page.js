@@ -691,7 +691,6 @@ export default function Home() {
             <div className="work-label-tag work-label-pill"><span className="tag-xl">Projects</span></div>
           </div>
           <div className="work-disciplines">
-            <span className="work-disciplines-header">Disciplines</span>
             {['UX/UI Design', 'Research', 'Usability Testing', 'Product Design', 'In-depth Interviews', 'Mobile App', 'Feature Ideation', '3D Animation'].map(tag => (
               <span key={tag} className="work-discipline-tag">{tag}</span>
             ))}
