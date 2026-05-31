@@ -39,13 +39,13 @@ function AvatarModel({ mouseRef, isMobile }) {
       ref.current.position.y = Math.sin(t * 0.8) * 0.05;
     } else {
       const tx = BASE_Y + mouseRef.current.x * 0.45;
-      const ty = -mouseRef.current.y * 0.28;
+      const ty = mouseRef.current.y * 0.28;
       ref.current.rotation.y += (tx - ref.current.rotation.y) * 0.06;
       ref.current.rotation.x += (ty - ref.current.rotation.x) * 0.06;
     }
   });
 
-  return <primitive ref={ref} object={scene} scale={2} />;
+  return <primitive ref={ref} object={scene} scale={3} />;
 }
 
 useGLTF.preload(MODEL_URL);
