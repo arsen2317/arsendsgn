@@ -158,7 +158,9 @@
                 clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
   border-style: solid;
   border-color: var(--bg-primary);
-  border-radius: 0.4rem;
+  /* outer_radius = inner_radius + border_width
+     inner_radius = outer - border = 0.4rem → matches .slidesContainer */
+  border-radius: calc(0.4rem + clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem));
   z-index: 10;
   pointer-events: none;
 }
