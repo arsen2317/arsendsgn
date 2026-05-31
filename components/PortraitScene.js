@@ -1,10 +1,27 @@
 'use client';
 
-import { useRef, useEffect, Suspense } from 'react';
+import { Component, useRef, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 
 const MODEL_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/3d/voxel.character.3d.model.glb';
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, info) {
+    console.error('[PortraitScene error]', error, info);
+  }
+  render() {
+    if (this.state.error) return null;
+    return this.props.children;
+  }
+}
 
 function AvatarModel({ mouseRef, isMobile }) {
   const { scene } = useGLTF(MODEL_URL);
@@ -15,7 +32,6 @@ function AvatarModel({ mouseRef, isMobile }) {
     const t = clock.getElapsedTime();
 
     if (isMobile) {
-      // Slow side-to-side sway on Y rotation, gentle bob on Y position
       ref.current.rotation.y = Math.sin(t * 0.4) * 0.3;
       ref.current.position.y = Math.sin(t * 0.8) * 0.05;
     } else {
@@ -47,17 +63,22 @@ export default function PortraitScene() {
   }, []);
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 3], fov: 45 }}
-      style={{ width: '100%', height: '100%' }}
-      gl={{ alpha: true, antialias: true }}
-    >
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[2, 4, 3]} intensity={1.5} />
-      <directionalLight position={[-2, 0, 2]} intensity={0.4} />
-      <Suspense fallback={null}>
-        <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
-      </Suspense>
-    </Canvas>
+    <ErrorBoundary>
+      <Canvas
+        camera={{ position: [0, 0, 3], fov: 45 }}
+        style={{ width: '100%', height: '100%' }}
+        gl={{ alpha: true, antialias: true }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x000000, 0);
+        }}
+      >
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[2, 4, 3]} intensity={1.5} />
+        <directionalLight position={[-2, 0, 2]} intensity={0.4} />
+        <Suspense fallback={null}>
+          <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
+        </Suspense>
+      </Canvas>
+    </ErrorBoundary>
   );
 }
