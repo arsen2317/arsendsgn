@@ -1,7 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Skills from '../components/Skills';
+
+const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
 const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf';
 const downloadCV = () => {
@@ -24,10 +27,10 @@ const COMMANDS = [
   { name: 'about',    desc: '→ About section' },
   { name: 'cases',    desc: '→ Cases section' },
   { name: 'contacts', desc: '→ Contacts' },
-  { name: 'draw',     desc: 'Yellow marker overlay' },
+  { name: 'draw',     desc: 'Have fun' },
   { name: 'cursor',   desc: 'Random cursor' },
-  { name: 'noire',    desc: 'Black & white + rain' },
-  { name: 'negative', desc: 'Invert colors + fahh' },
+  { name: 'noire',    desc: 'Black & white' },
+  { name: 'negative', desc: 'Invert colors' },
   { name: 'reset',    desc: 'Reset all effects' },
   { name: 'close',    desc: 'Close terminal' },
 ];
@@ -67,12 +70,14 @@ export default function Home() {
   const terminalOpenRef = useRef(false);
   const drawModeRef = useRef(false);
   const drawingCanvasRef = useRef(null);
+  const strokesRef = useRef([]);
   const fxRef = useRef(null);
   const noireRef = useRef(null);
   const drawMusicRef = useRef(null);
   const fahhRef = useRef(null);
   const navRef = useRef(null);
   const fakeCursorRef = useRef(null);
+  const terminalRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -175,6 +180,7 @@ export default function Home() {
   }, [musicOpen]);
 
   const clearCanvas = () => {
+    strokesRef.current = [];
     const c = drawingCanvasRef.current;
     if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
   };
@@ -195,8 +201,14 @@ export default function Home() {
         setCursorMode(pick);
         break;
       }
-      case 'noire':    document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); break;
-      case 'negative': document.documentElement.style.filter = 'invert(1)';   setFilterMode('negative'); break;
+      case 'noire':
+        if (filterMode === 'noire') { document.documentElement.style.filter = ''; setFilterMode(null); }
+        else { document.documentElement.style.filter = 'grayscale(1)'; setFilterMode('noire'); }
+        break;
+      case 'negative':
+        if (filterMode === 'negative') { document.documentElement.style.filter = ''; setFilterMode(null); }
+        else { document.documentElement.style.filter = 'invert(1)'; setFilterMode('negative'); }
+        break;
       case 'reset':
         document.documentElement.style.filter = '';
         setDrawMode(false); clearCanvas();
@@ -231,6 +243,18 @@ export default function Home() {
     if (terminalOpen) setTimeout(() => terminalInputRef.current?.focus(), 320);
   }, [terminalOpen]);
 
+  /* Close terminal on click outside */
+  useEffect(() => {
+    const handleOutside = (e) => {
+      if (!terminalOpenRef.current) return;
+      if (terminalRef.current && !terminalRef.current.contains(e.target)) {
+        setTerminalOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleOutside);
+    return () => window.removeEventListener('pointerdown', handleOutside);
+  }, []);
+
   /* Sync draw mode ref */
   useEffect(() => { drawModeRef.current = drawMode; }, [drawMode]);
 
@@ -253,54 +277,73 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  /* Drawing canvas — set up pointer events when draw mode is active */
+  /* Drawing canvas — strokes stored in page coords, re-rendered on scroll */
   useEffect(() => {
     const canvas = drawingCanvasRef.current;
     if (!canvas) return;
     if (!drawMode) { canvas.style.pointerEvents = 'none'; return; }
 
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-    canvas.width = hero.offsetWidth;
-    canvas.height = hero.offsetHeight;
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
     canvas.style.pointerEvents = 'all';
 
     const ctx = canvas.getContext('2d');
-    ctx.strokeStyle = 'rgba(255, 229, 0, 0.88)';
     ctx.lineWidth = 14;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap   = 'round';
+    ctx.lineJoin  = 'round';
 
-    let drawing = false, lx = 0, ly = 0;
+    const strokes = strokesRef.current;
+
+    const render = () => {
+      const sx = window.scrollX;
+      const sy = window.scrollY;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255, 229, 0, 0.88)';
+      strokes.forEach((stroke) => {
+        if (stroke.length < 2) return;
+        ctx.beginPath();
+        ctx.moveTo(stroke[0].x - sx, stroke[0].y - sy);
+        for (let i = 1; i < stroke.length; i++) {
+          ctx.lineTo(stroke[i].x - sx, stroke[i].y - sy);
+        }
+        ctx.stroke();
+      });
+    };
+
+    // Page coords = client coords + scroll offset
     const pos = (e) => {
-      const r = canvas.getBoundingClientRect();
-      if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
-      return { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (e.touches) return { x: e.touches[0].clientX + window.scrollX, y: e.touches[0].clientY + window.scrollY };
+      return { x: e.clientX + window.scrollX, y: e.clientY + window.scrollY };
     };
-    const start = (e) => { drawing = true; ({ x: lx, y: ly } = pos(e)); e.preventDefault(); };
+
+    let currentStroke = null;
+    const start = (e) => { currentStroke = [pos(e)]; strokes.push(currentStroke); e.preventDefault(); };
     const draw  = (e) => {
-      if (!drawing) return; e.preventDefault();
-      const { x, y } = pos(e);
-      ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
-      lx = x; ly = y;
+      if (!currentStroke) return; e.preventDefault();
+      currentStroke.push(pos(e));
+      render();
     };
-    const stop  = () => { drawing = false; };
+    const stop  = () => { currentStroke = null; };
+    const onScroll = () => render();
 
     canvas.addEventListener('mousedown', start);
     canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stop);
+    canvas.addEventListener('mouseup',   stop);
     canvas.addEventListener('mouseleave', stop);
     canvas.addEventListener('touchstart', start, { passive: false });
     canvas.addEventListener('touchmove',  draw,  { passive: false });
     canvas.addEventListener('touchend',   stop);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
     return () => {
       canvas.removeEventListener('mousedown', start);
       canvas.removeEventListener('mousemove', draw);
-      canvas.removeEventListener('mouseup', stop);
+      canvas.removeEventListener('mouseup',   stop);
       canvas.removeEventListener('mouseleave', stop);
       canvas.removeEventListener('touchstart', start);
       canvas.removeEventListener('touchmove',  draw);
       canvas.removeEventListener('touchend',   stop);
+      window.removeEventListener('scroll', onScroll);
     };
   }, [drawMode]);
 
@@ -383,8 +426,6 @@ export default function Home() {
   useEffect(() => {
     let lenis;
     let ctx;
-    let tiltRafId;
-    let onMouseMove;
     let onSnapWheel;
 
     async function init() {
@@ -400,48 +441,9 @@ export default function Home() {
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
 
-      /* Portrait 3D cursor tracking */
-      const portrait3d = document.getElementById('portrait-3d');
-      let targetRotX = 0, targetRotY = 0;
-      let currentRotX = 0, currentRotY = 0;
-
-      onMouseMove = (e) => {
-        if (!portrait3d) return;
-        const rect = portrait3d.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / (window.innerWidth * 0.5);
-        const dy = (e.clientY - cy) / (window.innerHeight * 0.5);
-        const max = 22;
-        targetRotY = Math.max(-max, Math.min(max, dx * max));
-        targetRotX = Math.max(-max, Math.min(max, -dy * max));
-      };
-
-      const tiltTick = () => {
-        const lerp = 0.06;
-        const tx = drawModeRef.current ? 0 : targetRotX;
-        const ty = drawModeRef.current ? 0 : targetRotY;
-        currentRotX += (tx - currentRotX) * lerp;
-        currentRotY += (ty - currentRotY) * lerp;
-        if (portrait3d) {
-          gsap.set(portrait3d, {
-            rotateX: currentRotX,
-            rotateY: currentRotY,
-            transformPerspective: 700,
-          });
-        }
-        tiltRafId = requestAnimationFrame(tiltTick);
-      };
-
-      if (window.matchMedia('(pointer: fine)').matches) {
-        window.addEventListener('mousemove', onMouseMove);
-        tiltRafId = requestAnimationFrame(tiltTick);
-      }
-
-
       ctx = gsap.context(() => {
         gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
-        gsap.from('.hero-portrait', { y: -24, opacity: 0, scale: 0.92, duration: 0.8, delay: 0.25, ease: 'power3.out' });
+        gsap.from('.portrait-wrap', { y: -24, opacity: 0, scale: 0.92, duration: 0.8, delay: 0.25, ease: 'power3.out' });
         gsap.from('[data-word]', { y: 70, opacity: 0, duration: 0.9, delay: 0.35, stagger: 0.1, ease: 'back.out(2)' });
         gsap.from('.hero-bottom', { opacity: 0, duration: 0.6, delay: 0.85, ease: 'power2.out' });
 
@@ -535,8 +537,6 @@ export default function Home() {
     return () => {
       lenis?.destroy();
       ctx?.revert();
-      cancelAnimationFrame(tiltRafId);
-      if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
       if (onSnapWheel) window.removeEventListener('wheel', onSnapWheel);
     };
   }, []);
@@ -571,7 +571,7 @@ export default function Home() {
       </div>
 
       {/* ── TOS COMMAND TERMINAL ── */}
-      <div className={`terminal${terminalOpen ? ' terminal--open' : ''}`}>
+      <div ref={terminalRef} className={`terminal${terminalOpen ? ' terminal--open' : ''}`}>
         <div className="terminal-header">
           <span className="terminal-title">ASD Terminal</span>
           <button className="terminal-esc-btn" onClick={() => setTerminalOpen(false)}>ESC</button>
@@ -631,21 +631,17 @@ export default function Home() {
         );
       })()}
 
+      <canvas
+        ref={drawingCanvasRef}
+        className={`draw-canvas${drawMode ? ' draw-canvas--active' : ''}`}
+        aria-hidden="true"
+      />
+
       {/* ── HERO ── */}
       <section className="hero" id="hero">
-        <canvas
-          ref={drawingCanvasRef}
-          className={`draw-canvas${drawMode ? ' draw-canvas--active' : ''}`}
-          aria-hidden="true"
-        />
         <div className="portrait-wrap">
           <div className="portrait-3d" id="portrait-3d">
-            <img
-              className="hero-portrait"
-              src="https://www.figma.com/api/mcp/asset/d1a20262-c7eb-4dc1-a238-2f49346f8228"
-              alt="Arsen Arakelyan"
-            />
-            <div className="portrait-edge" />
+            <PortraitScene />
           </div>
         </div>
 

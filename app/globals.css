@@ -185,20 +185,27 @@ body {
 }
 
 .portrait-wrap {
-  perspective: 700px;
-  perspective-origin: center center;
-  margin-bottom: -20px;
+  margin-bottom: -80px;
   position: relative;
   z-index: 0;
   flex-shrink: 0;
 }
 
-.portrait-3d {
-  transform-style: preserve-3d;
+.hero-name {
   position: relative;
-  width: 205px;
-  height: 205px;
-  will-change: transform;
+  z-index: 1;
+}
+
+.portrait-3d {
+  position: relative;
+  width: 240px;
+  height: 300px;
+}
+
+.portrait-3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .hero-portrait {
@@ -373,9 +380,8 @@ body {
 .dark-desc p {
   font-family: var(--font-body), Georgia, serif;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 32px;
   color: var(--text-light);
-  letter-spacing: -0.84px;
   width: 325px;
   line-height: 1.2;
 }
@@ -511,6 +517,16 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.3px;
   white-space: nowrap;
+}
+
+.case-desc { overflow: hidden; }
+.case-desc p {
+  font-family: var(--font-body), Georgia, serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--text-primary);
+  width: 325px;
+  line-height: 1.2;
 }
 
 /* ─── SKILLS + FOOTER WRAPPER ────────────────────────── */
@@ -763,9 +779,7 @@ body {
   /* Hero */
   .hero { padding: 32px var(--px) 80px; min-height: calc(100svh - 72px); }
 
-  .portrait-3d { width: 160px; height: 160px; }
-  .portrait-edge { border-radius: 10px; }
-  .hero-portrait { border-radius: 10px; }
+  .portrait-3d { width: 180px; height: 230px; }
 
   .tag { padding: 14px 18px; }
   .tag-xl { letter-spacing: -3px; }
@@ -838,7 +852,7 @@ body {
 
 /* ─── DRAW CANVAS ────────────────────────────────────── */
 .draw-canvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
