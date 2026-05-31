@@ -853,9 +853,13 @@ body {
   .work-discipline-tag:nth-last-child(-n+3) { display: none; }
 }
 
-/* Step 2 ~760px: скрыть весь правый столбец */
+/* Step 2 ~760px: теги в два столбца */
 @media (max-height: 760px) and (min-width: 769px) {
-  .work-disciplines { display: none; }
+  .work-disciplines {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
 }
 
 /* Step 3 ~660px: Recent + Projects в одну строку */
