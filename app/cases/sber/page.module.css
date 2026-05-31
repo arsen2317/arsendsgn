@@ -2,7 +2,7 @@
 
 .layout {
   display: flex;
-  height: calc(100vh - 104px);
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -16,7 +16,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(2rem, 2.5vw, 3.2rem) var(--px) clamp(2.4rem, 3vw, 4rem);
+  /* Top padding = header height (10.4rem = 104px) + content spacing */
+  padding: calc(10.4rem + clamp(2rem, 2.5vw, 3.2rem)) var(--px) clamp(2.4rem, 3vw, 4rem);
   overflow: hidden;
   flex-shrink: 0;
   border-right: 1px solid rgba(0, 0, 0, 0.06);
@@ -122,10 +123,13 @@
 
 .right {
   flex: 1;
-  height: 100%;
+  /* 8px margins on top / right / bottom, flush to left panel */
+  margin: 0.8rem 0.8rem 0.8rem 0;
   background: var(--bg-darker);
+  border-radius: 0.4rem;
   position: relative;
   overflow: hidden;
+  /* height comes from flex stretch — no explicit value needed */
 }
 
 /* Individual slide */
@@ -145,7 +149,8 @@
   width: 100%;
   height: 100%;
   background: #d4d4d4;
-  border-radius: 0.4rem;
+  border-radius: clamp(0.8rem, 0.7029rem + 0.2589vw, 1.2rem);
+  overflow: hidden;
   flex-shrink: 1;
 }
 
@@ -205,8 +210,8 @@
 @media (max-width: 900px) {
   .layout {
     flex-direction: column;
-    height: calc(100vh - 72px);
-    height: calc(100dvh - 72px);
+    height: 100vh;
+    height: 100dvh;
   }
 
   .left {
@@ -214,18 +219,21 @@
     min-width: unset;
     height: auto;
     flex-shrink: 0;
-    padding: 2rem var(--px);
+    /* Top padding = mobile header height (7.2rem = 72px) + content spacing */
+    padding: calc(7.2rem + 2rem) var(--px) 2rem;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   .leftDesc {
-    display: none; /* description appears in slide on mobile */
+    display: none;
   }
 
   .right {
     flex: 1;
     min-height: 0;
+    margin: 0 0.8rem 0.8rem 0.8rem;
+    border-radius: 0.4rem;
   }
 
   .caseTagText {

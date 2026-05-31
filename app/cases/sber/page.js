@@ -83,10 +83,14 @@ export default function SberCase() {
     setTimeout(() => { lockRef.current = false; }, 950);
   };
 
-  /* Prevent body scroll while on case page */
+  /* Full-viewport layout: remove body padding-top so right panel can reach the top */
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.paddingTop = '0';
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingTop = '';
+    };
   }, []);
 
   /* Audio init */
