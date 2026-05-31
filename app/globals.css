@@ -807,7 +807,7 @@ body {
     width: 100%;
     height: auto;
     min-height: 300px;
-    padding: 48px var(--px) calc(32px + env(safe-area-inset-bottom));
+    padding: 48px var(--px) 32px;
     align-items: center;
     justify-content: space-between;
   }
