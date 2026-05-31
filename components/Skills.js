@@ -40,6 +40,8 @@ export default function Skills() {
 
       const W = section.offsetWidth;
       const H = section.offsetHeight;
+      // Distance from viewport top to section top — tags spawn above the screen, not above the container
+      const sectionTopFromViewport = section.getBoundingClientRect().top;
 
       const engine = Engine.create({ gravity: { y: 0.7 } });
       const bodies = [];
@@ -52,9 +54,9 @@ export default function Skills() {
         const isSoft = el.dataset.type === 'soft';
         const chamfer = isSoft ? h / 2 : 6;
 
-        // Staggered start: spread across height and horizontally so they don't fall in flat stacks
         const x = W / 2 + (Math.random() - 0.5) * W * 0.6;
-        const y = -h / 2 - Math.random() * H * 1.2;
+        // Spawn above the visible viewport top, not above the section top
+        const y = -sectionTopFromViewport - h - Math.random() * window.innerHeight * 0.6;
 
         const body = Bodies.rectangle(x, y, w, h, {
           chamfer: { radius: chamfer },

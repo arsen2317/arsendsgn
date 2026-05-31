@@ -788,7 +788,7 @@ body {
   .hero-exp span { font-size: 11px; }
 
   /* Dark section */
-  .dark-section { padding: 60px var(--px); gap: 40px; align-items: flex-start; min-height: auto; }
+  .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100svh; }
   .dark-quote p { font-size: 24px; max-width: 100%; text-align: left; margin-left: 0; }
   .dark-row { flex-direction: column; height: auto; gap: 28px; }
   .dark-desc { align-items: flex-start; }
@@ -797,9 +797,10 @@ body {
 
   /* Work grid */
   .work-section { padding: 0 var(--px) 48px; min-height: auto; }
-  .work-section-header { flex-direction: column; gap: 24px; padding-top: 48px; padding-bottom: 32px; }
+  .work-section-header { flex-direction: column; gap: 16px; padding-top: 90px; padding-bottom: 24px; }
+  .work-section-labels { display: flex; flex-direction: row; gap: 4px; }
   .work-disciplines { align-items: flex-start; }
-  .work-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .work-grid { grid-template-columns: 1fr; gap: 8px; }
 
   /* Footer */
   .footer {
