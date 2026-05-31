@@ -118,35 +118,6 @@
   font-weight: 500;
 }
 
-/* ─── HEADER: logo + back arrow ─────────────────────────── */
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.backBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 3.8rem;
-  padding: 0 1.2rem;
-  background: var(--bg-button);
-  border-radius: var(--r-xs);
-  font-size: 1.4rem;
-  color: var(--text-primary);
-  text-decoration: none;
-  line-height: 1;
-  transition: border-radius 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.15s;
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-}
-
-.backBtn:hover {
-  border-radius: var(--r-lg);
-  transition-delay: 0s;
-}
-
 /* ─── RIGHT PANEL ───────────────────────────────────────── */
 
 .right {

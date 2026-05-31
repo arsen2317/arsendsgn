@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
+import SiteHeader from '../../../components/SiteHeader';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -61,12 +62,9 @@ export default function SberCase() {
   const wheelAccum   = useRef(0);
   const wheelTimer   = useRef(null);
   const fxRef        = useRef(null);
-  const navRef       = useRef(null);
   const touchStartY  = useRef(null);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
-  const handleNavEnter = () => navRef.current?.classList.add('nav--active');
-  const handleNavLeave = () => navRef.current?.classList.remove('nav--active');
 
   const go = (nextIdx) => {
     if (lockRef.current) return;
@@ -197,24 +195,18 @@ export default function SberCase() {
       </div>
 
       {/* ── HEADER ── */}
-      <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
-        <div className={styles.headerLeft}>
-          <a href="/" className="logo" onMouseEnter={playFx}><ST>arsendsgn</ST></a>
-          <a href="/" className={styles.backBtn} onMouseEnter={playFx} aria-label="Back to home">←</a>
-        </div>
-        <nav className="nav" ref={navRef} onMouseEnter={handleNavEnter} onMouseLeave={handleNavLeave}>
-          <a href="/#about"    className="nav-item square" onMouseEnter={playFx}><ST>About me</ST></a>
-          <a href="/#cases"    className="nav-item pill"   onMouseEnter={playFx}><ST>Cases</ST></a>
-          <a href="/#contacts" className="nav-item square" onMouseEnter={playFx}><ST>Contacts</ST></a>
-          <button              className="nav-item pill"   onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
-        </nav>
-        <div className="header-right">
-          <button className={`menu-btn${menuOpen ? ' menu-btn--open' : ''}`} onClick={() => setMenuOpen(p => !p)}>
-            <span className="menu-btn-text menu-btn-text--menu">Menu</span>
-            <span className="menu-btn-text menu-btn-text--close">Close</span>
-          </button>
-        </div>
-      </header>
+      <SiteHeader
+        backHref="/"
+        menuOpen={menuOpen}
+        onMenuToggle={() => setMenuOpen(p => !p)}
+        playFx={playFx}
+        navItems={[
+          { label: 'About me', href: '/#about' },
+          { label: 'Cases',    href: '/#cases',    pill: true },
+          { label: 'Contacts', href: '/#contacts' },
+          { label: 'My CV',    onClick: downloadCV, pill: true },
+        ]}
+      />
 
       {/* ── CASE LAYOUT ── */}
       <div className={styles.layout}>
