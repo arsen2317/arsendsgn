@@ -4,7 +4,7 @@ import { Component, useRef, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 
-const MODEL_URL = '/api/model';
+const MODEL_URL = '/api/model?v=2';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -49,6 +49,7 @@ function AvatarModel({ mouseRef, isMobile }) {
 }
 
 useGLTF.preload(MODEL_URL);
+
 
 export default function PortraitScene() {
   const mouseRef = useRef({ x: 0, y: 0 });
