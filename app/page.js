@@ -532,6 +532,17 @@ export default function Home() {
       window.addEventListener('wheel', onSnapWheel, { passive: true });
     }
 
+    // ── Theme-color for iOS status bar ────────────────────
+    const themeMetaEl = document.querySelector('meta[name="theme-color"]');
+    if (themeMetaEl) {
+      const darkObs = new IntersectionObserver(
+        ([e]) => { themeMetaEl.content = e.isIntersecting ? '#111111' : '#faf6ef'; },
+        { threshold: 0.3 }
+      );
+      const darkSection = document.getElementById('about');
+      if (darkSection) darkObs.observe(darkSection);
+    }
+
     init();
 
     return () => {
