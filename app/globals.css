@@ -193,8 +193,8 @@ body {
 
 .portrait-3d {
   position: relative;
-  width: 205px;
-  height: 205px;
+  width: 240px;
+  height: 300px;
 }
 
 .portrait-3d canvas {
@@ -774,7 +774,7 @@ body {
   /* Hero */
   .hero { padding: 32px var(--px) 80px; min-height: calc(100svh - 72px); }
 
-  .portrait-3d { width: 160px; height: 160px; }
+  .portrait-3d { width: 180px; height: 230px; }
 
   .tag { padding: 14px 18px; }
   .tag-xl { letter-spacing: -3px; }
