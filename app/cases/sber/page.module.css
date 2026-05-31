@@ -56,10 +56,10 @@
 
 /* Subtitle card */
 .subtitleBox {
+  display: table;
   background: var(--bg-button);
   border-radius: var(--r-xs);
   padding: 1.2rem 1.4rem;
-  width: fit-content;
 }
 
 .subtitle {
