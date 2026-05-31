@@ -447,15 +447,6 @@ body {
   gap: 4px;
 }
 
-.work-disciplines-header {
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-primary);
-  opacity: 0.35;
-  margin-bottom: 8px;
-}
 
 .work-discipline-tag {
   display: inline-flex;
@@ -855,18 +846,21 @@ body {
 }
 
 
-/* ─── SHORT VIEWPORT (laptops ~900px height) ─────────────── */
+/* ─── SHORT VIEWPORT — progressive work header collapse ──── */
+
+/* Step 1 ~860px: скрыть последние 3 тега */
 @media (max-height: 860px) and (min-width: 769px) {
-  .work-section {
-    padding-bottom: 48px;
-  }
-  .work-section-header {
-    padding-top: clamp(40px, 6vh, 96px);
-    padding-bottom: clamp(20px, 3vh, 48px);
-  }
-  .work-thumb {
-    padding: clamp(14px, 2.5vh, 36px) clamp(10px, 1.5vw, 22px);
-  }
+  .work-discipline-tag:nth-last-child(-n+3) { display: none; }
+}
+
+/* Step 2 ~760px: скрыть весь правый столбец */
+@media (max-height: 760px) and (min-width: 769px) {
+  .work-disciplines { display: none; }
+}
+
+/* Step 3 ~660px: Recent + Projects в одну строку */
+@media (max-height: 660px) and (min-width: 769px) {
+  .work-section-labels { display: flex; flex-direction: row; gap: 4px; }
 }
 
 
