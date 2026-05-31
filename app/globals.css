@@ -89,6 +89,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: start;
   height: 38px;
   padding: 0 16px;
   background: var(--bg-darker);
