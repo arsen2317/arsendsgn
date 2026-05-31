@@ -237,7 +237,7 @@ export default function SberCase() {
 
             {/* Subtitle */}
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Pushing The POS Terminal Beyond Payments</p>
+              <p className={styles.subtitle}>Pushing The POS Terminal<br />Beyond Payments</p>
             </div>
 
             {/* Skill tags */}

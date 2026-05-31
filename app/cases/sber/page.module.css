@@ -56,7 +56,9 @@
 
 /* Subtitle card */
 .subtitleBox {
-  display: table;
+  align-self: flex-start;
+  width: max-content;
+  max-width: 100%;
   background: var(--bg-button);
   border-radius: var(--r-xs);
   padding: 1.2rem 1.4rem;
