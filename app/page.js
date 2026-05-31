@@ -461,7 +461,7 @@ export default function Home() {
       });
 
       // ── Section snap ──────────────────────────────────────
-      const SNAP_IDS = ['#hero', '#about', '#cases', '#contacts'];
+      const SNAP_IDS = ['#hero', '#about', '#cases', '#skills'];
       let snapLock = false;
       let wheelAccum = 0;
       let wheelResetId = null;
@@ -733,7 +733,7 @@ export default function Home() {
       </section>
 
       {/* ── SKILLS + FOOTER (100vh) ── */}
-      <div className="skills-footer-wrap">
+      <div className="skills-footer-wrap" id="skills">
         <Skills />
         <footer className="footer" id="contacts">
         <nav className="footer-nav">
