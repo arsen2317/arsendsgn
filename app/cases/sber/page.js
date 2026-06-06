@@ -311,20 +311,31 @@ export default function SberCase() {
                 className={styles.slideWrapper}
                 style={slideH ? { height: slideH } : undefined}
               >
-                <div className={styles.dark}>
-                  {i === 0 ? (
+                {i === 0 ? (
+                  <div className={styles.dark}>
                     <video
                       className={styles.slideVideo}
                       src={VIDEO_URL}
                       autoPlay loop muted playsInline
                       ref={el => { if (el) el.muted = true; }}
                     />
-                  ) : (
+                  </div>
+                ) : i === 1 ? (
+                  <div className={styles.slideTwoCol}>
+                    <div className={styles.dark}>
+                      <img className={styles.slideImg} src="/sber-r1.jpg" alt="" />
+                    </div>
+                    <div className={styles.dark}>
+                      <img className={styles.slideImg} src="/sber-r2.jpg" alt="" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.dark}>
                     <div className={styles.slideContent}>
                       <div className={styles.illustration} />
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
