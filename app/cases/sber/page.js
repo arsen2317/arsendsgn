@@ -32,7 +32,7 @@ const SLIDES = [
   {
     id: 'research',
     description:
-      'We conducted 24 in-depth interviews with merchants across different business segments. Key insight: terminals sit idle between payment moments. Merchants spent over half their workday on tasks the terminal could help with — but didn\'t.',
+      "We conducted 24 in-depth interviews with merchants across different business segments. Key insight: terminals sit idle between payment moments. Merchants spent over half their workday on tasks the terminal could help with — but didn't.",
   },
   {
     id: 'concept',
@@ -47,7 +47,7 @@ const SLIDES = [
   {
     id: 'outcome',
     description:
-      'Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber\'s full terminal network.',
+      "Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber's full terminal network.",
   },
 ];
 
@@ -58,35 +58,93 @@ export default function SberCase() {
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
   const [menuOpen, setMenuOpen]         = useState(false);
+  const [slideH, setSlideH]             = useState(0);
 
-  const scrollerRef = useRef(null);
-  const prevIdxRef  = useRef(0);
-  const fxRef       = useRef(null);
+  const rightRef     = useRef(null);
+  const trackRef     = useRef(null);
+  const activeIdxRef = useRef(0);
+  const snapLockRef  = useRef(false);
+  const offsetRef    = useRef(0);
+  const fxRef        = useRef(null);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
-  const scrollToSlide = (idx) => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    scroller.scrollTo({ top: idx * scroller.clientHeight, behavior: 'smooth' });
+  /* ── Snap animation (same easing/lock pattern as main page) ── */
+  const go = (nextIdx) => {
+    if (snapLockRef.current) return;
+    if (nextIdx < 0 || nextIdx >= SLIDES.length) return;
+    const right = rightRef.current;
+    const track = trackRef.current;
+    if (!right || !track) return;
+
+    snapLockRef.current = true;
+    activeIdxRef.current = nextIdx;
+
+    const startY   = offsetRef.current;
+    const targetY  = -nextIdx * right.clientHeight;
+    const duration = 900;
+    const t0       = performance.now();
+    const ease     = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+
+    setTextVisible(false);
+    setTimeout(() => {
+      setActiveIdx(nextIdx);
+      setDisplayedIdx(nextIdx);
+      setTextVisible(true);
+    }, 200);
+
+    const tick = (now) => {
+      const t = Math.min((now - t0) / duration, 1);
+      const y = startY + (targetY - startY) * ease(t);
+      offsetRef.current = y;
+      track.style.transform = `translateY(${y}px)`;
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        offsetRef.current = targetY;
+        track.style.transform = `translateY(${targetY}px)`;
+        setTimeout(() => { snapLockRef.current = false; }, 80);
+      }
+    };
+    requestAnimationFrame(tick);
   };
 
-  /* Full-viewport layout */
+  /* Slide height = right panel clientHeight, kept in sync via ResizeObserver */
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    const right = rightRef.current;
+    if (!right) return;
+    const sync = () => {
+      setSlideH(right.clientHeight);
+      // reposition track instantly on resize
+      offsetRef.current = -activeIdxRef.current * right.clientHeight;
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translateY(${offsetRef.current}px)`;
+      }
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(right);
+    return () => ro.disconnect();
+  }, []);
+
+  /* Body overflow + padding reset */
+  useEffect(() => {
+    document.body.style.overflow   = 'hidden';
     document.body.style.paddingTop = '0';
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow   = '';
       document.body.style.paddingTop = '';
     };
   }, []);
 
-  /* Audio */
+  /* Audio unlock */
   useEffect(() => {
-    const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    const base  = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
-    const unlock = () => { audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {}); };
+    const unlock = () => {
+      audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
+    };
     window.addEventListener('pointerdown', unlock, { once: true });
     return () => window.removeEventListener('pointerdown', unlock);
   }, []);
@@ -108,35 +166,56 @@ export default function SberCase() {
     return () => ctx?.revert();
   }, []);
 
-  /* Track active slide via scroll position */
+  /* Wheel snap — identical accumulator/lock pattern to main page */
   useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const onScroll = () => {
-      const idx = Math.round(scroller.scrollTop / scroller.clientHeight);
-      if (idx === prevIdxRef.current || idx < 0 || idx >= SLIDES.length) return;
-      prevIdxRef.current = idx;
-      setTextVisible(false);
-      setTimeout(() => {
-        setActiveIdx(idx);
-        setDisplayedIdx(idx);
-        setTextVisible(true);
-      }, 200);
+    const norm = (e) => {
+      if (e.deltaMode === 1) return e.deltaY * 16;
+      if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
+      return e.deltaY;
     };
-
-    scroller.addEventListener('scroll', onScroll, { passive: true });
-    return () => scroller.removeEventListener('scroll', onScroll);
+    let wheelAccum  = 0;
+    let resetId     = null;
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      if (snapLockRef.current) { wheelAccum = 0; clearTimeout(resetId); return; }
+      clearTimeout(resetId);
+      wheelAccum += norm(e);
+      resetId = setTimeout(() => { wheelAccum = 0; }, 400);
+      if (Math.abs(wheelAccum) >= 100) {
+        go(activeIdxRef.current + (wheelAccum > 0 ? 1 : -1));
+        wheelAccum = 0;
+      }
+    };
+    window.addEventListener('wheel', onWheel, { passive: true });
+    return () => window.removeEventListener('wheel', onWheel);
   }, []);
 
-  /* Keyboard navigation */
+  /* Keyboard */
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') scrollToSlide(Math.min(prevIdxRef.current + 1, SLIDES.length - 1));
-      if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  scrollToSlide(Math.max(prevIdxRef.current - 1, 0));
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(activeIdxRef.current + 1);
+      if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  go(activeIdxRef.current - 1);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  /* Touch swipe */
+  useEffect(() => {
+    let ty = null;
+    const onStart = (e) => { ty = e.touches[0].clientY; };
+    const onEnd   = (e) => {
+      if (ty === null) return;
+      const diff = ty - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 50) go(activeIdxRef.current + (diff > 0 ? 1 : -1));
+      ty = null;
+    };
+    window.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('touchend',   onEnd,   { passive: true });
+    return () => {
+      window.removeEventListener('touchstart', onStart);
+      window.removeEventListener('touchend',   onEnd);
+    };
   }, []);
 
   return (
@@ -221,14 +300,18 @@ export default function SberCase() {
           </div>
         </div>
 
-        {/* RIGHT PANEL */}
-        <div className={styles.right}>
-          <div className={styles.dark} data-slide>
+        {/* RIGHT PANEL — overflow:hidden, JS-driven translateY */}
+        <div className={styles.right} ref={rightRef}>
 
-            {/* Snap-scroll container */}
-            <div className={styles.scroller} ref={scrollerRef}>
-              {SLIDES.map((slide, i) => (
-                <div key={slide.id} className={styles.slide}>
+          {/* Slides track */}
+          <div className={styles.track} ref={trackRef} data-slide>
+            {SLIDES.map((slide, i) => (
+              <div
+                key={slide.id}
+                className={styles.slideWrapper}
+                style={slideH ? { height: slideH } : undefined}
+              >
+                <div className={styles.dark}>
                   {i === 0 ? (
                     <video
                       className={styles.slideVideo}
@@ -236,30 +319,32 @@ export default function SberCase() {
                       autoPlay loop muted playsInline
                     />
                   ) : (
-                    <div className={styles.illustration} />
+                    <div className={styles.slideContent}>
+                      <div className={styles.illustration} />
+                    </div>
                   )}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            {/* Counter overlay */}
-            <div className={styles.counter}>
-              <span className={styles.counterCurrent}>{String(activeIdx + 1).padStart(2, '0')}</span>
-              <span className={styles.counterSep}>/</span>
-              <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
-            </div>
+          {/* Counter — stays fixed, outside track */}
+          <div className={styles.counter}>
+            <span className={styles.counterCurrent}>{String(activeIdx + 1).padStart(2, '0')}</span>
+            <span className={styles.counterSep}>/</span>
+            <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
+          </div>
 
-            {/* Dot indicators overlay */}
-            <div className={styles.dots}>
-              {SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
-                  onClick={() => scrollToSlide(i)}
-                  aria-label={`Slide ${i + 1}`}
-                />
-              ))}
-            </div>
+          {/* Dot indicators — stays fixed, outside track */}
+          <div className={styles.dots}>
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
+                onClick={() => go(i)}
+                aria-label={`Slide ${i + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>

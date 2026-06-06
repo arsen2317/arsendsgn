@@ -98,14 +98,33 @@
 
 /* ─── RIGHT PANEL ───────────────────────────────────────── */
 
+/* Clipping container — overflow:hidden so track slides inside without scrollbars */
 .right {
   flex: 1;
   min-width: 0;
   background: var(--bg-primary);
-  padding: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  overflow: hidden;
+  position: relative;
 }
 
-/* Dark container — border-radius + overflow clips the scroll track */
+/* Animated track — JS sets transform: translateY */
+.track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
+
+/* One "page" per slide — height set by JS to match .right clientHeight */
+.slideWrapper {
+  padding: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  box-sizing: border-box;
+  /* Fallback height before JS sets it */
+  height: 100vh;
+}
+
+/* Dark rounded card inside each page */
 .dark {
   width: 100%;
   height: 100%;
@@ -115,32 +134,7 @@
   position: relative;
 }
 
-/* Snap-scroll track — fills .dark, hides scrollbar */
-.scroller {
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
-  scrollbar-width: none;
-}
-
-.scroller::-webkit-scrollbar {
-  display: none;
-}
-
-/* Individual slide — full height, snaps to top */
-.slide {
-  height: 100%;
-  scroll-snap-align: start;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
-}
-
-/* Slide 0 — video fills the entire slide (no padding needed) */
+/* Slide 0 — video fills entire dark card */
 .slideVideo {
   position: absolute;
   inset: 0;
@@ -149,7 +143,15 @@
   object-fit: cover;
 }
 
-/* Illustration placeholder for slides 1–4 */
+/* Slides 1–4 — centered illustration with padding */
+.slideContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+}
+
 .illustration {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -159,6 +161,7 @@
 }
 
 /* ─── OVERLAYS (counter + dots) ─────────────────────────── */
+/* Positioned relative to .right, outside .track — never move with scroll */
 
 .counter {
   position: absolute;
@@ -168,8 +171,8 @@
   align-items: baseline;
   gap: 0.4rem;
   user-select: none;
-  z-index: 2;
   pointer-events: none;
+  z-index: 2;
 }
 
 .counterCurrent,
