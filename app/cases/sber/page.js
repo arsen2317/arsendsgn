@@ -317,6 +317,7 @@ export default function SberCase() {
                       className={styles.slideVideo}
                       src={VIDEO_URL}
                       autoPlay loop muted playsInline
+                      ref={el => { if (el) el.muted = true; }}
                     />
                   ) : (
                     <div className={styles.slideContent}>

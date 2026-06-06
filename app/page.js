@@ -686,6 +686,7 @@ export default function Home() {
             src="https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
+            ref={el => { if (el) el.muted = true; }}
           />
         </div>
       </section>
@@ -710,6 +711,7 @@ export default function Home() {
                 src="https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
+                ref={el => { if (el) el.muted = true; }}
               />
             </div>
             <p className="work-title">Sber</p>
@@ -731,6 +733,7 @@ export default function Home() {
               <video
                 src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
                 autoPlay loop muted playsInline
+                ref={el => { if (el) el.muted = true; }}
               />
             </div>
             <p className="work-title">Vibes</p>
