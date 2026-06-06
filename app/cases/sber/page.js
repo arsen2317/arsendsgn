@@ -340,7 +340,15 @@ export default function SberCase() {
                   <div className={styles.slideTwoCol}>
                     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
                       <div className={styles.slideContent}>
-                        <img className={styles.screenImg} src="/images/sber-d1.webp" alt="" />
+                        <div className={styles.phoneMockup}>
+                          <video
+                            className={styles.mockupVideo}
+                            src="/images/sber-d-screen.mp4"
+                            autoPlay loop muted playsInline
+                            ref={el => { if (el) el.muted = true; }}
+                          />
+                          <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
+                        </div>
                       </div>
                     </div>
                     <div className={styles.dark}>
