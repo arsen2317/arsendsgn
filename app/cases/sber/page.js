@@ -323,10 +323,10 @@ export default function SberCase() {
                 ) : i === 1 ? (
                   <div className={styles.slideTwoCol}>
                     <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/sber-r1.jpg" alt="" />
+                      <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
                     </div>
                     <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/sber-r2.jpg" alt="" />
+                      <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
                     </div>
                   </div>
                 ) : (
