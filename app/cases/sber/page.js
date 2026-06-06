@@ -51,7 +51,7 @@ const SLIDES = [
   },
 ];
 
-const VIDEO_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4';
+const VIDEO_URL = '/sber.mp4';
 
 export default function SberCase() {
   const [activeIdx, setActiveIdx]       = useState(0);

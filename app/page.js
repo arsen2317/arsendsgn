@@ -683,7 +683,7 @@ export default function Home() {
           </div>
           <video
             className="dark-img-placeholder"
-            src="https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4"
+            src="/sber.mp4"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
             ref={el => { if (el) el.muted = true; }}
@@ -708,7 +708,7 @@ export default function Home() {
           <a href="/cases/sber" className="work-item">
             <div className="work-thumb">
               <video
-                src="https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4"
+                src="/sber.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
                 ref={el => { if (el) el.muted = true; }}
