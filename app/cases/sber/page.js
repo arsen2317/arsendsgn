@@ -332,8 +332,8 @@ export default function SberCase() {
                 ) : i === 2 ? (
                   <div className={styles.dark} style={{ background: '#E1D7CB' }}>
                     <div className={styles.slideTwoScreens}>
-                      <img className={styles.screenImg} src="/images/sber-c1.png" alt="" />
-                      <img className={styles.screenImg} src="/images/sber-c2.png" alt="" />
+                      <img className={styles.screenImg} src="/images/sber1.webp" alt="" />
+                      <img className={styles.screenImg} src="/images/sber2.webp" alt="" />
                     </div>
                   </div>
                 ) : (
