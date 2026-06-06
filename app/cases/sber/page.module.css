@@ -158,7 +158,7 @@
   width: auto;
   display: block;
   flex-shrink: 0;
-  filter: drop-shadow(0 32px 40px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 16px 16px rgba(0, 0, 0, 0.3));
 }
 
 /* Image fills entire dark card */
