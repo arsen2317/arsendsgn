@@ -32,7 +32,7 @@ const SLIDES = [
   {
     id: 'research',
     description:
-      "We conducted 24 in-depth interviews with merchants across different business segments. Key insight: terminals sit idle between payment moments. Merchants spent over half their workday on tasks the terminal could help with — but didn't.",
+      'Through field research, desk research, competitive analysis, and in-depth interviews it became clear that merchants transform payment terminals into part of their venue\'s atmosphere by decorating them and opting for custom stands. Customers love this personalization because it makes the payment experience brighter and more enjoyable.',
   },
   {
     id: 'concept',
