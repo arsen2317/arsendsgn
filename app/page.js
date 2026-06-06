@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Skills from '../components/Skills';
+import SiteHeader from '../components/SiteHeader';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
@@ -81,8 +82,6 @@ export default function Home() {
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
-  const handleNavEnter = () => navRef.current?.classList.add('nav--active');
-  const handleNavLeave = () => navRef.current?.classList.remove('nav--active');
 
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -615,32 +614,24 @@ export default function Home() {
       </div>
 
       {/* ── HEADER ── */}
-      {(() => {
-        const effectsActive = cursorMode || drawMode || filterMode;
-        return (
-          <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
-            <button className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} onMouseEnter={playFx}><ST>arsendsgn</ST></button>
-            <nav className="nav" ref={navRef} onMouseEnter={handleNavEnter} onMouseLeave={handleNavLeave}>
-              <button className="nav-item square" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
-              <button className="nav-item pill"   onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
-              <button className="nav-item square" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-              <button className="nav-item pill" onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
-            </nav>
-            <div className="header-right">
-              <button
-                className={`header-hint${effectsActive ? ' header-hint--reset' : ''}`}
-                onClick={effectsActive ? () => executeCommand('reset') : () => setTerminalOpen(prev => !prev)}
-              >
-                {effectsActive ? 'reset' : 'Press / for?'}
-              </button>
-              <button className={`menu-btn${menuOpen ? ' menu-btn--open' : ''}`} onClick={toggleMenu}>
-                <span className="menu-btn-text menu-btn-text--menu">Menu</span>
-                <span className="menu-btn-text menu-btn-text--close">Close</span>
-              </button>
-            </div>
-          </header>
-        );
-      })()}
+      <SiteHeader
+        menuOpen={menuOpen}
+        onMenuToggle={toggleMenu}
+        playFx={playFx}
+        navRef={navRef}
+        navItems={[
+          { label: 'About me', onClick: () => scrollToSection('#about') },
+          { label: 'Cases',    onClick: () => scrollToSection('#cases'),    pill: true },
+          { label: 'Contacts', onClick: () => scrollToSection('#contacts') },
+          { label: 'My CV',    onClick: downloadCV,                         pill: true },
+        ]}
+        hintReset={!!(cursorMode || drawMode || filterMode)}
+        onHint={
+          (cursorMode || drawMode || filterMode)
+            ? () => executeCommand('reset')
+            : () => setTerminalOpen(prev => !prev)
+        }
+      />
 
       <canvas
         ref={drawingCanvasRef}
@@ -690,7 +681,13 @@ export default function Home() {
           <div className="dark-desc">
             <p>I focus on the user, combining empathy, attention to detail, and analytics to make the complex simple and understandable</p>
           </div>
-          <div className="dark-img-placeholder" />
+          <video
+            className="dark-img-placeholder"
+            src="/sber.mp4"
+            autoPlay loop muted playsInline
+            style={{ objectFit: 'cover' }}
+            ref={el => { if (el) el.muted = true; }}
+          />
         </div>
       </section>
 
@@ -710,7 +707,12 @@ export default function Home() {
         <div className="work-grid">
           <a href="/cases/sber" className="work-item">
             <div className="work-thumb">
-              <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/sber.webp`} alt="Sber" />
+              <video
+                src="/sber.mp4"
+                autoPlay loop muted playsInline
+                style={{width:'100%',height:'100%',objectFit:'cover'}}
+                ref={el => { if (el) el.muted = true; }}
+              />
             </div>
             <p className="work-title">Sber</p>
           </a>
@@ -731,6 +733,7 @@ export default function Home() {
               <video
                 src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
                 autoPlay loop muted playsInline
+                ref={el => { if (el) el.muted = true; }}
               />
             </div>
             <p className="work-title">Vibes</p>

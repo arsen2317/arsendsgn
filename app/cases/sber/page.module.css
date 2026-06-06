@@ -1,0 +1,273 @@
+/* ─── CASE PAGE LAYOUT ──────────────────────────────────── */
+
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── LEFT PANEL ────────────────────────────────────────── */
+
+.left {
+  width: 25%;
+  min-width: 26rem;
+  height: 100%;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  padding: calc(10.4rem + clamp(2rem, 2.5vw, 3.2rem)) var(--px) clamp(2.4rem, 3vw, 4rem);
+  overflow: clip;
+  flex-shrink: 0;
+}
+
+.leftTop {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.titleRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.titleRow {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.caseTag {
+  background: var(--bg-button) !important;
+  padding: 1.6rem 2rem !important;
+}
+
+.caseTagText {
+  font-size: clamp(2.1rem, 1.9786rem + 0.3236vw, 2.6rem);
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+  white-space: nowrap;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
+
+.subtitleBox {
+  align-self: flex-start;
+  width: max-content;
+  max-width: 100%;
+  background: var(--bg-button);
+  border-radius: var(--r-xs);
+  padding: 1.2rem 1.4rem;
+}
+
+.subtitle {
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.3rem, 0.4vw + 1rem, 1.6rem);
+  line-height: 1.4;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.leftDesc {
+  margin-top: auto;
+  transition: opacity 0.25s ease,
+              transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.leftDescHidden {
+  opacity: 0;
+  transform: translateY(1.4rem);
+}
+
+.leftDesc p {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* ─── RIGHT PANEL ───────────────────────────────────────── */
+
+/* Clipping container — overflow:hidden so track slides inside without scrollbars */
+.right {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-primary);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animated track — JS sets transform: translateY */
+.track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
+
+/* One "page" per slide — height set by JS to match .right clientHeight */
+.slideWrapper {
+  padding: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  box-sizing: border-box;
+  /* Fallback height before JS sets it */
+  height: 100vh;
+}
+
+/* Dark rounded card inside each page */
+.dark {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-darker);
+  border-radius: 0.4rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Slide 1 — two dark cards side by side, gap = outer padding */
+.slideTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  width: 100%;
+  height: 100%;
+}
+
+/* Image fills entire dark card */
+.slideImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slide 0 — video fills entire dark card */
+.slideVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slides 1–4 — centered illustration with padding */
+.slideContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+}
+
+.illustration {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #d4d4d4;
+  border-radius: clamp(0.8rem, 0.7029rem + 0.2589vw, 1.2rem);
+  overflow: hidden;
+}
+
+/* ─── OVERLAYS (counter + dots) ─────────────────────────── */
+/* Positioned relative to .right, outside .track — never move with scroll */
+
+.counter {
+  position: absolute;
+  bottom: 2.8rem;
+  left: 3.2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  user-select: none;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.counterCurrent,
+.counterSep,
+.counterTotal {
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+}
+
+.counterSep,
+.counterTotal {
+  opacity: 0.3;
+}
+
+.dots {
+  position: absolute;
+  bottom: 2.8rem;
+  right: 3.2rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: rgba(250, 246, 239, 0.25);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.dotActive {
+  background: var(--text-light);
+  transform: scale(1.6);
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .left {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    flex-shrink: 0;
+    padding: calc(7.2rem + 2rem) var(--px) 2rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .leftDesc {
+    display: none;
+  }
+
+  .right {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .caseTagText {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+  }
+
+  .dots {
+    flex-direction: row;
+    bottom: 1.8rem;
+    right: 2rem;
+  }
+}
