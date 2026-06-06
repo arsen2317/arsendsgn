@@ -15,7 +15,6 @@
   background: var(--bg-primary);
   display: flex;
   flex-direction: column;
-  /* Top padding = header height (10.4rem = 104px) + content spacing */
   padding: calc(10.4rem + clamp(2rem, 2.5vw, 3.2rem)) var(--px) clamp(2.4rem, 3vw, 4rem);
   overflow: clip;
   flex-shrink: 0;
@@ -38,7 +37,7 @@
   gap: 0.8rem;
   align-items: center;
 }
-/* Tag overrides for case page */
+
 .caseTag {
   background: var(--bg-button) !important;
   padding: 1.6rem 2rem !important;
@@ -54,7 +53,6 @@
   font-variation-settings: "pxls" 0, "jnts" 100;
 }
 
-/* Subtitle card */
 .subtitleBox {
   align-self: flex-start;
   width: max-content;
@@ -73,15 +71,12 @@
   font-variation-settings: "pxls" 0, "jnts" 100;
 }
 
-/* Skill tags */
 .skillTags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
-
-/* Description block — animated between slides */
 .leftDesc {
   margin-top: auto;
   transition: opacity 0.25s ease,
@@ -105,12 +100,12 @@
 
 .right {
   flex: 1;
-  min-width: 80rem;
+  min-width: 0;
   background: var(--bg-primary);
   padding: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
 }
 
-/* Dark container */
+/* Dark container — border-radius + overflow clips the scroll track */
 .dark {
   width: 100%;
   height: 100%;
@@ -120,36 +115,41 @@
   position: relative;
 }
 
-/* Background video — fills entire dark block, visible only on slide 0 */
-.bgVideo {
+/* Snap-scroll track — fills .dark, hides scrollbar */
+.scroller {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual slide — full height, snaps to top */
+.slide {
+  height: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+}
+
+/* Slide 0 — video fills the entire slide (no padding needed) */
+.slideVideo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-  z-index: 0;
 }
 
-.bgVideoVisible {
-  opacity: 1;
-}
-
-/* Individual slide */
-.slide {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
-  transition: transform 0.9s cubic-bezier(0.13, 0.47, 0.13, 0.98),
-              opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-  z-index: 1;
-}
-
-/* Illustration placeholder */
+/* Illustration placeholder for slides 1–4 */
 .illustration {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -158,7 +158,8 @@
   overflow: hidden;
 }
 
-/* Slide counter (bottom-left) */
+/* ─── OVERLAYS (counter + dots) ─────────────────────────── */
+
 .counter {
   position: absolute;
   bottom: 2.8rem;
@@ -168,6 +169,7 @@
   gap: 0.4rem;
   user-select: none;
   z-index: 2;
+  pointer-events: none;
 }
 
 .counterCurrent,
@@ -184,7 +186,6 @@
   opacity: 0.3;
 }
 
-/* Dot indicators (bottom-right) */
 .dots {
   position: absolute;
   bottom: 2.8rem;
@@ -225,7 +226,6 @@
     min-width: unset;
     height: auto;
     flex-shrink: 0;
-    /* Top padding = mobile header height (7.2rem = 72px) + content spacing */
     padding: calc(7.2rem + 2rem) var(--px) 2rem;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);

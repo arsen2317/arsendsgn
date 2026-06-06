@@ -51,39 +51,27 @@ const SLIDES = [
   },
 ];
 
+const VIDEO_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4';
+
 export default function SberCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
   const [menuOpen, setMenuOpen]         = useState(false);
 
-  const lockRef      = useRef(false);
-  const activeIdxRef = useRef(0);
-  const wheelAccum   = useRef(0);
-  const wheelTimer   = useRef(null);
-  const fxRef        = useRef(null);
-  const touchStartY  = useRef(null);
+  const scrollerRef = useRef(null);
+  const prevIdxRef  = useRef(0);
+  const fxRef       = useRef(null);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
-  const go = (nextIdx) => {
-    if (lockRef.current) return;
-    if (nextIdx < 0 || nextIdx >= SLIDES.length) return;
-    lockRef.current = true;
-
-    setTextVisible(false);
-    setActiveIdx(nextIdx);
-    activeIdxRef.current = nextIdx;
-
-    setTimeout(() => {
-      setDisplayedIdx(nextIdx);
-      setTextVisible(true);
-    }, 260);
-
-    setTimeout(() => { lockRef.current = false; }, 950);
+  const scrollToSlide = (idx) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    scroller.scrollTo({ top: idx * scroller.clientHeight, behavior: 'smooth' });
   };
 
-  /* Full-viewport layout: remove body padding-top so right panel can reach the top */
+  /* Full-viewport layout */
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     document.body.style.paddingTop = '0';
@@ -93,7 +81,7 @@ export default function SberCase() {
     };
   }, []);
 
-  /* Audio init */
+  /* Audio */
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const audio = new Audio(`${base}/fx.mp3`);
@@ -103,71 +91,52 @@ export default function SberCase() {
     return () => window.removeEventListener('pointerdown', unlock);
   }, []);
 
-  /* GSAP entrance animation */
+  /* GSAP entrance */
   useEffect(() => {
     let ctx;
     async function init() {
       const { gsap } = await import('gsap');
       ctx = gsap.context(() => {
-        gsap.from('.header',        { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
-        gsap.from('[data-case-tag]',{ y: 40,  opacity: 0, duration: 0.8, delay: 0.2, stagger: 0.08, ease: 'back.out(2)' });
-        gsap.from('[data-subtitle]',{ y: 20,  opacity: 0, duration: 0.7, delay: 0.45, ease: 'power3.out' });
-        gsap.from('[data-skill]',   { y: 16,  opacity: 0, duration: 0.6, delay: 0.55, stagger: 0.04, ease: 'power2.out' });
-        gsap.from('[data-slide]',   { scale: 0.96, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
+        gsap.from('.header',         { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
+        gsap.from('[data-case-tag]', { y: 40,  opacity: 0, duration: 0.8, delay: 0.2, stagger: 0.08, ease: 'back.out(2)' });
+        gsap.from('[data-subtitle]', { y: 20,  opacity: 0, duration: 0.7, delay: 0.45, ease: 'power3.out' });
+        gsap.from('[data-skill]',    { y: 16,  opacity: 0, duration: 0.6, delay: 0.55, stagger: 0.04, ease: 'power2.out' });
+        gsap.from('[data-slide]',    { scale: 0.96, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out' });
       });
     }
     init();
     return () => ctx?.revert();
   }, []);
 
-  /* Wheel snap */
+  /* Track active slide via scroll position */
   useEffect(() => {
-    const norm = (e) => {
-      if (e.deltaMode === 1) return e.deltaY * 16;
-      if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
-      return e.deltaY;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const onScroll = () => {
+      const idx = Math.round(scroller.scrollTop / scroller.clientHeight);
+      if (idx === prevIdxRef.current || idx < 0 || idx >= SLIDES.length) return;
+      prevIdxRef.current = idx;
+      setTextVisible(false);
+      setTimeout(() => {
+        setActiveIdx(idx);
+        setDisplayedIdx(idx);
+        setTextVisible(true);
+      }, 200);
     };
-    const onWheel = (e) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      if (lockRef.current) { wheelAccum.current = 0; clearTimeout(wheelTimer.current); return; }
-      clearTimeout(wheelTimer.current);
-      wheelAccum.current += norm(e);
-      wheelTimer.current = setTimeout(() => { wheelAccum.current = 0; }, 400);
-      if (Math.abs(wheelAccum.current) >= 100) {
-        const dir = wheelAccum.current > 0 ? 1 : -1;
-        wheelAccum.current = 0;
-        go(activeIdxRef.current + dir);
-      }
-    };
-    window.addEventListener('wheel', onWheel, { passive: true });
-    return () => window.removeEventListener('wheel', onWheel);
+
+    scroller.addEventListener('scroll', onScroll, { passive: true });
+    return () => scroller.removeEventListener('scroll', onScroll);
   }, []);
 
   /* Keyboard navigation */
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(activeIdxRef.current + 1);
-      if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  go(activeIdxRef.current - 1);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') scrollToSlide(Math.min(prevIdxRef.current + 1, SLIDES.length - 1));
+      if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  scrollToSlide(Math.max(prevIdxRef.current - 1, 0));
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
-
-  /* Touch swipe */
-  useEffect(() => {
-    const onTouchStart = (e) => { touchStartY.current = e.touches[0].clientY; };
-    const onTouchEnd = (e) => {
-      if (touchStartY.current === null) return;
-      const diff = touchStartY.current - e.changedTouches[0].clientY;
-      if (Math.abs(diff) > 50) go(activeIdxRef.current + (diff > 0 ? 1 : -1));
-      touchStartY.current = null;
-    };
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchend',   onTouchEnd,   { passive: true });
-    return () => {
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchend',   onTouchEnd);
-    };
   }, []);
 
   return (
@@ -218,7 +187,6 @@ export default function SberCase() {
         <div className={styles.left}>
           <div className={styles.leftTop}>
 
-            {/* Title tags */}
             <div className={styles.titleRows}>
               <div className={styles.titleRow}>
                 <div className={`tag square ${styles.caseTag}`} data-case-tag>
@@ -235,14 +203,12 @@ export default function SberCase() {
               </div>
             </div>
 
-            {/* Subtitle */}
             <div className={styles.subtitleBox} data-subtitle>
               <p className={styles.subtitle}>Pushing The POS Terminal<br />Beyond Payments</p>
             </div>
 
-            {/* Skill tags */}
             <div className={styles.skillTags}>
-              {['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'].map((tag, i) => (
+              {['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'].map((tag) => (
                 <span key={tag} className="badge button" style={{ cursor: 'default' }} data-skill>
                   {tag}
                 </span>
@@ -250,55 +216,46 @@ export default function SberCase() {
             </div>
           </div>
 
-          {/* Description — changes per slide */}
-          <div
-            className={`${styles.leftDesc} ${!textVisible ? styles.leftDescHidden : ''}`}
-            data-desc
-          >
+          <div className={`${styles.leftDesc} ${!textVisible ? styles.leftDescHidden : ''}`}>
             <p>{SLIDES[displayedIdx].description}</p>
           </div>
         </div>
 
         {/* RIGHT PANEL */}
         <div className={styles.right}>
-
-          {/* Dark container */}
           <div className={styles.dark} data-slide>
 
-            {/* Video fills entire dark block on slide 0 */}
-            <video
-              className={`${styles.bgVideo}${activeIdx === 0 ? ` ${styles.bgVideoVisible}` : ''}`}
-              src="https://github.com/arsen2317/arsendsgn/releases/download/video/sber.video.mp4"
-              autoPlay loop muted playsInline
-            />
+            {/* Snap-scroll container */}
+            <div className={styles.scroller} ref={scrollerRef}>
+              {SLIDES.map((slide, i) => (
+                <div key={slide.id} className={styles.slide}>
+                  {i === 0 ? (
+                    <video
+                      className={styles.slideVideo}
+                      src={VIDEO_URL}
+                      autoPlay loop muted playsInline
+                    />
+                  ) : (
+                    <div className={styles.illustration} />
+                  )}
+                </div>
+              ))}
+            </div>
 
-            {SLIDES.map((slide, i) => (
-              <div
-                key={slide.id}
-                className={styles.slide}
-                style={{
-                  transform: `translateY(${(i - activeIdx) * 100}%)`,
-                  opacity: i === activeIdx ? 1 : 0,
-                }}
-              >
-                {i !== 0 && <div className={styles.illustration} />}
-              </div>
-            ))}
-
-            {/* Slide counter */}
+            {/* Counter overlay */}
             <div className={styles.counter}>
               <span className={styles.counterCurrent}>{String(activeIdx + 1).padStart(2, '0')}</span>
               <span className={styles.counterSep}>/</span>
               <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
             </div>
 
-            {/* Dot indicators */}
+            {/* Dot indicators overlay */}
             <div className={styles.dots}>
               {SLIDES.map((_, i) => (
                 <button
                   key={i}
                   className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
-                  onClick={() => go(i)}
+                  onClick={() => scrollToSlide(i)}
                   aria-label={`Slide ${i + 1}`}
                 />
               ))}
