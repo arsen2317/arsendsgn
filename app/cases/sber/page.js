@@ -37,7 +37,7 @@ const SLIDES = [
   {
     id: 'concept',
     description:
-      'We redesigned the terminal OS around micro-apps — lightweight tools for inventory management, tip prompts, loyalty integration, and end-of-day analytics. The goal: turn idle hardware into an active business assistant.',
+      'The solution is a constructor for customizable POS. Through SberBusiness app, merchants can tailor the device by selecting body and interface colors, using interchangeable branded covers, creating personal mascots, and integrating tipping, loyalty, and cashback.',
   },
   {
     id: 'design',
@@ -323,10 +323,17 @@ export default function SberCase() {
                 ) : i === 1 ? (
                   <div className={styles.slideTwoCol}>
                     <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/sber-r1.jpg" alt="" />
+                      <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
                     </div>
                     <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/sber-r2.jpg" alt="" />
+                      <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
+                    </div>
+                  </div>
+                ) : i === 2 ? (
+                  <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+                    <div className={styles.slideTwoScreens}>
+                      <img className={styles.screenImg} src="/images/sber-c1.png" alt="" />
+                      <img className={styles.screenImg} src="/images/sber-c2.png" alt="" />
                     </div>
                   </div>
                 ) : (
