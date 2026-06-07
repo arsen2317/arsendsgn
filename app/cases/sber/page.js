@@ -42,7 +42,7 @@ const SLIDES = [
   {
     id: 'design',
     description:
-      'The terminal screen is small, used in gloves, in noise, under time pressure. Every interaction had to be single-hand operable and resolve in under 3 taps. We tested 6 prototypes with real cashiers across 3 cities.',
+      'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
   },
   {
     id: 'outcome',
@@ -332,8 +332,27 @@ export default function SberCase() {
                 ) : i === 2 ? (
                   <div className={styles.dark} style={{ background: '#E1D7CB' }}>
                     <div className={styles.slideTwoScreens}>
-                      <img className={styles.screenImg} src="/images/sber-c1.png" alt="" />
-                      <img className={styles.screenImg} src="/images/sber-c2.png" alt="" />
+                      <img className={styles.screenImg} src="/images/sber1.webp" alt="" />
+                      <img className={styles.screenImg} src="/images/sber2.webp" alt="" />
+                    </div>
+                  </div>
+                ) : i === 3 ? (
+                  <div className={styles.slideTwoCol}>
+                    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+                      <div className={styles.slideContent}>
+                        <div className={styles.phoneMockup}>
+                          <video
+                            className={styles.mockupVideo}
+                            src="/images/sber-d-screen.mp4"
+                            autoPlay loop muted playsInline
+                            ref={el => { if (el) el.muted = true; }}
+                          />
+                          <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.dark}>
+                      <img className={styles.slideImg} src="/images/sber-d2.webp" alt="" />
                     </div>
                   </div>
                 ) : (

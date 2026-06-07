@@ -158,6 +158,39 @@
   width: auto;
   display: block;
   flex-shrink: 0;
+  filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
+/* Phone mockup — frame on top, video behind in screen area */
+.phoneMockup {
+  position: relative;
+  height: 100%;
+  width: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
+.phoneFrame {
+  position: relative;
+  height: 100%;
+  width: auto;
+  display: block;
+  z-index: 2;
+}
+
+/* Video sits behind frame, inset to match transparent screen area.
+   Adjust top/left/right/bottom % once the actual frame is loaded. */
+.mockupVideo {
+  position: absolute;
+  top: 3%;
+  left: 4.5%;
+  right: 4.5%;
+  bottom: 3%;
+  width: 91%;
+  height: 94%;
+  object-fit: cover;
+  border-radius: 11%;
+  z-index: 1;
 }
 
 /* Image fills entire dark card */
