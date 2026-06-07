@@ -112,6 +112,18 @@ export default function VibesCase() {
         </div>
       );
     }
+    if (i === 1) {
+      return (
+        <div className={styles.slideTwoCol}>
+          <div className={styles.dark}>
+            <img className={styles.slideImg} src="/images/vibesuser1.jpg" alt="" />
+          </div>
+          <div className={styles.dark}>
+            <img className={styles.slideImg} src="/images/vibesuser2.jpg" alt="" />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className={styles.dark}>
         <img className={styles.slideImg} src={`/images/vibes-${i}.webp`} alt="" />
