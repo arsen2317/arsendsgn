@@ -324,7 +324,7 @@
   .mobileSlides {
     display: flex;
     flex-direction: column;
-    gap: 2.4rem;
+    gap: 4rem;
     padding: 2.4rem clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem) 4rem;
   }
 
