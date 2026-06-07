@@ -314,7 +314,7 @@
     min-width: unset;
     height: auto;
     flex-shrink: 0;
-    padding: calc(7.2rem + 2rem) var(--px) 2rem;
+    padding: calc(7.2rem + 1rem) var(--px) 2rem;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
@@ -363,7 +363,7 @@
 
   .mobileDesc p {
     font-family: var(--font-body), Georgia, serif;
-    font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+    font-size: 1.6rem;
     color: var(--text-primary);
     line-height: 1.45;
     font-weight: 500;
