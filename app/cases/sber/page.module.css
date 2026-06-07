@@ -355,6 +355,16 @@
     overflow: hidden;
   }
 
+  /* Desktop clamp() values for these are sized against the wide .right panel;
+     on narrow mobile viewports they collapse to their min and leave the
+     screen illustrations tiny — override with smaller, fixed mobile values. */
+  .slideContent,
+  .slideTwoScreens,
+  .slideThreeScreens {
+    padding: 1.6rem;
+    gap: 1.2rem;
+  }
+
   .skillTagsMobile {
     display: flex;
     flex-wrap: wrap;
