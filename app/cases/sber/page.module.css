@@ -182,14 +182,13 @@
    Adjust top/left/right/bottom % once the actual frame is loaded. */
 .mockupVideo {
   position: absolute;
-  top: 3%;
-  left: 4.5%;
-  right: 4.5%;
-  bottom: 3%;
-  width: 91%;
-  height: 94%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 96%;
+  width: auto;
   object-fit: cover;
-  border-radius: 11%;
+  border-radius: 8%;
   z-index: 1;
 }
 

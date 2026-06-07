@@ -343,7 +343,7 @@ export default function SberCase() {
                         <div className={styles.phoneMockup}>
                           <video
                             className={styles.mockupVideo}
-                            src="/images/sber-d-screen.mp4"
+                            src="/cases.mp4"
                             autoPlay loop muted playsInline
                             ref={el => { if (el) el.muted = true; }}
                           />
@@ -352,7 +352,7 @@ export default function SberCase() {
                       </div>
                     </div>
                     <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/images/sber-d2.webp" alt="" />
+                      <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
                     </div>
                   </div>
                 ) : (
