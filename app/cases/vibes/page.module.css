@@ -179,12 +179,12 @@
   gap: clamp(2rem, 2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(6.4rem, 0.0333333 * min(100vw, 177.778vh), 6.4rem));
 }
 
-.profileImgTop {
+.profileScreens .profileImgTop {
   height: 87%;
   align-self: flex-start;
 }
 
-.profileImgBottom {
+.profileScreens .profileImgBottom {
   height: 87%;
   align-self: flex-end;
 }
