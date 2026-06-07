@@ -33,7 +33,7 @@ const SLIDES = [
   {
     id: 'research',
     description:
-      'In-depth interviews were conducted with Russian and international respondents, along with a quantitative survey. The research revealed that users quickly lose interest due to repetitive profiles and empty conversations. People often struggle to describe themselves but enjoy exploring others\' stories. Details such as surroundings, music, and atmosphere in photos play a big role, while seeing other users\' success stories encourages them to return to the app.',
+      'In-depth interviews with Russian and international respondents, along with a quantitative survey, showed that users lose interest due to repetitive profiles and shallow conversations. People often struggle to describe themselves but enjoy exploring others’ stories. Visual details such as surroundings, music, and atmosphere in photos play a significant role, while seeing other users’ success stories motivates them to return to the app.',
   },
   {
     id: 'concept',
@@ -77,7 +77,7 @@ const SLIDES = [
   },
 ];
 
-const SKILL_TAGS = ['ux/ui design', 'jtbd research', 'feature ideation', 'usability testing', '2d animation'];
+const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
 
 const VIDEO_URL = '/vibescover.mp4';
 
