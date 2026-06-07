@@ -45,9 +45,14 @@ const SLIDES = [
       'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
   },
   {
-    id: 'outcome',
+    id: 'tips',
     description:
-      "Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber's full terminal network.",
+      'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
+  },
+  {
+    id: 'pilot',
+    description:
+      'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
   },
 ];
 
@@ -130,10 +135,24 @@ export default function SberCase() {
         </div>
       );
     }
+    if (i === 4) {
+      return (
+        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+          <div className={styles.slideThreeScreens}>
+            <img className={styles.screenImg} src="/images/sber3.webp" alt="" />
+            <img className={styles.screenImg} src="/images/sber4.webp" alt="" />
+            <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
     return (
-      <div className={styles.dark}>
-        <div className={styles.slideContent}>
-          <div className={styles.illustration} />
+      <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+        <div className={styles.pilotGrid}>
+          <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
+          <img className={styles.pilotImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+          <img className={`${styles.pilotImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
+          <img className={styles.pilotImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
         </div>
       </div>
     );
@@ -403,17 +422,6 @@ export default function SberCase() {
             <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
           </div>
 
-          {/* Dot indicators — stays fixed, outside track */}
-          <div className={styles.dots}>
-            {SLIDES.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
-                onClick={() => go(i)}
-                aria-label={`Slide ${i + 1}`}
-              />
-            ))}
-          </div>
         </div>
 
         {/* MOBILE — plain scroll, alternating description / illustration, no fixed pagination */}
