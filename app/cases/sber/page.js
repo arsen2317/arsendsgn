@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../../components/SiteHeader';
+import Footer from '../../../components/Footer';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -452,6 +453,11 @@ export default function SberCase() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Footer — mobile only, matches the homepage footer */}
+      <div className={styles.mobileFooter}>
+        <Footer />
       </div>
     </>
   );

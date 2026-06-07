@@ -287,6 +287,10 @@
   opacity: 0.3;
 }
 
+.mobileFooter {
+  display: none;
+}
+
 /* ─── RESPONSIVE ────────────────────────────────────────── */
 
 @media (max-width: 900px) {
@@ -337,6 +341,10 @@
   .skillTagsMobile,
   .mobileDesc {
     padding-inline: var(--px);
+  }
+
+  .mobileFooter {
+    display: block;
   }
 
   .mobileMedia {
