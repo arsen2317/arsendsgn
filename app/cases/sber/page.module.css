@@ -26,14 +26,9 @@
   gap: 1.2rem;
 }
 
-.titleRows {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
 .titleRow {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.8rem;
   align-items: center;
 }
@@ -75,6 +70,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+.skillTagsMobile {
+  display: none;
+}
+
+/* ─── MOBILE SCROLL LAYOUT ──────────────────────────────── */
+/* Hidden on desktop — shown only at the mobile breakpoint below */
+
+.mobileSlides {
+  display: none;
 }
 
 .leftDesc {
@@ -286,9 +292,10 @@
 
 @media (max-width: 900px) {
   .layout {
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
+    display: block;
+    flex-direction: unset;
+    height: auto;
+    overflow: visible;
   }
 
   .left {
@@ -301,22 +308,53 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
-  .leftDesc {
+  .leftDesc,
+  .skillTagsDesktop {
     display: none;
   }
 
+  /* Snap-pagination panel is desktop-only — replaced by .mobileSlides */
   .right {
-    flex: 1;
-    min-height: 0;
+    display: none;
   }
 
   .caseTagText {
     font-size: clamp(2.2rem, 5vw, 3.2rem);
   }
 
-  .dots {
-    flex-direction: row;
-    bottom: 1.8rem;
-    right: 2rem;
+  /* ── Plain alternating scroll: media, then description, per slide ── */
+  .mobileSlides {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    padding: 2.4rem var(--px) 4rem;
+  }
+
+  .mobileSlide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .mobileMedia {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.4rem;
+    overflow: hidden;
+  }
+
+  .skillTagsMobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .mobileDesc p {
+    font-family: var(--font-body), Georgia, serif;
+    font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+    color: var(--text-primary);
+    line-height: 1.45;
+    font-weight: 500;
   }
 }
