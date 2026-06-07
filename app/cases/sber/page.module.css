@@ -302,7 +302,7 @@
     min-width: unset;
     height: auto;
     flex-shrink: 0;
-    padding: calc(7.2rem + 0.4rem) var(--px) 2rem;
+    padding: 1.2rem var(--px) 2rem;
     border-right: none;
   }
 
