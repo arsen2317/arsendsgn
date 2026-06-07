@@ -189,6 +189,10 @@
   object-position: top;
 }
 
+.pilotImgUpper {
+  object-position: center 25%;
+}
+
 .screenImg {
   height: 100%;
   width: auto;
