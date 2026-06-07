@@ -50,6 +50,11 @@ const SLIDES = [
       'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
   },
   {
+    id: 'pilot',
+    description:
+      'To demonstrate the idea, a 3D model was built and a test prototype of the first thematic cover was 3D-printed. Sber has moved the concept into a live pilot, installing several customized terminals in retail locations across Moscow. Initial metrics from the pilot demonstrated positive impact across key areas: higher tipping rates, greater engagement with loyalty tools, and improved merchant satisfaction with the device\'s integration into their retail space.',
+  },
+  {
     id: 'outcome',
     description:
       "Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber's full terminal network.",
@@ -366,6 +371,15 @@ export default function SberCase() {
                       <img className={styles.screenImg} src="/images/sber3.webp" alt="" />
                       <img className={styles.screenImg} src="/images/sber4.webp" alt="" />
                       <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
+                    </div>
+                  </div>
+                ) : i === 5 ? (
+                  <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+                    <div className={styles.pilotGrid}>
+                      <img className={styles.pilotImg} src="/images/photo_5361653863582208164_y.jpg" alt="" />
+                      <img className={styles.pilotImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
+                      <img className={styles.pilotImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+                      <img className={styles.pilotImg} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
                     </div>
                   </div>
                 ) : (

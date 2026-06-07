@@ -163,6 +163,26 @@
   gap: clamp(1.2rem, 1.2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(4rem, 0.0333333 * min(100vw, 177.778vh), 4rem));
 }
 
+/* Slide 5 — pilot photos grid on light background, capped at placeholder height */
+.pilotGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  width: 100%;
+  height: 100%;
+  padding: clamp(2rem, -1.2667rem + 4.8214vw, 5.6rem);
+  box-sizing: border-box;
+}
+
+.pilotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: clamp(0.6rem, 0.5rem + 0.2vw, 0.9rem);
+  display: block;
+}
+
 .screenImg {
   height: 100%;
   width: auto;
