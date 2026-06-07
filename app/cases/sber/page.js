@@ -377,8 +377,8 @@ export default function SberCase() {
                   <div className={styles.dark} style={{ background: '#E1D7CB' }}>
                     <div className={styles.pilotGrid}>
                       <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
-                      <img className={styles.pilotImg} src="/images/photo_5361653863582208164_y.jpg" alt="" />
-                      <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+                      <img className={styles.pilotImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+                      <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
                       <img className={styles.pilotImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
                     </div>
                   </div>
