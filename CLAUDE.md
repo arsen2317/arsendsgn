@@ -20,6 +20,12 @@ The site is also deployed to Vercel; the stable Git Branch URL pattern is `arsen
 - Case pages (e.g. `app/cases/sber/page.js`) follow a two-column pattern: a left description/info panel and a right interactive slide deck. Slide navigation is driven by wheel/keyboard/touch handlers with a lock ref to prevent overlapping transitions, and GSAP (`gsap.context()` + `gsap.from()`) for entrance animations. Be careful with `gsap.from(..., { opacity: 0 })` on elements also controlled by React state/CSS transitions — a context revert/remount race can leave them stuck at `opacity: 0`; prefer relying on CSS transitions for state-driven visibility instead.
 - Audio "fx" sound effects are loaded via `new Audio()` with `process.env.NEXT_PUBLIC_BASE_PATH` prefix and unlocked on first pointerdown (autoplay policy workaround); reused via `playFx`/`cloneNode().play()` on hover.
 
+## Session rules (context budget)
+
+- **NEVER take screenshots via Playwright/chromium-cli.** They blow up the context window. Verify changes by reading the code/CSS, not by rendering and screenshotting the page.
+- **NEVER start the local dev server (`npm run dev`) or run `npm install`** unless there is no other way to diagnose a problem — and even then, ask the user for explicit permission first. The user reviews changes themselves via the Vercel preview deploy; a local run is redundant in almost all cases.
+- **Before running anything that could burn a large number of tokens** (large greps/diffs across many files, large MCP dumps, installs, builds, multi-step exploration of unfamiliar areas, etc.), warn the user first and get their go-ahead.
+
 ## CSS gotchas
 
 - Shrink-to-fit techniques (`align-self: flex-start`, `width: fit-content`, `display: table`) cannot make a box narrower than its content's max-content width (the longest unwrapped line). If a text box must wrap to a narrower width than its longest line, insert an explicit `<br />` to change what max-content is computed from, combined with `width: max-content; max-width: 100%`.

@@ -45,11 +45,18 @@ const SLIDES = [
       'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
   },
   {
-    id: 'outcome',
+    id: 'tips',
     description:
-      "Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber's full terminal network.",
+      'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
+  },
+  {
+    id: 'pilot',
+    description:
+      'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
   },
 ];
+
+const SKILL_TAGS = ['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'];
 
 const VIDEO_URL = '/sber.mp4';
 
@@ -59,6 +66,7 @@ export default function SberCase() {
   const [textVisible, setTextVisible]   = useState(true);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [slideH, setSlideH]             = useState(0);
+  const [isMobile, setIsMobile]         = useState(false);
 
   const rightRef     = useRef(null);
   const trackRef     = useRef(null);
@@ -68,6 +76,87 @@ export default function SberCase() {
   const fxRef        = useRef(null);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
+
+  /* Slide visuals — shared between the desktop snap track and the mobile scroll layout */
+  const renderSlideMedia = (i) => {
+    if (i === 0) {
+      return (
+        <div className={styles.dark}>
+          <video
+            className={styles.slideVideo}
+            src={VIDEO_URL}
+            autoPlay loop muted playsInline
+            ref={el => { if (el) el.muted = true; }}
+          />
+        </div>
+      );
+    }
+    if (i === 1) {
+      return (
+        <div className={styles.slideTwoCol}>
+          <div className={styles.dark}>
+            <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
+          </div>
+          <div className={styles.dark}>
+            <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 2) {
+      return (
+        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+          <div className={styles.slideTwoScreens}>
+            <img className={styles.screenImg} src="/images/sber1.webp" alt="" />
+            <img className={styles.screenImg} src="/images/sber2.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 3) {
+      return (
+        <div className={styles.slideTwoCol}>
+          <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+            <div className={styles.slideContent}>
+              <div className={styles.phoneMockup}>
+                <video
+                  className={styles.mockupVideo}
+                  src="/cases.mp4"
+                  autoPlay loop muted playsInline
+                  ref={el => { if (el) el.muted = true; }}
+                />
+                <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
+              </div>
+            </div>
+          </div>
+          <div className={styles.dark}>
+            <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 4) {
+      return (
+        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+          <div className={styles.slideThreeScreens}>
+            <img className={styles.screenImg} src="/images/sber3.webp" alt="" />
+            <img className={styles.screenImg} src="/images/sber4.webp" alt="" />
+            <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+        <div className={styles.pilotGrid}>
+          <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
+          <img className={styles.pilotImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+          <img className={`${styles.pilotImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
+          <img className={styles.pilotImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
+        </div>
+      </div>
+    );
+  };
 
   /* ── Snap animation (same easing/lock pattern as main page) ── */
   const go = (nextIdx) => {
@@ -109,8 +198,18 @@ export default function SberCase() {
     requestAnimationFrame(tick);
   };
 
+  /* Mobile breakpoint — switches to a plain scrolling layout, no fixed/snap pagination */
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 900px)');
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
   /* Slide height = right panel clientHeight, kept in sync via ResizeObserver */
   useEffect(() => {
+    if (isMobile) return;
     const right = rightRef.current;
     if (!right) return;
     const sync = () => {
@@ -125,17 +224,18 @@ export default function SberCase() {
     const ro = new ResizeObserver(sync);
     ro.observe(right);
     return () => ro.disconnect();
-  }, []);
+  }, [isMobile]);
 
-  /* Body overflow + padding reset */
+  /* Body overflow + padding reset — mobile uses normal page scroll */
   useEffect(() => {
+    if (isMobile) return;
     document.body.style.overflow   = 'hidden';
     document.body.style.paddingTop = '0';
     return () => {
       document.body.style.overflow   = '';
       document.body.style.paddingTop = '';
     };
-  }, []);
+  }, [isMobile]);
 
   /* Audio unlock */
   useEffect(() => {
@@ -166,8 +266,9 @@ export default function SberCase() {
     return () => ctx?.revert();
   }, []);
 
-  /* Wheel snap — identical accumulator/lock pattern to main page */
+  /* Wheel snap — identical accumulator/lock pattern to main page (desktop only) */
   useEffect(() => {
+    if (isMobile) return;
     const norm = (e) => {
       if (e.deltaMode === 1) return e.deltaY * 16;
       if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
@@ -188,20 +289,22 @@ export default function SberCase() {
     };
     window.addEventListener('wheel', onWheel, { passive: true });
     return () => window.removeEventListener('wheel', onWheel);
-  }, []);
+  }, [isMobile]);
 
-  /* Keyboard */
+  /* Keyboard (desktop only) */
   useEffect(() => {
+    if (isMobile) return;
     const onKey = (e) => {
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(activeIdxRef.current + 1);
       if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  go(activeIdxRef.current - 1);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [isMobile]);
 
-  /* Touch swipe */
+  /* Touch swipe (desktop only — mobile uses normal scroll) */
   useEffect(() => {
+    if (isMobile) return;
     let ty = null;
     const onStart = (e) => { ty = e.touches[0].clientY; };
     const onEnd   = (e) => {
@@ -216,7 +319,7 @@ export default function SberCase() {
       window.removeEventListener('touchstart', onStart);
       window.removeEventListener('touchend',   onEnd);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
@@ -266,19 +369,15 @@ export default function SberCase() {
         <div className={styles.left}>
           <div className={styles.leftTop}>
 
-            <div className={styles.titleRows}>
-              <div className={styles.titleRow}>
-                <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                  <span className={styles.caseTagText}>Sber</span>
-                </div>
-                <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                  <span className={styles.caseTagText}>POS</span>
-                </div>
+            <div className={styles.titleRow}>
+              <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>Sber</span>
               </div>
-              <div className={styles.titleRow}>
-                <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                  <span className={styles.caseTagText}>Terminal</span>
-                </div>
+              <div className={`tag pill ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>POS</span>
+              </div>
+              <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>Terminal</span>
               </div>
             </div>
 
@@ -286,8 +385,8 @@ export default function SberCase() {
               <p className={styles.subtitle}>Pushing The POS Terminal<br />Beyond Payments</p>
             </div>
 
-            <div className={styles.skillTags}>
-              {['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'].map((tag) => (
+            <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>
+              {SKILL_TAGS.map((tag) => (
                 <span key={tag} className="badge button" style={{ cursor: 'default' }} data-skill>
                   {tag}
                 </span>
@@ -311,57 +410,7 @@ export default function SberCase() {
                 className={styles.slideWrapper}
                 style={slideH ? { height: slideH } : undefined}
               >
-                {i === 0 ? (
-                  <div className={styles.dark}>
-                    <video
-                      className={styles.slideVideo}
-                      src={VIDEO_URL}
-                      autoPlay loop muted playsInline
-                      ref={el => { if (el) el.muted = true; }}
-                    />
-                  </div>
-                ) : i === 1 ? (
-                  <div className={styles.slideTwoCol}>
-                    <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
-                    </div>
-                    <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
-                    </div>
-                  </div>
-                ) : i === 2 ? (
-                  <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-                    <div className={styles.slideTwoScreens}>
-                      <img className={styles.screenImg} src="/images/sber1.webp" alt="" />
-                      <img className={styles.screenImg} src="/images/sber2.webp" alt="" />
-                    </div>
-                  </div>
-                ) : i === 3 ? (
-                  <div className={styles.slideTwoCol}>
-                    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-                      <div className={styles.slideContent}>
-                        <div className={styles.phoneMockup}>
-                          <video
-                            className={styles.mockupVideo}
-                            src="/cases.mp4"
-                            autoPlay loop muted playsInline
-                            ref={el => { if (el) el.muted = true; }}
-                          />
-                          <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.dark}>
-                      <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.dark}>
-                    <div className={styles.slideContent}>
-                      <div className={styles.illustration} />
-                    </div>
-                  </div>
-                )}
+                {renderSlideMedia(i)}
               </div>
             ))}
           </div>
@@ -373,17 +422,29 @@ export default function SberCase() {
             <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
           </div>
 
-          {/* Dot indicators — stays fixed, outside track */}
-          <div className={styles.dots}>
-            {SLIDES.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
-                onClick={() => go(i)}
-                aria-label={`Slide ${i + 1}`}
-              />
-            ))}
-          </div>
+        </div>
+
+        {/* MOBILE — plain scroll, alternating description / illustration, no fixed pagination */}
+        <div className={styles.mobileSlides}>
+          {SLIDES.map((slide, i) => (
+            <div className={styles.mobileSlide} key={slide.id}>
+              <div className={styles.mobileMedia}>{renderSlideMedia(i)}</div>
+
+              {i === 0 && (
+                <div className={`${styles.skillTags} ${styles.skillTagsMobile}`}>
+                  {SKILL_TAGS.map((tag) => (
+                    <span key={tag} className="badge button" style={{ cursor: 'default' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className={styles.mobileDesc}>
+                <p>{slide.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>

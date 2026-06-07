@@ -26,14 +26,9 @@
   gap: 1.2rem;
 }
 
-.titleRows {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
 .titleRow {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.8rem;
   align-items: center;
 }
@@ -75,6 +70,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+.skillTagsMobile {
+  display: none;
+}
+
+/* ─── MOBILE SCROLL LAYOUT ──────────────────────────────── */
+/* Hidden on desktop — shown only at the mobile breakpoint below */
+
+.mobileSlides {
+  display: none;
 }
 
 .leftDesc {
@@ -153,6 +159,46 @@
   gap: clamp(2rem, 2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(6.4rem, 0.0333333 * min(100vw, 177.778vh), 6.4rem));
 }
 
+/* Slide 4 — three phone screens side by side, lighter background */
+.slideThreeScreens {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(2rem, -3.5333rem + 7.2049vw, 10.3rem);
+  gap: clamp(1.2rem, 1.2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(4rem, 0.0333333 * min(100vw, 177.778vh), 4rem));
+}
+
+/* Slide 5 — pilot photos grid on light background */
+.pilotGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  width: 100%;
+  height: 100%;
+  padding: clamp(2rem, -1.2667rem + 4.8214vw, 5.6rem);
+  box-sizing: border-box;
+}
+
+.pilotImg {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  object-fit: cover;
+  border-radius: clamp(0.6rem, 0.5rem + 0.2vw, 0.9rem);
+  display: block;
+}
+
+.pilotImgTop {
+  object-position: top;
+}
+
+.pilotImgUpper {
+  object-position: center 25%;
+}
+
 .screenImg {
   height: 100%;
   width: auto;
@@ -219,27 +265,24 @@
   padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
 }
 
-.illustration {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #d4d4d4;
-  border-radius: clamp(0.8rem, 0.7029rem + 0.2589vw, 1.2rem);
-  overflow: hidden;
-}
-
-/* ─── OVERLAYS (counter + dots) ─────────────────────────── */
-/* Positioned relative to .right, outside .track — never move with scroll */
+/* ─── OVERLAY (counter) ─────────────────────────────────── */
+/* Positioned relative to .right, outside .track — never moves with scroll */
 
 .counter {
   position: absolute;
-  bottom: 2.8rem;
-  left: 3.2rem;
+  bottom: 2.4rem;
+  right: 2.8rem;
   display: flex;
   align-items: baseline;
   gap: 0.4rem;
   user-select: none;
   pointer-events: none;
   z-index: 2;
+  background: rgba(17, 17, 17, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--r-xs);
+  padding: 0.7rem 1rem;
 }
 
 .counterCurrent,
@@ -256,39 +299,14 @@
   opacity: 0.3;
 }
 
-.dots {
-  position: absolute;
-  bottom: 2.8rem;
-  right: 3.2rem;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.dot {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: rgba(250, 246, 239, 0.25);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.dotActive {
-  background: var(--text-light);
-  transform: scale(1.6);
-}
-
 /* ─── RESPONSIVE ────────────────────────────────────────── */
 
 @media (max-width: 900px) {
   .layout {
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
+    display: block;
+    flex-direction: unset;
+    height: auto;
+    overflow: visible;
   }
 
   .left {
@@ -301,22 +319,53 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
-  .leftDesc {
+  .leftDesc,
+  .skillTagsDesktop {
     display: none;
   }
 
+  /* Snap-pagination panel is desktop-only — replaced by .mobileSlides */
   .right {
-    flex: 1;
-    min-height: 0;
+    display: none;
   }
 
   .caseTagText {
     font-size: clamp(2.2rem, 5vw, 3.2rem);
   }
 
-  .dots {
-    flex-direction: row;
-    bottom: 1.8rem;
-    right: 2rem;
+  /* ── Plain alternating scroll: media, then description, per slide ── */
+  .mobileSlides {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    padding: 2.4rem var(--px) 4rem;
+  }
+
+  .mobileSlide {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .mobileMedia {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.4rem;
+    overflow: hidden;
+  }
+
+  .skillTagsMobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .mobileDesc p {
+    font-family: var(--font-body), Georgia, serif;
+    font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+    color: var(--text-primary);
+    line-height: 1.45;
+    font-weight: 500;
   }
 }
