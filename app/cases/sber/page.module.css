@@ -259,14 +259,6 @@
   padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
 }
 
-.illustration {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #d4d4d4;
-  border-radius: clamp(0.8rem, 0.7029rem + 0.2589vw, 1.2rem);
-  overflow: hidden;
-}
-
 /* ─── OVERLAYS (counter + dots) ─────────────────────────── */
 /* Positioned relative to .right, outside .track — never move with scroll */
 

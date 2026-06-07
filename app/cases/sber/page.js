@@ -54,11 +54,6 @@ const SLIDES = [
     description:
       'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
   },
-  {
-    id: 'outcome',
-    description:
-      "Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber's full terminal network.",
-  },
 ];
 
 const VIDEO_URL = '/sber.mp4';
@@ -373,19 +368,13 @@ export default function SberCase() {
                       <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
                     </div>
                   </div>
-                ) : i === 5 ? (
+                ) : (
                   <div className={styles.dark} style={{ background: '#E1D7CB' }}>
                     <div className={styles.pilotGrid}>
                       <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
                       <img className={styles.pilotImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
                       <img className={`${styles.pilotImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
                       <img className={styles.pilotImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.dark}>
-                    <div className={styles.slideContent}>
-                      <div className={styles.illustration} />
                     </div>
                   </div>
                 )}
