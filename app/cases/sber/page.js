@@ -147,12 +147,18 @@ export default function SberCase() {
       );
     }
     return (
-      <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-        <div className={styles.pilotGrid}>
-          <img className={`${styles.pilotImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
-          <img className={styles.pilotImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
-          <img className={`${styles.pilotImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
-          <img className={styles.pilotImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
+      <div className={styles.pilotGrid}>
+        <div className={styles.dark}>
+          <img className={`${styles.slideImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
+        </div>
+        <div className={styles.dark}>
+          <img className={styles.slideImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+        </div>
+        <div className={styles.dark}>
+          <img className={`${styles.slideImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
+        </div>
+        <div className={styles.dark}>
+          <img className={styles.slideImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
         </div>
       </div>
     );
