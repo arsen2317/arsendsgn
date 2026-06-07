@@ -45,6 +45,11 @@ const SLIDES = [
       'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
   },
   {
+    id: 'tips',
+    description:
+      'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
+  },
+  {
     id: 'outcome',
     description:
       "Pilot across 1 200 terminals in 4 regions. Task completion improved by 34 %. Merchant NPS rose from 41 to 68. The feature set is now in public beta across Sber's full terminal network.",
@@ -353,6 +358,14 @@ export default function SberCase() {
                     </div>
                     <div className={styles.dark}>
                       <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
+                    </div>
+                  </div>
+                ) : i === 4 ? (
+                  <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+                    <div className={styles.slideThreeScreens}>
+                      <img className={styles.screenImg} src="/images/sber3.webp" alt="" />
+                      <img className={styles.screenImg} src="/images/sber4.webp" alt="" />
+                      <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
                     </div>
                   </div>
                 ) : (
