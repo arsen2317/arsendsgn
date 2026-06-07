@@ -264,15 +264,19 @@
 
 .counter {
   position: absolute;
-  bottom: 2.8rem;
-  right: 3.2rem;
+  bottom: 2.4rem;
+  right: 2.8rem;
   display: flex;
   align-items: baseline;
   gap: 0.4rem;
   user-select: none;
   pointer-events: none;
   z-index: 2;
-  mix-blend-mode: difference;
+  background: rgba(17, 17, 17, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--r-xs);
+  padding: 0.7rem 1rem;
 }
 
 .counterCurrent,
