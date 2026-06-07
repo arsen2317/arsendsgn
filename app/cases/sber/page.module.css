@@ -325,13 +325,18 @@
     display: flex;
     flex-direction: column;
     gap: 2.4rem;
-    padding: 2.4rem var(--px) 4rem;
+    padding: 2.4rem clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem) 4rem;
   }
 
   .mobileSlide {
     display: flex;
     flex-direction: column;
     gap: 4rem;
+  }
+
+  .skillTagsMobile,
+  .mobileDesc {
+    padding-inline: var(--px);
   }
 
   .mobileMedia {
@@ -349,7 +354,14 @@
   .slideTwoScreens,
   .slideThreeScreens {
     padding: 1.6rem;
-    gap: 1.2rem;
+  }
+
+  .slideContent,
+  .slideTwoScreens,
+  .slideThreeScreens,
+  .slideTwoCol,
+  .pilotGrid {
+    gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
   }
 
   /* Three screens at height:100% are too wide for narrow viewports — their
