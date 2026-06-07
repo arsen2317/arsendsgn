@@ -52,7 +52,7 @@ const SLIDES = [
   {
     id: 'pilot',
     description:
-      'To demonstrate the idea, a 3D model was built and a test prototype of the first thematic cover was 3D-printed. Sber has moved the concept into a live pilot, installing several customized terminals in retail locations across Moscow. Initial metrics from the pilot demonstrated positive impact across key areas: higher tipping rates, greater engagement with loyalty tools, and improved merchant satisfaction with the device\'s integration into their retail space.',
+      'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
   },
   {
     id: 'outcome',
