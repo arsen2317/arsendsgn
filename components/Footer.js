@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/CV.Arsen.Arakelyan.pdf';
+const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
 
 const downloadCV = () => {
   const a = document.createElement('a');
