@@ -344,7 +344,7 @@ export default function SberCase() {
                           <video
                             className={styles.mockupVideo}
                             src="/cases.mp4"
-                            autoPlay muted playsInline
+                            autoPlay loop muted playsInline
                             ref={el => { if (el) el.muted = true; }}
                           />
                           <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
