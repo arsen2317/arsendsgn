@@ -388,18 +388,6 @@ export default function SberCase() {
             <span className={styles.counterSep}>/</span>
             <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
           </div>
-
-          {/* Dot indicators — stays fixed, outside track */}
-          <div className={styles.dots}>
-            {SLIDES.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.dot}${i === activeIdx ? ` ${styles.dotActive}` : ''}`}
-                onClick={() => go(i)}
-                aria-label={`Slide ${i + 1}`}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </>

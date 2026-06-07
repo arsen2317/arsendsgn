@@ -259,19 +259,20 @@
   padding: clamp(5rem, -4.4667rem + 12.3264vw, 19.2rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
 }
 
-/* ─── OVERLAYS (counter + dots) ─────────────────────────── */
-/* Positioned relative to .right, outside .track — never move with scroll */
+/* ─── OVERLAY (counter) ─────────────────────────────────── */
+/* Positioned relative to .right, outside .track — never moves with scroll */
 
 .counter {
   position: absolute;
   bottom: 2.8rem;
-  left: 3.2rem;
+  right: 3.2rem;
   display: flex;
   align-items: baseline;
   gap: 0.4rem;
   user-select: none;
   pointer-events: none;
   z-index: 2;
+  mix-blend-mode: difference;
 }
 
 .counterCurrent,
@@ -286,32 +287,6 @@
 .counterSep,
 .counterTotal {
   opacity: 0.3;
-}
-
-.dots {
-  position: absolute;
-  bottom: 2.8rem;
-  right: 3.2rem;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.dot {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: rgba(250, 246, 239, 0.25);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.dotActive {
-  background: var(--text-light);
-  transform: scale(1.6);
 }
 
 /* ─── RESPONSIVE ────────────────────────────────────────── */
@@ -346,8 +321,7 @@
     font-size: clamp(2.2rem, 5vw, 3.2rem);
   }
 
-  .dots {
-    flex-direction: row;
+  .counter {
     bottom: 1.8rem;
     right: 2rem;
   }
