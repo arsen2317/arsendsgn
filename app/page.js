@@ -246,6 +246,7 @@ export default function Home() {
   useEffect(() => {
     const handleOutside = (e) => {
       if (!terminalOpenRef.current) return;
+      if (e.target.closest('.header-hint')) return;
       if (terminalRef.current && !terminalRef.current.contains(e.target)) {
         setTerminalOpen(false);
       }
