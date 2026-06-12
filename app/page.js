@@ -731,12 +731,11 @@ export default function Home() {
           </a>
           <a href="/tj" className="work-item">
             <div className="work-thumb">
-              <iframe
-                src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
-                frameBorder="0"
-                allowFullScreen
-                style={{width:'100%',height:'100%',border:'none'}}
+              <video
+                src="/tj-720p.mp4"
+                autoPlay loop muted playsInline
+                style={{width:'100%',height:'100%',objectFit:'cover'}}
+                ref={el => { if (el) el.muted = true; }}
               />
             </div>
             <p className="work-title">T-Journal</p>
