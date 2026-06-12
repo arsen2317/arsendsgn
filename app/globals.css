@@ -2,6 +2,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: default;
+}
+
+a, button {
+  cursor: pointer;
+}
+
+a *, button * {
+  cursor: pointer;
+}
+
+input, textarea {
+  cursor: text;
 }
 
 :root {
@@ -376,23 +389,23 @@ body {
   flex-direction: column;
   gap: 88px;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: space-between;
   overflow: hidden;
-  padding: 80px var(--px) 78px;
+  padding: 144px var(--px) 78px;
   min-height: 100vh;
 }
 
 .dark-quote { display: flex; justify-content: flex-end; width: 100%; }
 .dark-quote p {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(3.6rem, 1.0857rem + 2.4554vw, 5.8rem);
+  font-size: clamp(3.6rem, 3.6rem + 0vw, 3.6rem);
   font-weight: normal;
   font-variation-settings: "pxls" 30, "jnts" 100;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 1.4;
   color: var(--text-light);
   text-align: right;
-  max-width: 20ch;
+  width: calc(50% - 50px);
   margin-left: auto;
   margin-right: 0;
   text-transform: capitalize;
@@ -495,7 +508,7 @@ body {
 
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: clamp(8px, 0.83vw, 12px);
   align-items: start;
 }
@@ -839,7 +852,7 @@ body {
 
   /* Dark section */
   .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100vh; min-height: 100dvh; overflow: visible; }
-  .dark-quote p { font-size: 24px; max-width: 100%; text-align: left; margin-left: 0; }
+  .dark-quote p { font-size: 24px; width: 100%; text-align: left; margin-left: 0; }
   .dark-row { display: block; height: auto; }
   .dark-desc { display: block; flex: none; overflow: visible; margin-bottom: 28px; }
   .dark-desc p { font-size: 20px; width: 100%; }

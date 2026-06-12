@@ -69,6 +69,113 @@ const SLIDES = [
 
 const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
 
+/* Media frames for the desktop snap track — finer-grained than SLIDES, since
+   the "editor" (index 4) and "matching" (index 5) slides are each split into
+   two scroll stops that share the same counter/description. */
+const FRAME_TO_SLIDE = [0, 1, 2, 3, 4, 4, 5, 5, 6, 7];
+
+/* Mobile groups slides 1:1 with SLIDES — slides 4 and 5 show both of their frames stacked */
+const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
+
+const FRAME_MEDIA = [
+  // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.profileScreens}>
+        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj1-1.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj1-2.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 1 — single image
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.slideContent}>
+        <img className={styles.screenImg} src="/images/tj2.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 2 — single image, no drop-shadow
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.slideContent}>
+        <img className={`${styles.screenImg} ${styles.noShadow}`} src="/images/tj3.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 3 — three screens in a row
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.slideThreeScreens}>
+        <img className={styles.screenImg} src="/images/tj4-1.webp" alt="" />
+        <img className={styles.screenImg} src="/images/tj4-2.webp" alt="" />
+        <img className={styles.screenImg} src="/images/tj4-3.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 4 — editor, sub-slide A: single image pinned to the bottom
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <img className={styles.editorImgBottom} src="/images/tj5-1.webp" alt="" />
+    </div>
+  ),
+  // 5 — editor, sub-slide B: three screens in a row
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.slideThreeScreens}>
+        <img className={styles.screenImg} src="/images/tj5-2.webp" alt="" />
+        <img className={styles.screenImg} src="/images/tj5-3.webp" alt="" />
+        <img className={styles.screenImg} src="/images/tj5-4.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 6 — matching, sub-slide A: single image pinned to the bottom, same principle as frame 4
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <img className={styles.editorImgBottom} src="/images/tj6-1.webp" alt="" />
+    </div>
+  ),
+  // 7 — matching, sub-slide B: video in a phone mockup + image, same layout as sber slide 4
+  () => (
+    <div className={styles.slideTwoCol}>
+      <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+        <div className={styles.slideContent}>
+          <div className={styles.phoneMockup}>
+            <video
+              className={styles.mockupVideo}
+              src="/tj6-2.mp4"
+              autoPlay loop muted playsInline
+              ref={el => { if (el) el.muted = true; }}
+            />
+            <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
+          </div>
+        </div>
+      </div>
+      <div className={styles.dark}>
+        <img className={styles.slideImg} src="/images/tj6-3.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 8 — two images, left cropped ~15% off the top, right cropped ~15% off the bottom
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.profileScreens}>
+        <img className={`${styles.screenImg} ${styles.profileImgCropTop}`} src="/images/tj7-1.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropBottom}`} src="/images/tj7-2.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 9 — two images side by side
+  () => (
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.slideTwoScreens}>
+        <img className={styles.screenImg} src="/images/tj8-1.webp" alt="" />
+        <img className={styles.screenImg} src="/images/tj8-2.webp" alt="" />
+      </div>
+    </div>
+  ),
+];
+
 export default function TjCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
@@ -86,114 +193,16 @@ export default function TjCase() {
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
-  /* Slide visuals — shared between the desktop snap track and the mobile scroll layout */
-  const renderSlideMedia = (i) => {
-    if (i === 0) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <video
-            className={styles.coverVideo}
-            src="/vibes1.mp4"
-            autoPlay loop muted playsInline
-            ref={el => { if (el) el.muted = true; }}
-          />
-        </div>
-      );
-    }
-    if (i === 1) {
-      return (
-        <div className={styles.slideTwoCol}>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/vibesuser1.jpg" alt="" />
-          </div>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/vibesuser2.jpg" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 2) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideContent}>
-            <video
-              className={`${styles.screenImg} ${styles.conceptVideo}`}
-              src="/vibes3.mp4"
-              autoPlay loop muted playsInline
-              ref={el => { if (el) el.muted = true; }}
-            />
-          </div>
-        </div>
-      );
-    }
-    if (i === 3) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.profileScreens}>
-            <img className={`${styles.screenImg} ${styles.profileImgTop}`} src="/images/vibes4-1.webp" alt="" />
-            <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/vibes4-2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 4) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideThreeScreens}>
-            <img className={styles.screenImg} src="/images/vibes5-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes5-2.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes5-3.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 5) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideTwoScreens}>
-            <img className={styles.screenImg} src="/images/vibes6-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes6-2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 6) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideTwoScreens}>
-            <img className={styles.screenImg} src="/images/vibes7-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes7-2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 7) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideThreeScreens}>
-            <img className={styles.screenImg} src="/images/vibes8-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes8-2.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes8-3.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div className={styles.dark}>
-        <img className={styles.slideImg} src={`/images/vibes-${i}.webp`} alt="" />
-      </div>
-    );
-  };
-
   /* ── Snap animation (same easing/lock pattern as main page) ── */
   const go = (nextIdx) => {
     if (snapLockRef.current) return;
-    if (nextIdx < 0 || nextIdx >= SLIDES.length) return;
+    if (nextIdx < 0 || nextIdx >= FRAME_TO_SLIDE.length) return;
     const right = rightRef.current;
     const track = trackRef.current;
     if (!right || !track) return;
 
     snapLockRef.current = true;
+    const sameSlide = FRAME_TO_SLIDE[nextIdx] === FRAME_TO_SLIDE[activeIdxRef.current];
     activeIdxRef.current = nextIdx;
 
     const startY   = offsetRef.current;
@@ -202,12 +211,18 @@ export default function TjCase() {
     const t0       = performance.now();
     const ease     = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
 
-    setTextVisible(false);
-    setTimeout(() => {
+    if (sameSlide) {
+      // Same counter/description on both sides — skip the text fade
       setActiveIdx(nextIdx);
       setDisplayedIdx(nextIdx);
-      setTextVisible(true);
-    }, 200);
+    } else {
+      setTextVisible(false);
+      setTimeout(() => {
+        setActiveIdx(nextIdx);
+        setDisplayedIdx(nextIdx);
+        setTextVisible(true);
+      }, 200);
+    }
 
     const tick = (now) => {
       const t = Math.min((now - t0) / duration, 1);
@@ -422,7 +437,7 @@ export default function TjCase() {
           </div>
 
           <div className={`${styles.leftDesc} ${!textVisible ? styles.leftDescHidden : ''}`}>
-            <p>{SLIDES[displayedIdx].description}</p>
+            <p>{SLIDES[FRAME_TO_SLIDE[displayedIdx]].description}</p>
           </div>
         </div>
 
@@ -431,20 +446,20 @@ export default function TjCase() {
 
           {/* Slides track */}
           <div className={styles.track} ref={trackRef} data-slide>
-            {SLIDES.map((slide, i) => (
+            {FRAME_TO_SLIDE.map((slideIdx, i) => (
               <div
-                key={slide.id}
+                key={i}
                 className={styles.slideWrapper}
                 style={slideH ? { height: slideH } : undefined}
               >
-                {renderSlideMedia(i)}
+                {FRAME_MEDIA[i]()}
               </div>
             ))}
           </div>
 
           {/* Counter — stays fixed, outside track */}
           <div className={styles.counter}>
-            <span className={styles.counterCurrent}>{String(activeIdx + 1).padStart(2, '0')}</span>
+            <span className={styles.counterCurrent}>{String(FRAME_TO_SLIDE[activeIdx] + 1).padStart(2, '0')}</span>
             <span className={styles.counterSep}>/</span>
             <span className={styles.counterTotal}>{String(SLIDES.length).padStart(2, '0')}</span>
           </div>
@@ -455,7 +470,11 @@ export default function TjCase() {
         <div className={styles.mobileSlides}>
           {SLIDES.map((slide, i) => (
             <div className={styles.mobileSlide} key={slide.id}>
-              <div className={styles.mobileMedia}>{renderSlideMedia(i)}</div>
+              <div className={styles.mobileMediaGroup}>
+                {MOBILE_FRAME_GROUPS[i].map((frameIdx) => (
+                  <div className={styles.mobileMedia} key={frameIdx}>{FRAME_MEDIA[frameIdx]()}</div>
+                ))}
+              </div>
 
               {i === 0 && (
                 <div className={`${styles.skillTags} ${styles.skillTagsMobile}`}>

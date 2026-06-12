@@ -661,7 +661,7 @@ export default function Home() {
         </div>
 
         <div className="hero-bottom">
-          <div className="hero-exp"><span>2 years experience</span></div>
+          <div className="hero-exp"><span>3 years experience</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
               <span className={`badge yellow${sayHiFade ? ' badge--fade' : ''}`} style={{cursor:'default'}}>{sayHiWord}</span>
@@ -680,7 +680,7 @@ export default function Home() {
         </div>
         <div className="dark-row">
           <div className="dark-desc">
-            <p>I focus on the user, combining empathy, attention to detail, and analytics to make the complex simple and understandable</p>
+            <p>Currently working at MTS Fintech, one of Russia's largest banks, with a background in graphic design and training from the British Higher School of Art and Design.</p>
           </div>
           <video
             className="dark-img-placeholder"
@@ -717,18 +717,6 @@ export default function Home() {
             </div>
             <p className="work-title">Sber</p>
           </a>
-          <a href="/tj" className="work-item">
-            <div className="work-thumb">
-              <iframe
-                src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
-                frameBorder="0"
-                allowFullScreen
-                style={{width:'100%',height:'100%',border:'none'}}
-              />
-            </div>
-            <p className="work-title">T-Journal</p>
-          </a>
           <a href="/vibes" className="work-item">
             <div className="work-thumb">
               <div className="work-thumb-vibes">
@@ -741,9 +729,16 @@ export default function Home() {
             </div>
             <p className="work-title">Vibes</p>
           </a>
-          <a href="/tbank" className="work-item">
-            <div className="work-thumb" />
-            <p className="work-title">T-Bank</p>
+          <a href="/tj" className="work-item">
+            <div className="work-thumb">
+              <video
+                src="/tj-720p.mp4"
+                autoPlay loop muted playsInline
+                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
+                ref={el => { if (el) el.muted = true; }}
+              />
+            </div>
+            <p className="work-title">T-Journal</p>
           </a>
         </div>
       </section>
