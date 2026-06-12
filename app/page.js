@@ -706,7 +706,7 @@ export default function Home() {
           </div>
         </div>
         <div className="work-grid">
-          <a href="/cases/sber" className="work-item">
+          <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
                 src="/sber.mp4"
@@ -717,7 +717,7 @@ export default function Home() {
             </div>
             <p className="work-title">Sber</p>
           </a>
-          <a href="/cases/tj" className="work-item">
+          <a href="/tj" className="work-item">
             <div className="work-thumb">
               <iframe
                 src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
@@ -729,7 +729,7 @@ export default function Home() {
             </div>
             <p className="work-title">T-Journal</p>
           </a>
-          <a href="/cases/vibes" className="work-item">
+          <a href="/vibes" className="work-item">
             <div className="work-thumb">
               <div className="work-thumb-vibes">
                 <video
@@ -741,7 +741,7 @@ export default function Home() {
             </div>
             <p className="work-title">Vibes</p>
           </a>
-          <a href="/cases/tbank" className="work-item">
+          <a href="/tbank" className="work-item">
             <div className="work-thumb" />
             <p className="work-title">T-Bank</p>
           </a>

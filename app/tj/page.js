@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
-import SiteHeader from '../../../components/SiteHeader';
-import Footer from '../../../components/Footer';
+import SiteHeader from '../../components/SiteHeader';
+import Footer from '../../components/Footer';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -28,58 +28,48 @@ const SLIDES = [
   {
     id: 'context',
     description:
-      'Modern dating apps are built around endless swiping and superficial interactions. We wanted to create an alternative where users match based on shared interests, aesthetics, and vibe — not just photos.',
+      'T—J has an audience of 42 million readers, but less than 20% of them are T-Bank customers. The goal was to connect T—J and T-Bank through meaningful user scenarios without compromising the media platform’s trust. The focus was on the “Travel” section — one of the most popular and engaging on the platform.',
   },
   {
     id: 'research',
     description:
-      'In-depth interviews with Russian and international respondents, along with a quantitative survey, showed that users lose interest due to repetitive profiles and shallow conversations. People often struggle to describe themselves but enjoy exploring others’ stories. Visual details such as surroundings, music, and atmosphere in photos play a significant role, while seeing other users’ success stories motivates them to return to the app.',
+      'Research showed that authorization provided little value to users, the journey to bank products was too long, motivations varied from spontaneous to planned, and readers lacked simple tools to act on the inspiration from articles.',
   },
   {
     id: 'concept',
     description:
-      'Users find it hard to describe their own vibe but easily sense it in others. This insight shaped Vibes — a visual dating app where people express themselves through collages and music rather than text. We replace endless swiping with deeper, vibe-based connections.',
+      'As a solution, we developed T-ID as a seamless authorization method that converts T—Journal readers into T-Bank customers by enhancing its appeal with new functionality and social features.',
   },
   {
     id: 'profile',
     description:
-      'In Vibes, the user profile is an interactive collage made of photos, music, and tags. It can be created manually or automatically generated from Pinterest boards, playlists, and other personal data.',
+      'We created the “Geogenius” quiz game inspired by GeoGuessr, using real travel photos submitted by T—Journal readers in the travel section. Participation offered prizes and discounts, but required T-ID authorization — creating a soft and motivating entry point for registration.',
   },
   {
     id: 'editor',
     description:
-      'A flexible editor lets users adjust colors and apply neural filters to transform the collage\'s vibe. This makes it possible to create a compelling profile even without knowing how to describe yourself in words.',
+      'A new Travel Hub became a vibrant community space for travelers, allowing users to check in during trips, share live streams and stories, create checklists, rate places, and track live cashback earned together with other participants.',
   },
   {
     id: 'matching',
     description:
-      'The algorithm matches users based on visual compatibility and shared interests. In addition to regular filters, there is an experimental mode that pairs people with contrasting vibes.',
+      'Users can create and share their own travel plans in the Trip Planner — with curated selections based on personal interests, AI assistance trained on T—Journal content, and the ability to share plans with the community.',
   },
   {
     id: 'icebreaker',
     description:
-      'After a match, a shared collage is generated as a conversation starter. Users can tap on individual elements to discuss them and build conversations around shared interests.',
+      'For those who prefer not to plan trips themselves, we created ready-made travel plans by both users and the editorial team — complete with day-by-day plans, integrated ticket booking through T-Travel, and hotel reservations.',
   },
   {
     id: 'games',
     description:
-      'Vibes includes several mini-games designed to help users reveal themselves and connect. These feature planning the perfect date, collage roulette with anonymous matches, music-based matching, and other activities. Games can be shared with friends to invite them into the experience.',
-  },
-  {
-    id: 'safety',
-    description:
-      'The Comfort+ mode provides content filtering to reduce unwanted interactions. It also includes a dedicated safety widget featuring geolocation sharing and an SOS button, designed to support users if a date feels unsafe.',
-  },
-  {
-    id: 'results',
-    description:
-      'Following the MVP release on the App Store, the product showed solid performance during testing. 74% of users completed onboarding and created their first profile. Average profile viewing time reached 8.5 seconds — notably higher than the typical 4–5 seconds in dating apps — and 47% of matches led to conversations.',
+      'The concept was first implemented and tested in the popular Travel section, with plans to scale the approach to other life scenarios supported by both T-Bank products and T—Journal content, eventually turning the platform into a universal life goals planner with seamless bank integration.',
   },
 ];
 
-const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
+const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
 
-export default function VibesCase() {
+export default function TjCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
@@ -184,23 +174,6 @@ export default function VibesCase() {
             <img className={styles.screenImg} src="/images/vibes8-1.webp" alt="" />
             <img className={styles.screenImg} src="/images/vibes8-2.webp" alt="" />
             <img className={styles.screenImg} src="/images/vibes8-3.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 8) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <img className={styles.safetyImg} src="/images/vibes9.webp" alt="" />
-        </div>
-      );
-    }
-    if (i === 9) {
-      return (
-        <div className={styles.dark} style={{ background: '#131314' }}>
-          <img className={styles.slideImg} src="/images/vibes10bg.webp" alt="" />
-          <div className={styles.resultsWrap}>
-            <img className={styles.resultsImg} src="/images/vibes10.webp" alt="" />
           </div>
         </div>
       );
@@ -425,15 +398,18 @@ export default function VibesCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Vibes</span>
+                <span className={styles.caseTagText}>T-Bank</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>App</span>
+                <span className={styles.caseTagText}>Media</span>
+              </div>
+              <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>Platform</span>
               </div>
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Dating Reimagined<br />Around Vibe And Aesthetics</p>
+              <p className={styles.subtitle}>T-J — Linking<br />Content With Banking</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>
