@@ -191,15 +191,18 @@
   object-position: bottom;
 }
 
-/* Slide 7 — left image cropped ~15% off the top, right image cropped ~15% off the bottom */
+/* Slide 7 — left image cropped further off the top (with guaranteed bottom padding),
+   right image cropped further off the bottom (with guaranteed top padding) */
 .profileScreens .profileImgCropTop {
-  height: 115%;
+  height: 125%;
   align-self: flex-end;
+  transform: translateY(-10%);
 }
 
 .profileScreens .profileImgCropBottom {
-  height: 115%;
+  height: 125%;
   align-self: flex-start;
+  transform: translateY(10%);
 }
 
 /* Slide 5 — four dark cards in a 2x2 grid, same look as slide 1's two cards */
