@@ -246,6 +246,16 @@
   z-index: 1;
 }
 
+/* Slide 9 — phone mockup cropped against the card edges, anchored bottom-right */
+.safetyImg {
+  position: absolute;
+  bottom: 0;
+  right: 6%;
+  height: 145%;
+  width: auto;
+  filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
 /* Image fills entire dark card */
 .slideImg {
   position: absolute;
