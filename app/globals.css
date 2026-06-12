@@ -392,7 +392,7 @@ body {
   line-height: 1.1;
   color: var(--text-light);
   text-align: right;
-  max-width: 20ch;
+  width: calc(50% - 50px);
   margin-left: auto;
   margin-right: 0;
   text-transform: capitalize;
@@ -839,7 +839,7 @@ body {
 
   /* Dark section */
   .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100vh; min-height: 100dvh; overflow: visible; }
-  .dark-quote p { font-size: 24px; max-width: 100%; text-align: left; margin-left: 0; }
+  .dark-quote p { font-size: 24px; width: 100%; text-align: left; margin-left: 0; }
   .dark-row { display: block; height: auto; }
   .dark-desc { display: block; flex: none; overflow: visible; margin-bottom: 28px; }
   .dark-desc p { font-size: 20px; width: 100%; }
