@@ -734,7 +734,7 @@ export default function Home() {
               <video
                 src="/tj-720p.mp4"
                 autoPlay loop muted playsInline
-                style={{width:'100%',height:'100%',objectFit:'cover'}}
+                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
                 ref={el => { if (el) el.muted = true; }}
               />
             </div>
