@@ -202,11 +202,6 @@
   align-self: flex-start;
 }
 
-/* Remove the drop-shadow on screens that don't need it */
-.noShadow {
-  filter: none;
-}
-
 /* Slide 5 — four dark cards in a 2x2 grid, same look as slide 1's two cards */
 .pilotGrid {
   display: grid;
@@ -234,6 +229,11 @@
   flex-shrink: 1;
   object-fit: contain;
   filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
+/* Remove the drop-shadow on screens that don't need it */
+.noShadow {
+  filter: none;
 }
 
 /* Slide 3 — concept video, no drop-shadow, slightly enlarged */
