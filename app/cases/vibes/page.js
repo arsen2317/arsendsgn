@@ -79,8 +79,6 @@ const SLIDES = [
 
 const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
 
-const VIDEO_URL = '/vibescover.mp4';
-
 export default function VibesCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
@@ -102,10 +100,10 @@ export default function VibesCase() {
   const renderSlideMedia = (i) => {
     if (i === 0) {
       return (
-        <div className={styles.dark}>
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
           <video
-            className={styles.slideVideo}
-            src={VIDEO_URL}
+            className={styles.coverVideo}
+            src="/vibes1.mp4"
             autoPlay loop muted playsInline
             ref={el => { if (el) el.muted = true; }}
           />
