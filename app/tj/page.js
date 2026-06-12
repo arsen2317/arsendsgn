@@ -28,7 +28,7 @@ const SLIDES = [
   {
     id: 'context',
     description:
-      'Modern dating apps are built around endless swiping and superficial interactions. We wanted to create an alternative where users match based on shared interests, aesthetics, and vibe — not just photos.',
+      'T—J has an audience of 42 million readers, but less than 20% of them are T-Bank customers. The goal was to connect T—J and T-Bank through meaningful user scenarios without compromising the media platform’s trust. The focus was on the “Travel” section — one of the most popular and engaging on the platform.',
   },
   {
     id: 'research',
@@ -77,7 +77,7 @@ const SLIDES = [
   },
 ];
 
-const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
+const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
 
 export default function TjCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
@@ -425,15 +425,18 @@ export default function TjCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Vibes</span>
+                <span className={styles.caseTagText}>T-Bank</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>App</span>
+                <span className={styles.caseTagText}>Media</span>
+              </div>
+              <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>Platform</span>
               </div>
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Dating Reimagined<br />Around Vibe And Aesthetics</p>
+              <p className={styles.subtitle}>T-J — Linking<br />Content With Banking</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>
