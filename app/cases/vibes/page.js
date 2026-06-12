@@ -145,6 +145,16 @@ export default function VibesCase() {
         </div>
       );
     }
+    if (i === 5) {
+      return (
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <div className={styles.slideTwoScreens}>
+            <img className={styles.screenImg} src="/images/vibes6-1.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes6-2.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
     if (i === 6) {
       return (
         <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
