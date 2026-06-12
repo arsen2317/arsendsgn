@@ -523,6 +523,22 @@ body {
   border-radius: 0.4rem;
 }
 
+/* Vibes thumb — lavender background, slide 1 video inset from the top */
+.work-thumb-vibes {
+  background: var(--accent-lavender);
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.work-thumb.work-thumb-vibes video {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 88%;
+}
+
 .work-thumb iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
