@@ -251,14 +251,14 @@
   z-index: 1;
 }
 
-/* Slide 1 — cover video inset from the top by the same margin as slide 9's bottom inset; its top half stays inside the card */
+/* Slide 1 — cover video inset from the top by the same margin as slide 9's bottom inset, fitted to the remaining height */
 .coverVideo {
   position: absolute;
   left: 50%;
   top: clamp(6.4rem, 4rem + 12vw, 18rem);
   transform: translateX(-50%);
   width: auto;
-  height: calc(2 * (100% - clamp(6.4rem, 4rem + 12vw, 18rem)));
+  height: calc(100% - clamp(6.4rem, 4rem + 12vw, 18rem));
 }
 
 /* Slide 9 — phone mockup centered, sized so exactly its bottom half stays inside the card */
