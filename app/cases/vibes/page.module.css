@@ -252,9 +252,9 @@
 /* Slide 9 — phone mockup centered and stretched to available width, top edge cropped by the card */
 .safetyImg {
   position: absolute;
-  left: clamp(1.6rem, 1rem + 2vw, 4rem);
-  bottom: clamp(1.6rem, 1rem + 2vw, 4rem);
-  width: calc(100% - 2 * clamp(1.6rem, 1rem + 2vw, 4rem));
+  left: clamp(3.2rem, 2rem + 6vw, 9rem);
+  bottom: clamp(3.2rem, 2rem + 6vw, 9rem);
+  width: calc(100% - 2 * clamp(3.2rem, 2rem + 6vw, 9rem));
   height: auto;
   filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
 }
