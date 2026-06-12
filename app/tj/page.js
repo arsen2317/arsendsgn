@@ -53,7 +53,7 @@ const SLIDES = [
   {
     id: 'matching',
     description:
-      'The algorithm matches users based on visual compatibility and shared interests. In addition to regular filters, there is an experimental mode that pairs people with contrasting vibes.',
+      'Users can create and share their own travel plans in the Trip Planner — with curated selections based on personal interests, AI assistance trained on T—Journal content, and the ability to share plans with the community.',
   },
   {
     id: 'icebreaker',
