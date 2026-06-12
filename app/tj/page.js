@@ -95,11 +95,11 @@ const FRAME_MEDIA = [
       </div>
     </div>
   ),
-  // 2 — single image
+  // 2 — single image, no drop-shadow
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideContent}>
-        <img className={styles.screenImg} src="/images/tj3.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.noShadow}`} src="/images/tj3.webp" alt="" />
       </div>
     </div>
   ),
@@ -135,23 +135,21 @@ const FRAME_MEDIA = [
       <img className={styles.editorImgBottom} src="/images/tj6-1.webp" alt="" />
     </div>
   ),
-  // 7 — two images, same principle as vibes slide 4 (one top, one bottom)
+  // 7 — two images, left cropped ~15% off the top, right cropped ~15% off the bottom
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.profileScreens}>
-        <img className={`${styles.screenImg} ${styles.profileImgTop}`} src="/images/tj7-1.webp" alt="" />
-        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj7-2.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropTop}`} src="/images/tj7-1.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropBottom}`} src="/images/tj7-2.webp" alt="" />
       </div>
     </div>
   ),
   // 8 — two images side by side
   () => (
-    <div className={styles.slideTwoCol}>
-      <div className={styles.dark}>
-        <img className={styles.slideImg} src="/images/tj8-1.webp" alt="" />
-      </div>
-      <div className={styles.dark}>
-        <img className={styles.slideImg} src="/images/tj8-2.webp" alt="" />
+    <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+      <div className={styles.slideTwoScreens}>
+        <img className={styles.screenImg} src="/images/tj8-1.webp" alt="" />
+        <img className={styles.screenImg} src="/images/tj8-2.webp" alt="" />
       </div>
     </div>
   ),

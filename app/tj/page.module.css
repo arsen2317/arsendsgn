@@ -191,6 +191,22 @@
   object-position: bottom;
 }
 
+/* Slide 7 — left image cropped ~15% off the top, right image cropped ~15% off the bottom */
+.profileScreens .profileImgCropTop {
+  height: 115%;
+  align-self: flex-end;
+}
+
+.profileScreens .profileImgCropBottom {
+  height: 115%;
+  align-self: flex-start;
+}
+
+/* Remove the drop-shadow on screens that don't need it */
+.noShadow {
+  filter: none;
+}
+
 /* Slide 5 — four dark cards in a 2x2 grid, same look as slide 1's two cards */
 .pilotGrid {
   display: grid;
