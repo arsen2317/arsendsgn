@@ -717,18 +717,6 @@ export default function Home() {
             </div>
             <p className="work-title">Sber</p>
           </a>
-          <a href="/tj" className="work-item">
-            <div className="work-thumb">
-              <iframe
-                src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
-                frameBorder="0"
-                allowFullScreen
-                style={{width:'100%',height:'100%',border:'none'}}
-              />
-            </div>
-            <p className="work-title">T-Journal</p>
-          </a>
           <a href="/vibes" className="work-item">
             <div className="work-thumb">
               <div className="work-thumb-vibes">
@@ -741,9 +729,17 @@ export default function Home() {
             </div>
             <p className="work-title">Vibes</p>
           </a>
-          <a href="/tbank" className="work-item">
-            <div className="work-thumb" />
-            <p className="work-title">T-Bank</p>
+          <a href="/tj" className="work-item">
+            <div className="work-thumb">
+              <iframe
+                src="https://kinescope.io/embed/ttU5nXJMc4RCMbWnmZg8JH?&muted=true&autoplay=true&autopause=false&loop=true"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write;"
+                frameBorder="0"
+                allowFullScreen
+                style={{width:'100%',height:'100%',border:'none'}}
+              />
+            </div>
+            <p className="work-title">T-Journal</p>
           </a>
         </div>
       </section>

@@ -495,7 +495,7 @@ body {
 
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: clamp(8px, 0.83vw, 12px);
   align-items: start;
 }
