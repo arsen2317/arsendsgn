@@ -33,7 +33,7 @@ const SLIDES = [
   {
     id: 'research',
     description:
-      'In-depth interviews with Russian and international respondents, along with a quantitative survey, showed that users lose interest due to repetitive profiles and shallow conversations. People often struggle to describe themselves but enjoy exploring others’ stories. Visual details such as surroundings, music, and atmosphere in photos play a significant role, while seeing other users’ success stories motivates them to return to the app.',
+      'Research showed that authorization provided little value to users, the journey to bank products was too long, motivations varied from spontaneous to planned, and readers lacked simple tools to act on the inspiration from articles.',
   },
   {
     id: 'concept',
