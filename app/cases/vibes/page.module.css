@@ -182,11 +182,13 @@
 .profileScreens .profileImgTop {
   height: 87%;
   align-self: flex-start;
+  object-position: top;
 }
 
 .profileScreens .profileImgBottom {
   height: 87%;
   align-self: flex-end;
+  object-position: bottom;
 }
 
 /* Slide 5 — four dark cards in a 2x2 grid, same look as slide 1's two cards */
