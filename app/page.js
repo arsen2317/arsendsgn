@@ -680,7 +680,7 @@ export default function Home() {
         </div>
         <div className="dark-row">
           <div className="dark-desc">
-            <p>I focus on the user, combining empathy, attention to detail, and analytics to make the complex simple and understandable</p>
+            <p>Currently working at MTS Fintech, one of Russia's largest banks, with a background in graphic design and training from the British Higher School of Art and Design.</p>
           </div>
           <video
             className="dark-img-placeholder"
