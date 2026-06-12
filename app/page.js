@@ -730,12 +730,14 @@ export default function Home() {
             <p className="work-title">T-Journal</p>
           </a>
           <a href="/cases/vibes" className="work-item">
-            <div className="work-thumb work-thumb-vibes">
-              <video
-                src="/vibes1.mp4"
-                autoPlay loop muted playsInline
-                ref={el => { if (el) el.muted = true; }}
-              />
+            <div className="work-thumb">
+              <div className="work-thumb-vibes">
+                <video
+                  src="/vibes1.mp4"
+                  autoPlay loop muted playsInline
+                  ref={el => { if (el) el.muted = true; }}
+                />
+              </div>
             </div>
             <p className="work-title">Vibes</p>
           </a>
