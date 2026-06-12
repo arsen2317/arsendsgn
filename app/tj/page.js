@@ -43,7 +43,7 @@ const SLIDES = [
   {
     id: 'profile',
     description:
-      'In Vibes, the user profile is an interactive collage made of photos, music, and tags. It can be created manually or automatically generated from Pinterest boards, playlists, and other personal data.',
+      'We created the “Geogenius” quiz game inspired by GeoGuessr, using real travel photos submitted by T—Journal readers in the travel section. Participation offered prizes and discounts, but required T-ID authorization — creating a soft and motivating entry point for registration.',
   },
   {
     id: 'editor',
