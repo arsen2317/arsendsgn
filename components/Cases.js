@@ -19,6 +19,7 @@ const cases = [
     tags: ['Соцсети', 'Mobile'],
     year: '2023',
     href: '/cases/vibes',
+    cover: 'video',
   },
   {
     id: 'tj',
@@ -82,7 +83,16 @@ export default function Cases() {
         <div className={styles.grid}>
           {cases.map((c) => (
             <a key={c.id} href={c.href} className={styles.card} data-card>
-              <div className={styles.cardImage} />
+              <div className={`${styles.cardImage} ${c.cover === 'video' ? styles.cardImageLavender : ''}`}>
+                {c.cover === 'video' && (
+                  <video
+                    className={styles.cardVideo}
+                    src="/vibes1.mp4"
+                    autoPlay loop muted playsInline
+                    ref={el => { if (el) el.muted = true; }}
+                  />
+                )}
+              </div>
               <div className={styles.cardBody}>
                 <div className={styles.cardTop}>
                   <div>
