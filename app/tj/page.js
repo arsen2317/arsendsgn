@@ -48,7 +48,7 @@ const SLIDES = [
   {
     id: 'editor',
     description:
-      'A flexible editor lets users adjust colors and apply neural filters to transform the collage\'s vibe. This makes it possible to create a compelling profile even without knowing how to describe yourself in words.',
+      'A new Travel Hub became a vibrant community space for travelers, allowing users to check in during trips, share live streams and stories, create checklists, rate places, and track live cashback earned together with other participants.',
   },
   {
     id: 'matching',
