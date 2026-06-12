@@ -58,7 +58,7 @@ const SLIDES = [
   {
     id: 'icebreaker',
     description:
-      'After a match, a shared collage is generated as a conversation starter. Users can tap on individual elements to discuss them and build conversations around shared interests.',
+      'For those who prefer not to plan trips themselves, we created ready-made travel plans by both users and the editorial team — complete with day-by-day plans, integrated ticket booking through T-Travel, and hotel reservations.',
   },
   {
     id: 'games',
