@@ -173,6 +173,16 @@ export default function VibesCase() {
         </div>
       );
     }
+    if (i === 9) {
+      return (
+        <div className={styles.dark} style={{ background: '#131314' }}>
+          <img className={styles.slideImg} src="/images/vibes10bg.webp" alt="" />
+          <div className={styles.resultsWrap}>
+            <img className={styles.resultsImg} src="/images/vibes10.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className={styles.dark}>
         <img className={styles.slideImg} src={`/images/vibes-${i}.webp`} alt="" />
