@@ -70,12 +70,12 @@ const SLIDES = [
 const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
 
 /* Media frames for the desktop snap track — finer-grained than SLIDES, since
-   the "editor" slide (index 4) is split into two scroll stops that share the
-   same counter/description. */
-const FRAME_TO_SLIDE = [0, 1, 2, 3, 4, 4, 5, 6, 7];
+   the "editor" (index 4) and "matching" (index 5) slides are each split into
+   two scroll stops that share the same counter/description. */
+const FRAME_TO_SLIDE = [0, 1, 2, 3, 4, 4, 5, 5, 6, 7];
 
-/* Mobile groups slides 1:1 with SLIDES — slide 4 (editor) shows both of its frames stacked */
-const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6], [7], [8]];
+/* Mobile groups slides 1:1 with SLIDES — slides 4 and 5 show both of their frames stacked */
+const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
 
 const FRAME_MEDIA = [
   // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
@@ -129,13 +129,34 @@ const FRAME_MEDIA = [
       </div>
     </div>
   ),
-  // 6 — single image pinned to the bottom, same principle as frame 4
+  // 6 — matching, sub-slide A: single image pinned to the bottom, same principle as frame 4
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <img className={styles.editorImgBottom} src="/images/tj6-1.webp" alt="" />
     </div>
   ),
-  // 7 — two images, left cropped ~15% off the top, right cropped ~15% off the bottom
+  // 7 — matching, sub-slide B: video in a phone mockup + image, same layout as sber slide 4
+  () => (
+    <div className={styles.slideTwoCol}>
+      <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+        <div className={styles.slideContent}>
+          <div className={styles.phoneMockup}>
+            <video
+              className={styles.mockupVideo}
+              src="/tj6-2.mp4"
+              autoPlay loop muted playsInline
+              ref={el => { if (el) el.muted = true; }}
+            />
+            <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
+          </div>
+        </div>
+      </div>
+      <div className={styles.dark}>
+        <img className={styles.slideImg} src="/images/tj6-3.webp" alt="" />
+      </div>
+    </div>
+  ),
+  // 8 — two images, left cropped ~15% off the top, right cropped ~15% off the bottom
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.profileScreens}>
@@ -144,7 +165,7 @@ const FRAME_MEDIA = [
       </div>
     </div>
   ),
-  // 8 — two images side by side
+  // 9 — two images side by side
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideTwoScreens}>
@@ -181,6 +202,7 @@ export default function TjCase() {
     if (!right || !track) return;
 
     snapLockRef.current = true;
+    const sameSlide = FRAME_TO_SLIDE[nextIdx] === FRAME_TO_SLIDE[activeIdxRef.current];
     activeIdxRef.current = nextIdx;
 
     const startY   = offsetRef.current;
@@ -189,12 +211,18 @@ export default function TjCase() {
     const t0       = performance.now();
     const ease     = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
 
-    setTextVisible(false);
-    setTimeout(() => {
+    if (sameSlide) {
+      // Same counter/description on both sides — skip the text fade
       setActiveIdx(nextIdx);
       setDisplayedIdx(nextIdx);
-      setTextVisible(true);
-    }, 200);
+    } else {
+      setTextVisible(false);
+      setTimeout(() => {
+        setActiveIdx(nextIdx);
+        setDisplayedIdx(nextIdx);
+        setTextVisible(true);
+      }, 200);
+    }
 
     const tick = (now) => {
       const t = Math.min((now - t0) / duration, 1);
