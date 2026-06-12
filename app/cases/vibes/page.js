@@ -124,10 +124,10 @@ export default function VibesCase() {
     }
     if (i === 2) {
       return (
-        <div className={styles.dark}>
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
           <div className={styles.slideContent}>
             <video
-              className={styles.screenImg}
+              className={`${styles.screenImg} ${styles.conceptVideo}`}
               src="/vibes3.mp4"
               autoPlay loop muted playsInline
               ref={el => { if (el) el.muted = true; }}

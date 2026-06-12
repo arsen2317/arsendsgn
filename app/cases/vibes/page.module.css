@@ -220,6 +220,12 @@
   filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
 }
 
+/* Slide 3 — concept video, no drop-shadow, slightly enlarged */
+.conceptVideo {
+  filter: none;
+  transform: scale(1.03);
+}
+
 /* Phone mockup — frame on top, video behind in screen area */
 .phoneMockup {
   position: relative;
@@ -251,14 +257,14 @@
   z-index: 1;
 }
 
-/* Slide 1 — cover video pinned to the card's bottom edge, same width sizing as slide 9's illustration */
+/* Slide 1 — cover video inset from the top by the same margin as slide 9's bottom inset, fitted to the remaining height */
 .coverVideo {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  top: clamp(6.4rem, 4rem + 12vw, 18rem);
   transform: translateX(-50%);
   width: auto;
-  height: calc(2 * (100% - clamp(6.4rem, 4rem + 12vw, 18rem)));
+  height: calc(100% - clamp(6.4rem, 4rem + 12vw, 18rem));
 }
 
 /* Slide 9 — phone mockup centered, sized so exactly its bottom half stays inside the card */

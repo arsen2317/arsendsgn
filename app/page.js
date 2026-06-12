@@ -731,11 +731,13 @@ export default function Home() {
           </a>
           <a href="/cases/vibes" className="work-item">
             <div className="work-thumb">
-              <video
-                src="https://static.tildacdn.com/vide3238-3739-4331-a561-353338386161/cover_short.mp4"
-                autoPlay loop muted playsInline
-                ref={el => { if (el) el.muted = true; }}
-              />
+              <div className="work-thumb-vibes">
+                <video
+                  src="/vibes1.mp4"
+                  autoPlay loop muted playsInline
+                  ref={el => { if (el) el.muted = true; }}
+                />
+              </div>
             </div>
             <p className="work-title">Vibes</p>
           </a>
