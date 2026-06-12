@@ -63,7 +63,7 @@ const SLIDES = [
   {
     id: 'games',
     description:
-      'Vibes includes several mini-games designed to help users reveal themselves and connect. These feature planning the perfect date, collage roulette with anonymous matches, music-based matching, and other activities. Games can be shared with friends to invite them into the experience.',
+      'The concept was first implemented and tested in the popular Travel section, with plans to scale the approach to other life scenarios supported by both T-Bank products and T—Journal content, eventually turning the platform into a universal life goals planner with seamless bank integration.',
   },
   {
     id: 'safety',
