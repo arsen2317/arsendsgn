@@ -661,7 +661,7 @@ export default function Home() {
         </div>
 
         <div className="hero-bottom">
-          <div className="hero-exp"><span>2 years experience</span></div>
+          <div className="hero-exp"><span>3 years experience</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
               <span className={`badge yellow${sayHiFade ? ' badge--fade' : ''}`} style={{cursor:'default'}}>{sayHiWord}</span>
