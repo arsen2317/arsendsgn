@@ -251,11 +251,11 @@
   z-index: 1;
 }
 
-/* Slide 1 — cover video pinned to the card's bottom edge, same width sizing as slide 9's illustration */
+/* Slide 1 — cover video inset from the top by the same margin as slide 9's bottom inset; its top half stays inside the card */
 .coverVideo {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  top: clamp(6.4rem, 4rem + 12vw, 18rem);
   transform: translateX(-50%);
   width: auto;
   height: calc(2 * (100% - clamp(6.4rem, 4rem + 12vw, 18rem)));
