@@ -38,7 +38,7 @@ const SLIDES = [
   {
     id: 'concept',
     description:
-      'Users find it hard to describe their own vibe but easily sense it in others. This insight shaped Vibes — a visual dating app where people express themselves through collages and music rather than text. We replace endless swiping with deeper, vibe-based connections.',
+      'As a solution, we developed T-ID as a seamless authorization method that converts T—Journal readers into T-Bank customers by enhancing its appeal with new functionality and social features.',
   },
   {
     id: 'profile',
