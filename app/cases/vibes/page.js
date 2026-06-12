@@ -124,6 +124,20 @@ export default function VibesCase() {
         </div>
       );
     }
+    if (i === 2) {
+      return (
+        <div className={styles.dark}>
+          <div className={styles.slideContent}>
+            <video
+              className={styles.screenImg}
+              src="/vibes3.mp4"
+              autoPlay loop muted playsInline
+              ref={el => { if (el) el.muted = true; }}
+            />
+          </div>
+        </div>
+      );
+    }
     if (i === 3) {
       return (
         <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
