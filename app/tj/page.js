@@ -65,16 +65,6 @@ const SLIDES = [
     description:
       'The concept was first implemented and tested in the popular Travel section, with plans to scale the approach to other life scenarios supported by both T-Bank products and T—Journal content, eventually turning the platform into a universal life goals planner with seamless bank integration.',
   },
-  {
-    id: 'safety',
-    description:
-      'The Comfort+ mode provides content filtering to reduce unwanted interactions. It also includes a dedicated safety widget featuring geolocation sharing and an SOS button, designed to support users if a date feels unsafe.',
-  },
-  {
-    id: 'results',
-    description:
-      'Following the MVP release on the App Store, the product showed solid performance during testing. 74% of users completed onboarding and created their first profile. Average profile viewing time reached 8.5 seconds — notably higher than the typical 4–5 seconds in dating apps — and 47% of matches led to conversations.',
-  },
 ];
 
 const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
@@ -184,23 +174,6 @@ export default function TjCase() {
             <img className={styles.screenImg} src="/images/vibes8-1.webp" alt="" />
             <img className={styles.screenImg} src="/images/vibes8-2.webp" alt="" />
             <img className={styles.screenImg} src="/images/vibes8-3.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 8) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <img className={styles.safetyImg} src="/images/vibes9.webp" alt="" />
-        </div>
-      );
-    }
-    if (i === 9) {
-      return (
-        <div className={styles.dark} style={{ background: '#131314' }}>
-          <img className={styles.slideImg} src="/images/vibes10bg.webp" alt="" />
-          <div className={styles.resultsWrap}>
-            <img className={styles.resultsImg} src="/images/vibes10.webp" alt="" />
           </div>
         </div>
       );
