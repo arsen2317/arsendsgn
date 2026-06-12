@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
-import SiteHeader from '../../../components/SiteHeader';
-import Footer from '../../../components/Footer';
+import SiteHeader from '../../components/SiteHeader';
+import Footer from '../../components/Footer';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -28,40 +28,58 @@ const SLIDES = [
   {
     id: 'context',
     description:
-      "Sber is Russia's largest acquiring provider with over 2 million terminals deployed across the country. The hardware is everywhere — payments via QR code, card, and biometrics are already solved. The question now is: can we expand the user experience of a payment terminal and find new value beyond the transaction itself?",
+      'Modern dating apps are built around endless swiping and superficial interactions. We wanted to create an alternative where users match based on shared interests, aesthetics, and vibe — not just photos.',
   },
   {
     id: 'research',
     description:
-      'Through field research, desk research, competitive analysis, and in-depth interviews it became clear that merchants transform payment terminals into part of their venue\'s atmosphere by decorating them and opting for custom stands. Customers love this personalization because it makes the payment experience brighter and more enjoyable.',
+      'In-depth interviews with Russian and international respondents, along with a quantitative survey, showed that users lose interest due to repetitive profiles and shallow conversations. People often struggle to describe themselves but enjoy exploring others’ stories. Visual details such as surroundings, music, and atmosphere in photos play a significant role, while seeing other users’ success stories motivates them to return to the app.',
   },
   {
     id: 'concept',
     description:
-      'The solution is a constructor for customizable POS. Through SberBusiness app, merchants can tailor the device by selecting body and interface colors, using interchangeable branded covers, creating personal mascots, and integrating tipping, loyalty, and cashback.',
+      'Users find it hard to describe their own vibe but easily sense it in others. This insight shaped Vibes — a visual dating app where people express themselves through collages and music rather than text. We replace endless swiping with deeper, vibe-based connections.',
   },
   {
-    id: 'design',
+    id: 'profile',
     description:
-      'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
+      'In Vibes, the user profile is an interactive collage made of photos, music, and tags. It can be created manually or automatically generated from Pinterest boards, playlists, and other personal data.',
   },
   {
-    id: 'tips',
+    id: 'editor',
     description:
-      'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
+      'A flexible editor lets users adjust colors and apply neural filters to transform the collage\'s vibe. This makes it possible to create a compelling profile even without knowing how to describe yourself in words.',
   },
   {
-    id: 'pilot',
+    id: 'matching',
     description:
-      'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
+      'The algorithm matches users based on visual compatibility and shared interests. In addition to regular filters, there is an experimental mode that pairs people with contrasting vibes.',
+  },
+  {
+    id: 'icebreaker',
+    description:
+      'After a match, a shared collage is generated as a conversation starter. Users can tap on individual elements to discuss them and build conversations around shared interests.',
+  },
+  {
+    id: 'games',
+    description:
+      'Vibes includes several mini-games designed to help users reveal themselves and connect. These feature planning the perfect date, collage roulette with anonymous matches, music-based matching, and other activities. Games can be shared with friends to invite them into the experience.',
+  },
+  {
+    id: 'safety',
+    description:
+      'The Comfort+ mode provides content filtering to reduce unwanted interactions. It also includes a dedicated safety widget featuring geolocation sharing and an SOS button, designed to support users if a date feels unsafe.',
+  },
+  {
+    id: 'results',
+    description:
+      'Following the MVP release on the App Store, the product showed solid performance during testing. 74% of users completed onboarding and created their first profile. Average profile viewing time reached 8.5 seconds — notably higher than the typical 4–5 seconds in dating apps — and 47% of matches led to conversations.',
   },
 ];
 
-const SKILL_TAGS = ['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'];
+const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
 
-const VIDEO_URL = '/sber.mp4';
-
-export default function SberCase() {
+export default function VibesCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
@@ -82,10 +100,10 @@ export default function SberCase() {
   const renderSlideMedia = (i) => {
     if (i === 0) {
       return (
-        <div className={styles.dark}>
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
           <video
-            className={styles.slideVideo}
-            src={VIDEO_URL}
+            className={styles.coverVideo}
+            src="/vibes1.mp4"
             autoPlay loop muted playsInline
             ref={el => { if (el) el.muted = true; }}
           />
@@ -96,71 +114,100 @@ export default function SberCase() {
       return (
         <div className={styles.slideTwoCol}>
           <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
+            <img className={styles.slideImg} src="/images/vibesuser1.jpg" alt="" />
           </div>
           <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
+            <img className={styles.slideImg} src="/images/vibesuser2.jpg" alt="" />
           </div>
         </div>
       );
     }
     if (i === 2) {
       return (
-        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-          <div className={styles.slideTwoScreens}>
-            <img className={styles.screenImg} src="/images/sber1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/sber2.webp" alt="" />
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <div className={styles.slideContent}>
+            <video
+              className={`${styles.screenImg} ${styles.conceptVideo}`}
+              src="/vibes3.mp4"
+              autoPlay loop muted playsInline
+              ref={el => { if (el) el.muted = true; }}
+            />
           </div>
         </div>
       );
     }
     if (i === 3) {
       return (
-        <div className={styles.slideTwoCol}>
-          <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-            <div className={styles.slideContent}>
-              <div className={styles.phoneMockup}>
-                <video
-                  className={styles.mockupVideo}
-                  src="/cases.mp4"
-                  autoPlay loop muted playsInline
-                  ref={el => { if (el) el.muted = true; }}
-                />
-                <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
-              </div>
-            </div>
-          </div>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <div className={styles.profileScreens}>
+            <img className={`${styles.screenImg} ${styles.profileImgTop}`} src="/images/vibes4-1.webp" alt="" />
+            <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/vibes4-2.webp" alt="" />
           </div>
         </div>
       );
     }
     if (i === 4) {
       return (
-        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
           <div className={styles.slideThreeScreens}>
-            <img className={styles.screenImg} src="/images/sber3.webp" alt="" />
-            <img className={styles.screenImg} src="/images/sber4.webp" alt="" />
-            <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes5-1.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes5-2.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes5-3.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 5) {
+      return (
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <div className={styles.slideTwoScreens}>
+            <img className={styles.screenImg} src="/images/vibes6-1.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes6-2.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 6) {
+      return (
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <div className={styles.slideTwoScreens}>
+            <img className={styles.screenImg} src="/images/vibes7-1.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes7-2.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 7) {
+      return (
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <div className={styles.slideThreeScreens}>
+            <img className={styles.screenImg} src="/images/vibes8-1.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes8-2.webp" alt="" />
+            <img className={styles.screenImg} src="/images/vibes8-3.webp" alt="" />
+          </div>
+        </div>
+      );
+    }
+    if (i === 8) {
+      return (
+        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
+          <img className={styles.safetyImg} src="/images/vibes9.webp" alt="" />
+        </div>
+      );
+    }
+    if (i === 9) {
+      return (
+        <div className={styles.dark} style={{ background: '#131314' }}>
+          <img className={styles.slideImg} src="/images/vibes10bg.webp" alt="" />
+          <div className={styles.resultsWrap}>
+            <img className={styles.resultsImg} src="/images/vibes10.webp" alt="" />
           </div>
         </div>
       );
     }
     return (
-      <div className={styles.pilotGrid}>
-        <div className={styles.dark}>
-          <img className={`${styles.slideImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
-        </div>
-        <div className={styles.dark}>
-          <img className={styles.slideImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
-        </div>
-        <div className={styles.dark}>
-          <img className={`${styles.slideImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
-        </div>
-        <div className={styles.dark}>
-          <img className={styles.slideImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
-        </div>
+      <div className={styles.dark}>
+        <img className={styles.slideImg} src={`/images/vibes-${i}.webp`} alt="" />
       </div>
     );
   };
@@ -378,18 +425,15 @@ export default function SberCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Sber</span>
+                <span className={styles.caseTagText}>Vibes</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>POS</span>
-              </div>
-              <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Terminal</span>
+                <span className={styles.caseTagText}>App</span>
               </div>
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Pushing The POS Terminal<br />Beyond Payments</p>
+              <p className={styles.subtitle}>Dating Reimagined<br />Around Vibe And Aesthetics</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>

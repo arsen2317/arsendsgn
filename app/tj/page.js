@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
-import SiteHeader from '../../../components/SiteHeader';
-import Footer from '../../../components/Footer';
+import SiteHeader from '../../components/SiteHeader';
+import Footer from '../../components/Footer';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -79,7 +79,7 @@ const SLIDES = [
 
 const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
 
-export default function VibesCase() {
+export default function TjCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);

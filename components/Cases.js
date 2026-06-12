@@ -10,7 +10,7 @@ const cases = [
     desc: 'Мобильный банк',
     tags: ['Банки', 'iOS', 'Android'],
     year: '2024',
-    href: '/cases/sber',
+    href: '/sber',
   },
   {
     id: 'vibes',
@@ -18,7 +18,7 @@ const cases = [
     desc: 'Социальная сеть',
     tags: ['Соцсети', 'Mobile'],
     year: '2023',
-    href: '/cases/vibes',
+    href: '/vibes',
   },
   {
     id: 'tj',
@@ -26,7 +26,7 @@ const cases = [
     desc: 'Медиа о финансах',
     tags: ['Медиа', 'Web'],
     year: '2023',
-    href: '/cases/tj',
+    href: '/tj',
   },
   {
     id: 'tbank',
@@ -34,7 +34,7 @@ const cases = [
     desc: 'Экосистема банка',
     tags: ['Финтех', 'iOS'],
     year: '2024',
-    href: '/cases/tbank',
+    href: '/tbank',
   },
 ];
 
