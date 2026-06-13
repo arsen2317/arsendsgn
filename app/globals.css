@@ -928,6 +928,12 @@ body {
   .work-section-labels { display: flex; flex-direction: row; gap: 4px; }
 }
 
+/* About section: shrink top padding and video to free up vertical space */
+@media (max-height: 760px) and (min-width: 769px) {
+  .dark-section { padding-top: 124px; }
+  .dark-row { height: 260px; }
+}
+
 
 /* ─── DRAW CANVAS ────────────────────────────────────── */
 .draw-canvas {
