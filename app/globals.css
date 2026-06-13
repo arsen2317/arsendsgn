@@ -414,7 +414,7 @@ body {
 .dark-row {
   display: flex;
   gap: 100px;
-  height: 318px;
+  height: clamp(220px, 40vh, 420px);
   align-items: flex-end;
   width: 100%;
 }
@@ -917,18 +917,20 @@ body {
   .work-discipline-tag:nth-last-child(-n+3) { display: none; }
 }
 
-/* Step 2 ~760px: теги в два столбца */
+/* Step 2 ~760px: теги в два столбца, Recent + Projects в одну строку */
 @media (max-height: 760px) and (min-width: 769px) {
   .work-disciplines {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: start;
   }
+
+  .work-section-labels { display: flex; flex-direction: row; gap: 4px; }
 }
 
-/* Step 3 ~660px: Recent + Projects в одну строку */
-@media (max-height: 660px) and (min-width: 769px) {
-  .work-section-labels { display: flex; flex-direction: row; gap: 4px; }
+/* About section: shrink top padding on short viewports — video now scales via vh */
+@media (max-height: 760px) and (min-width: 769px) {
+  .dark-section { padding-top: 124px; }
 }
 
 
