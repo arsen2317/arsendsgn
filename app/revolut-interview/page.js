@@ -47,8 +47,8 @@ const SLIDES = [
     skillTags: ['3 years experience', 'HR-tech', 'product design', 'graphic design background'],
     media: { type: 'video', src: '/MTSDengi.mp4' },
     description: [
-      { p: 'Currently working as a Product Designer at MTS Fintech, where I design HR Tech solutions that improve internal processes for employees.' },
-      { p: "I have a multidisciplinary background that allows me to approach product challenges from different angles — combining design, systemic thinking, and understanding of human behavior. I'm constantly expanding my skill set, including building interfaces in code, to deliver more complete and thoughtful solutions." },
+      { p: 'I design HR Tech solutions that simplify internal processes.' },
+      { p: 'With experience in both graphic and product design, I blend systemic thinking and understanding of human behavior, and keep developing new skills, including building interfaces in code.' },
     ],
   },
   {
@@ -96,7 +96,7 @@ const SLIDES = [
     media: { type: 'phoneAndImage' },
     description: [
       { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
-      { list: ['Choose colors for the terminal body and interface', 'Use interchangeable branded covers and mascots', 'Integrate tipping, loyalty, and cashback directly into the payment flow'] },
+      { list: ['Choose new colors', 'Use interchangeable branded covers and mascots', 'Add tipping, loyalty, and cashback features'] },
       { p: 'Core Features:' },
       { list: ['SberTips (tips + feedback right after payment)', 'Biometric authentication for loyalty benefits', 'Option to redeem SberSpasibo points at checkout'] },
     ],
@@ -109,7 +109,7 @@ const SLIDES = [
     media: { type: 'threeScreens', images: ['/images/sber3.webp', '/images/sber4.webp', '/images/sber5.webp'] },
     description: [
       { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
-      { list: ['Choose colors for the terminal body and interface', 'Use interchangeable branded covers and mascots', 'Integrate tipping, loyalty, and cashback directly into the payment flow'] },
+      { list: ['Choose new colors', 'Use interchangeable branded covers and mascots', 'Add tipping, loyalty, and cashback features'] },
       { p: 'Core Features:' },
       { list: ['SberTips (tips + feedback right after payment)', 'Biometric authentication for loyalty benefits', 'Option to redeem SberSpasibo points at checkout'] },
     ],
@@ -143,8 +143,8 @@ const SLIDES = [
     subtitle: 'Vacation Planning Flow',
     skillTags: ['ux/ui design', 'research', 'usability testing', 'coded prototyping', 'developer handoff'],
     description: [
-      { p: 'Situation: when I joined the bank, the internal HR platform had outdated design and inconsistent UX across different sections. The vacation planning process was especially fragmented and confusing for employees.' },
-      { p: 'Task - completely rethink and unify the vacation planning experience from start to finish. The goal was to reduce confusion between different vacation scenarios and make the process simple and transparent for employees and managers.' },
+      { p: 'Situation: when I joined the bank, the internal HR platform had outdated and inconsistent design. The vacation planning process was especially fragmented and confusing for employees.' },
+      { p: 'Task - completely rethink and unify the vacation planning experience to reduce confusion between different scenarios and make the process simple and transparent for both employees and managers.' },
     ],
   },
   {
