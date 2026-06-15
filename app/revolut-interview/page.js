@@ -336,7 +336,7 @@ export default function RevolutInterviewCase() {
         return (
           <div className={styles.dark} style={{ background: '#000000' }}>
             <div className={styles.outro}>
-              <img className={styles.outroLogo} src="/images/revolut-logo.svg" alt="Revolut" />
+              <img className={styles.outroLogo} src="/images/Revolut-logo.svg" alt="Revolut" />
               <div className={styles.outroRow}>
                 <span className={`tag square ${styles.outroTag}`}>Because</span>
                 <span className={`tag pill ${styles.outroTag}`}>It&apos;s</span>
