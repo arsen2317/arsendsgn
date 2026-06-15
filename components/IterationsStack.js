@@ -38,7 +38,7 @@ export default function IterationsStack() {
         const style = visible
           ? {
               transform: `translate(calc(-50% + ${x}%), calc(-50% + ${y}%)) rotate(${angle}deg)`,
-              transitionDelay: `${i * 45}ms`,
+              transitionDelay: `${i * 90}ms`,
               zIndex: n,
             }
           : { transform: 'translate(-50%, 130%) rotate(0deg)', zIndex: n };

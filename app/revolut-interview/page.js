@@ -17,7 +17,7 @@ const ST = ({ children }) => (
 );
 
 const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
-const PROTOTYPE_URL = '#';
+const PROTOTYPE_URL = 'https://vacations-mts.vercel.app/en';
 const downloadCV = () => {
   const a = document.createElement('a');
   a.href = CV_URL;
@@ -188,7 +188,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Result & Impact',
     skillTags: null,
-    media: { type: 'image', src: '/images/21.png' },
+    media: { type: 'imageContained', src: '/images/21.png' },
     description: [
       { p: 'Key Outcomes' },
       { list: ['Reduced time to complete vacation planning requests by 35%', 'Decreased number of incorrect vacation requests by ~12%', 'Noticeable reduction in questions to HRBP regarding the vacation planning process', 'Faster and higher-quality handoff to development thanks to the interactive coded prototype'] },
@@ -271,6 +271,14 @@ export default function RevolutInterviewCase() {
             <img className={styles.slideImg} src={media.src} alt="" />
           </div>
         );
+      case 'imageContained':
+        return (
+          <div className={styles.dark}>
+            <div className={styles.slideContent}>
+              <img className={styles.screenImg} src={media.src} alt="" />
+            </div>
+          </div>
+        );
       case 'twoCol':
         return (
           <div className={styles.slideTwoCol}>
@@ -331,7 +339,7 @@ export default function RevolutInterviewCase() {
         );
       case 'twoRows':
         return (
-          <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+          <div className={styles.dark}>
             <div className={styles.slideTwoRows}>
               {media.images.map((src, i) => (
                 <img className={styles.rowImg} src={src} key={i} alt="" />
