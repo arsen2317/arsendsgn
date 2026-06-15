@@ -94,6 +94,18 @@ export default function RevolutSkills() {
       const wallR = Bodies.rectangle(W + 25, H / 2, 50, H * 3, { isStatic: true });
       Composite.add(engine.world, [floor, wallL, wallR]);
 
+      // Cursor "bumper" — a static body that follows the pointer and knocks chips around
+      const cursor = Bodies.circle(-100, -100, 36, { isStatic: true });
+      Composite.add(engine.world, cursor);
+
+      const onPointerMove = (e) => {
+        const rect = container.getBoundingClientRect();
+        Body.setPosition(cursor, { x: e.clientX - rect.left, y: e.clientY - rect.top });
+      };
+      const onPointerLeave = () => Body.setPosition(cursor, { x: -100, y: -100 });
+      container.addEventListener('pointermove', onPointerMove);
+      container.addEventListener('pointerleave', onPointerLeave);
+
       const runner = Runner.create();
       Runner.run(runner, engine);
 
@@ -111,6 +123,8 @@ export default function RevolutSkills() {
 
       cleanupRef.current = () => {
         cancelAnimationFrame(rafId);
+        container.removeEventListener('pointermove', onPointerMove);
+        container.removeEventListener('pointerleave', onPointerLeave);
         Runner.stop(runner);
         Engine.clear(engine);
       };
