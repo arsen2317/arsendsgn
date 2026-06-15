@@ -317,12 +317,12 @@
 }
 
 .outroTag {
-  background: rgba(250, 246, 239, 0.55) !important;
+  background: rgba(250, 246, 239, 0.85) !important;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  padding: 1.6rem 2.4rem !important;
+  padding: 2rem 2.8rem !important;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(2.1rem, 1.9786rem + 0.3236vw, 2.6rem);
+  font-size: clamp(2.6rem, 1.4rem + 2.5vw, 4.8rem);
   letter-spacing: -0.04em;
   color: var(--text-primary);
   line-height: 1;
