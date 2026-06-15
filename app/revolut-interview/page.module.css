@@ -288,6 +288,50 @@
   padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
 }
 
+/* Closing slide — Revolut logo on brand black + cycling "Because It's ___" tags */
+.outro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2.4rem, 2vw + 1.6rem, 4.8rem);
+  height: 100%;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+}
+
+.outroLogo {
+  width: clamp(6rem, 8vw, 12rem);
+  height: auto;
+}
+
+.outroRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.outroTag {
+  background: var(--text-light) !important;
+  padding: 1.6rem 2.4rem !important;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.1rem, 1.9786rem + 0.3236vw, 2.6rem);
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+  white-space: nowrap;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
+
+.outroCycling {
+  transition: opacity 0.3s ease;
+}
+
+.outroCycling.outroFade {
+  opacity: 0;
+}
+
 /* ─── OVERLAY (counter) ─────────────────────────────────── */
 /* Positioned relative to .right, outside .track — never moves with scroll */
 

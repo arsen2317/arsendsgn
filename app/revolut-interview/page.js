@@ -26,9 +26,8 @@ const downloadCV = () => {
 };
 
 const SBER_TAGS = [
-  { text: 'Sber',     shape: 'square' },
-  { text: 'POS',      shape: 'pill' },
-  { text: 'Terminal', shape: 'square' },
+  { text: 'Sber', shape: 'square' },
+  { text: 'POS',  shape: 'pill' },
 ];
 
 const MTS_TAGS = [
@@ -200,11 +199,15 @@ const SLIDES = [
     ],
     subtitle: null,
     skillTags: null,
+    media: { type: 'revolut-outro' },
     description: [
       { p: "Revolut's combination of high ownership, fast iteration, and ambition to simplify complex financial experiences at massive scale feels like the right place for me to grow and contribute. I'm excited by the opportunity to work in small, autonomous teams where good ideas can move quickly from concept to real users." },
     ],
   },
 ];
+
+/* Words cycled through the "Because It's ___" tag on the closing slide */
+const OUTRO_WORDS = ['Cool', 'Fun', 'Mindblowing', '10x', 'Huge', 'My Dream', 'Unmatched', 'Awesome'];
 
 /* Render a slide's description blocks — plain paragraphs and bullet lists */
 const renderDescription = (blocks) => blocks.map((block, i) => (
@@ -225,13 +228,15 @@ const renderSubtitle = (subtitle) => subtitle.split('\n').map((line, i, arr) => 
   </Fragment>
 ));
 
-export default function RevoluInterviewCase() {
+export default function RevolutInterviewCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [slideH, setSlideH]             = useState(0);
   const [isMobile, setIsMobile]         = useState(false);
+  const [outroWord, setOutroWord]       = useState(OUTRO_WORDS[0]);
+  const [outroFade, setOutroFade]       = useState(false);
 
   const rightRef     = useRef(null);
   const trackRef     = useRef(null);
@@ -239,6 +244,7 @@ export default function RevoluInterviewCase() {
   const snapLockRef  = useRef(false);
   const offsetRef    = useRef(0);
   const fxRef        = useRef(null);
+  const outroIdxRef  = useRef(0);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
@@ -324,6 +330,21 @@ export default function RevoluInterviewCase() {
         return (
           <div className={styles.dark}>
             <RevolutSkills />
+          </div>
+        );
+      case 'revolut-outro':
+        return (
+          <div className={styles.dark} style={{ background: '#000000' }}>
+            <div className={styles.outro}>
+              <img className={styles.outroLogo} src="/images/revolut-logo.svg" alt="Revolut" />
+              <div className={styles.outroRow}>
+                <span className={`tag square ${styles.outroTag}`}>Because</span>
+                <span className={`tag pill ${styles.outroTag}`}>It&apos;s</span>
+                <span className={`tag square ${styles.outroTag} ${styles.outroCycling}${outroFade ? ' ' + styles.outroFade : ''}`}>
+                  {outroWord}
+                </span>
+              </div>
+            </div>
           </div>
         );
       default:
@@ -420,6 +441,19 @@ export default function RevoluInterviewCase() {
     };
     window.addEventListener('pointerdown', unlock, { once: true });
     return () => window.removeEventListener('pointerdown', unlock);
+  }, []);
+
+  /* Cycle the "Because It's ___" word on the closing slide, same fade pattern as the footer */
+  useEffect(() => {
+    const t = setInterval(() => {
+      setOutroFade(true);
+      setTimeout(() => {
+        outroIdxRef.current = (outroIdxRef.current + 1) % OUTRO_WORDS.length;
+        setOutroWord(OUTRO_WORDS[outroIdxRef.current]);
+        setOutroFade(false);
+      }, 300);
+    }, 2000);
+    return () => clearInterval(t);
   }, []);
 
   /* GSAP entrance */

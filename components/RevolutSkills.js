@@ -36,7 +36,7 @@ const PALETTE = [
 const ITEMS = [...HARD, ...SOFT];
 
 /* Falling-skills physics, recolored with Revolut brand palette — used inside the
-   revolu-interview slide deck. Same matter-js setup as components/Skills.js. */
+   revolut-interview slide deck. Same matter-js setup as components/Skills.js. */
 export default function RevolutSkills() {
   const containerRef = useRef(null);
   const startedRef   = useRef(false);
