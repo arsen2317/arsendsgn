@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, Fragment } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
+import RevolutSkills from '../../components/RevolutSkills';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -45,6 +46,7 @@ const SLIDES = [
     ],
     subtitle: 'Product Designer At MTS Fintech',
     skillTags: ['3 years experience', 'HR-tech', 'product design', 'graphic design background'],
+    media: { type: 'video', src: '/MTSDengi.mp4' },
     description: [
       { p: 'Currently working as a Product Designer at MTS Fintech, where I design HR Tech solutions that improve internal processes for employees.' },
       { p: "I have a multidisciplinary background that allows me to approach product challenges from different angles — combining design, systemic thinking, and understanding of human behavior. I'm constantly expanding my skill set, including building interfaces in code, to deliver more complete and thoughtful solutions." },
@@ -58,6 +60,7 @@ const SLIDES = [
     ],
     subtitle: 'What Drives My Projects',
     skillTags: null,
+    media: { type: 'skills-revolut' },
     description: [
       { p: 'I believe good design comes from seeing both the big picture and the small details.' },
       { list: ['Systemic + empathetic thinking', 'Learning agility', 'End-to-end ownership', 'Practical creativity', 'Strong communication'] },
@@ -68,6 +71,7 @@ const SLIDES = [
     tags: SBER_TAGS,
     subtitle: 'Pushing The POS Terminal\nBeyond Payments',
     skillTags: ['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'],
+    media: { type: 'image', src: '/images/sberRevolut3.png' },
     description: [
       { p: "Sber is Russia's largest acquiring provider with over 2 million payment terminals deployed across the country. The next challenge was to generate new value beyond the transaction itself." },
       { p: 'The initial brief was quite open-ended: explore ways to create additional value for merchants and customers through the payment terminal. I took ownership of defining the direction — from research to a concrete product concept.' },
@@ -78,6 +82,7 @@ const SLIDES = [
     tags: SBER_TAGS,
     subtitle: 'Research & Insights',
     skillTags: null,
+    media: { type: 'twoCol', images: ['/images/sber-r1.png', '/images/sber-r2.png'] },
     description: [
       { p: 'Research: field research, in-depth interviews with merchants and customers, competitive analysis and desk research.' },
       { p: "Key Insight: merchants actively try to personalize their terminals (decorating them and using custom stands) to better fit their venue's atmosphere. Customers respond positively to more personalized and enjoyable payment experiences." },
@@ -85,10 +90,24 @@ const SLIDES = [
     ],
   },
   {
-    id: 'sber-solution',
+    id: 'sber-solution-1',
     tags: SBER_TAGS,
     subtitle: 'Solution & Features',
     skillTags: null,
+    media: { type: 'phoneAndImage' },
+    description: [
+      { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
+      { list: ['Choose colors for the terminal body and interface', 'Use interchangeable branded covers and mascots', 'Integrate tipping, loyalty, and cashback directly into the payment flow'] },
+      { p: 'Core Features:' },
+      { list: ['SberTips (tips + feedback right after payment)', 'Biometric authentication for loyalty benefits', 'Option to redeem SberSpasibo points at checkout'] },
+    ],
+  },
+  {
+    id: 'sber-solution-2',
+    tags: SBER_TAGS,
+    subtitle: 'Solution & Features',
+    skillTags: null,
+    media: { type: 'threeScreens', images: ['/images/sber3.webp', '/images/sber4.webp', '/images/sber5.webp'] },
     description: [
       { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
       { list: ['Choose colors for the terminal body and interface', 'Use interchangeable branded covers and mascots', 'Integrate tipping, loyalty, and cashback directly into the payment flow'] },
@@ -101,6 +120,7 @@ const SLIDES = [
     tags: SBER_TAGS,
     subtitle: 'Validation & Execution',
     skillTags: null,
+    media: { type: 'pilotGrid' },
     description: [
       { p: 'Validation:' },
       { list: ['Created thematic prototypes for different niches (coffee shops, florists, pet stores)', 'Developed 3D models and a physical test prototype of a branded cover', 'Designed seamless integration into the existing terminal interface'] },
@@ -112,6 +132,7 @@ const SLIDES = [
     tags: SBER_TAGS,
     subtitle: 'Pilot Results',
     skillTags: null,
+    media: { type: 'video', src: '/sber.mp4' },
     description: [
       { p: 'Early metrics:' },
       { list: ['Higher tipping rates', 'Increased customer engagement with loyalty programs', 'Improved merchant satisfaction with terminal integration into their retail space'] },
@@ -221,8 +242,94 @@ export default function RevoluInterviewCase() {
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
-  /* Slide visuals — illustrations not ready yet, placeholder for every slide */
-  const renderSlideMedia = () => <div className={styles.dark} />;
+  /* Slide visuals — driven by each slide's `media` descriptor */
+  const renderSlideMedia = (media) => {
+    switch (media?.type) {
+      case 'video':
+        return (
+          <div className={styles.dark}>
+            <video
+              className={styles.slideVideo}
+              src={media.src}
+              autoPlay loop muted playsInline
+              ref={el => { if (el) el.muted = true; }}
+            />
+          </div>
+        );
+      case 'image':
+        return (
+          <div className={styles.dark}>
+            <img className={styles.slideImg} src={media.src} alt="" />
+          </div>
+        );
+      case 'twoCol':
+        return (
+          <div className={styles.slideTwoCol}>
+            {media.images.map((src, i) => (
+              <div className={styles.dark} key={i}>
+                <img className={styles.slideImg} src={src} alt="" />
+              </div>
+            ))}
+          </div>
+        );
+      case 'phoneAndImage':
+        return (
+          <div className={styles.slideTwoCol}>
+            <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+              <div className={styles.slideContent}>
+                <div className={styles.phoneMockup}>
+                  <video
+                    className={styles.mockupVideo}
+                    src="/cases.mp4"
+                    autoPlay loop muted playsInline
+                    ref={el => { if (el) el.muted = true; }}
+                  />
+                  <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
+                </div>
+              </div>
+            </div>
+            <div className={styles.dark}>
+              <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
+            </div>
+          </div>
+        );
+      case 'threeScreens':
+        return (
+          <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+            <div className={styles.slideThreeScreens}>
+              {media.images.map((src, i) => (
+                <img className={styles.screenImg} src={src} key={i} alt="" />
+              ))}
+            </div>
+          </div>
+        );
+      case 'pilotGrid':
+        return (
+          <div className={styles.pilotGrid}>
+            <div className={styles.dark}>
+              <img className={`${styles.slideImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
+            </div>
+            <div className={styles.dark}>
+              <img className={styles.slideImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
+            </div>
+            <div className={styles.dark}>
+              <img className={`${styles.slideImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
+            </div>
+            <div className={styles.dark}>
+              <img className={styles.slideImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
+            </div>
+          </div>
+        );
+      case 'skills-revolut':
+        return (
+          <div className={styles.dark}>
+            <RevolutSkills />
+          </div>
+        );
+      default:
+        return <div className={styles.dark} />;
+    }
+  };
 
   /* ── Snap animation (same easing/lock pattern as main page) ── */
   const go = (nextIdx) => {
@@ -472,13 +579,13 @@ export default function RevoluInterviewCase() {
 
           {/* Slides track */}
           <div className={styles.track} ref={trackRef} data-slide>
-            {SLIDES.map((slide, i) => (
+            {SLIDES.map((slide) => (
               <div
                 key={slide.id}
                 className={styles.slideWrapper}
                 style={slideH ? { height: slideH } : undefined}
               >
-                {renderSlideMedia(i)}
+                {renderSlideMedia(slide.media)}
               </div>
             ))}
           </div>
@@ -494,9 +601,9 @@ export default function RevoluInterviewCase() {
 
         {/* MOBILE — plain scroll, alternating description / illustration, no fixed pagination */}
         <div className={styles.mobileSlides}>
-          {SLIDES.map((slide, i) => (
+          {SLIDES.map((slide) => (
             <div className={styles.mobileSlide} key={slide.id}>
-              <div className={styles.mobileMedia}>{renderSlideMedia(i)}</div>
+              <div className={styles.mobileMedia}>{renderSlideMedia(slide.media)}</div>
 
               {slide.skillTags && (
                 <div className={`${styles.skillTags} ${styles.skillTagsMobile}`}>
