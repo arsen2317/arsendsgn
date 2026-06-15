@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Fragment } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
@@ -24,42 +24,185 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
+const SBER_TAGS = [
+  { text: 'Sber',     shape: 'square' },
+  { text: 'POS',      shape: 'pill' },
+  { text: 'Terminal', shape: 'square' },
+];
+
+const MTS_TAGS = [
+  { text: 'MTS',  shape: 'square' },
+  { text: 'HR',   shape: 'pill' },
+  { text: 'Tech', shape: 'square' },
+];
+
 const SLIDES = [
   {
-    id: 'context',
-    description:
-      "Sber is Russia's largest acquiring provider with over 2 million terminals deployed across the country. The hardware is everywhere — payments via QR code, card, and biometrics are already solved. The question now is: can we expand the user experience of a payment terminal and find new value beyond the transaction itself?",
+    id: 'about',
+    tags: [
+      { text: 'Arsen',     shape: 'square' },
+      { text: 'Arakelyan', shape: 'pill' },
+    ],
+    subtitle: 'Product Designer At MTS Fintech',
+    skillTags: ['3 years experience', 'HR-tech', 'product design', 'graphic design background'],
+    description: [
+      { p: 'Currently working as a Product Designer at MTS Fintech, where I design HR Tech solutions that improve internal processes for employees.' },
+      { p: "I have a multidisciplinary background that allows me to approach product challenges from different angles — combining design, systemic thinking, and understanding of human behavior. I'm constantly expanding my skill set, including building interfaces in code, to deliver more complete and thoughtful solutions." },
+    ],
   },
   {
-    id: 'research',
-    description:
-      'Through field research, desk research, competitive analysis, and in-depth interviews it became clear that merchants transform payment terminals into part of their venue\'s atmosphere by decorating them and opting for custom stands. Customers love this personalization because it makes the payment experience brighter and more enjoyable.',
+    id: 'skills',
+    tags: [
+      { text: 'My',     shape: 'square' },
+      { text: 'Skills', shape: 'pill' },
+    ],
+    subtitle: 'What Drives My Projects',
+    skillTags: null,
+    description: [
+      { p: 'I believe good design comes from seeing both the big picture and the small details.' },
+      { list: ['Systemic + empathetic thinking', 'Learning agility', 'End-to-end ownership', 'Practical creativity', 'Strong communication'] },
+    ],
   },
   {
-    id: 'concept',
-    description:
-      'The solution is a constructor for customizable POS. Through SberBusiness app, merchants can tailor the device by selecting body and interface colors, using interchangeable branded covers, creating personal mascots, and integrating tipping, loyalty, and cashback.',
+    id: 'sber-context',
+    tags: SBER_TAGS,
+    subtitle: 'Pushing The POS Terminal\nBeyond Payments',
+    skillTags: ['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'],
+    description: [
+      { p: "Sber is Russia's largest acquiring provider with over 2 million payment terminals deployed across the country. The next challenge was to generate new value beyond the transaction itself." },
+      { p: 'The initial brief was quite open-ended: explore ways to create additional value for merchants and customers through the payment terminal. I took ownership of defining the direction — from research to a concrete product concept.' },
+    ],
   },
   {
-    id: 'design',
-    description:
-      'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
+    id: 'sber-research',
+    tags: SBER_TAGS,
+    subtitle: 'Research & Insights',
+    skillTags: null,
+    description: [
+      { p: 'Research: field research, in-depth interviews with merchants and customers, competitive analysis and desk research.' },
+      { p: "Key Insight: merchants actively try to personalize their terminals (decorating them and using custom stands) to better fit their venue's atmosphere. Customers respond positively to more personalized and enjoyable payment experiences." },
+      { p: 'This insight became the foundation for the solution.' },
+    ],
   },
   {
-    id: 'tips',
-    description:
-      'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
+    id: 'sber-solution',
+    tags: SBER_TAGS,
+    subtitle: 'Solution & Features',
+    skillTags: null,
+    description: [
+      { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
+      { list: ['Choose colors for the terminal body and interface', 'Use interchangeable branded covers and mascots', 'Integrate tipping, loyalty, and cashback directly into the payment flow'] },
+      { p: 'Core Features:' },
+      { list: ['SberTips (tips + feedback right after payment)', 'Biometric authentication for loyalty benefits', 'Option to redeem SberSpasibo points at checkout'] },
+    ],
   },
   {
-    id: 'pilot',
-    description:
-      'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
+    id: 'sber-validation',
+    tags: SBER_TAGS,
+    subtitle: 'Validation & Execution',
+    skillTags: null,
+    description: [
+      { p: 'Validation:' },
+      { list: ['Created thematic prototypes for different niches (coffee shops, florists, pet stores)', 'Developed 3D models and a physical test prototype of a branded cover', 'Designed seamless integration into the existing terminal interface'] },
+      { p: 'Sber launched a live pilot with customized terminals installed in several Moscow retail locations.' },
+    ],
+  },
+  {
+    id: 'sber-pilot',
+    tags: SBER_TAGS,
+    subtitle: 'Pilot Results',
+    skillTags: null,
+    description: [
+      { p: 'Early metrics:' },
+      { list: ['Higher tipping rates', 'Increased customer engagement with loyalty programs', 'Improved merchant satisfaction with terminal integration into their retail space'] },
+    ],
+  },
+  {
+    id: 'mts-context',
+    tags: MTS_TAGS,
+    subtitle: 'Vacation Planning Flow',
+    skillTags: ['ux/ui design', 'research', 'usability testing', 'coded prototyping', 'developer handoff'],
+    description: [
+      { p: 'Situation: when I joined the bank, the internal HR platform had outdated design and inconsistent UX across different sections. The vacation planning process was especially fragmented and confusing for employees.' },
+      { p: 'Task - completely rethink and unify the vacation planning experience from start to finish. The goal was to reduce confusion between different vacation scenarios and make the process simple and transparent for employees and managers.' },
+    ],
+  },
+  {
+    id: 'mts-research',
+    tags: MTS_TAGS,
+    subtitle: 'Research',
+    skillTags: null,
+    description: [
+      { p: 'Key Problems:' },
+      { list: ['Different vacation scenarios lived on separate pages', 'Employees got confused between planned and unplanned vacation', 'Poor visual design and inconsistent UX across the platform', 'Legal nuances'] },
+      { p: 'Research:' },
+      { list: ['Conducted interviews with employees at different levels and managers who approve vacations', 'Analyzed industry benchmarks'] },
+    ],
+  },
+  {
+    id: 'mts-design',
+    tags: MTS_TAGS,
+    subtitle: 'Design Process & Iterations',
+    skillTags: null,
+    description: [
+      { p: 'I ran multiple iterations exploring different approaches.' },
+      { p: 'The main challenge was the high number of variations in user scenarios combined with legal restrictions. It was important not only to design a clean interface, but also to clearly communicate complex rules to users.' },
+    ],
+  },
+  {
+    id: 'mts-prototype',
+    tags: MTS_TAGS,
+    subtitle: 'Coded Prototype',
+    skillTags: null,
+    description: [
+      { p: 'Instead of handing over a complex Figma layout with many states, I took the initiative to build a fully functional prototype in code.' },
+      { p: 'Why I did it:' },
+      { list: ['Allowed us to test the solution quickly with real users before development', 'Made it much easier for developers to understand the intended behavior', 'Saved development resources by reducing ambiguity'] },
+      { p: 'This approach helped us gather feedback early and iterate before the handoff.' },
+    ],
+  },
+  {
+    id: 'mts-impact',
+    tags: MTS_TAGS,
+    subtitle: 'Result & Impact',
+    skillTags: null,
+    description: [
+      { p: 'Key Outcomes' },
+      { list: ['Reduced time to complete vacation planning requests by 35%', 'Decreased number of incorrect vacation requests by ~12%', 'Noticeable reduction in questions to HRBP regarding the vacation planning process', 'Faster and higher-quality handoff to development thanks to the interactive coded prototype'] },
+    ],
+  },
+  {
+    id: 'why-revolut',
+    tags: [
+      { text: 'Why',     shape: 'square' },
+      { text: 'Revolut', shape: 'pill' },
+    ],
+    subtitle: null,
+    skillTags: null,
+    description: [
+      { p: "Revolut's combination of high ownership, fast iteration, and ambition to simplify complex financial experiences at massive scale feels like the right place for me to grow and contribute. I'm excited by the opportunity to work in small, autonomous teams where good ideas can move quickly from concept to real users." },
+    ],
   },
 ];
 
-const SKILL_TAGS = ['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'];
+/* Render a slide's description blocks — plain paragraphs and bullet lists */
+const renderDescription = (blocks) => blocks.map((block, i) => (
+  block.list ? (
+    <ul className={styles.descList} key={i}>
+      {block.list.map((item, j) => <li key={j}>{item}</li>)}
+    </ul>
+  ) : (
+    <p key={i}>{block.p}</p>
+  )
+));
 
-const VIDEO_URL = '/sber.mp4';
+/* Render a subtitle string, splitting on \n into <br />-separated lines */
+const renderSubtitle = (subtitle) => subtitle.split('\n').map((line, i, arr) => (
+  <Fragment key={i}>
+    {line}
+    {i < arr.length - 1 && <br />}
+  </Fragment>
+));
 
 export default function RevoluInterviewCase() {
   const [activeIdx, setActiveIdx]       = useState(0);
@@ -78,92 +221,8 @@ export default function RevoluInterviewCase() {
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
-  /* Slide visuals — shared between the desktop snap track and the mobile scroll layout */
-  const renderSlideMedia = (i) => {
-    if (i === 0) {
-      return (
-        <div className={styles.dark}>
-          <video
-            className={styles.slideVideo}
-            src={VIDEO_URL}
-            autoPlay loop muted playsInline
-            ref={el => { if (el) el.muted = true; }}
-          />
-        </div>
-      );
-    }
-    if (i === 1) {
-      return (
-        <div className={styles.slideTwoCol}>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
-          </div>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 2) {
-      return (
-        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-          <div className={styles.slideTwoScreens}>
-            <img className={styles.screenImg} src="/images/sber1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/sber2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 3) {
-      return (
-        <div className={styles.slideTwoCol}>
-          <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-            <div className={styles.slideContent}>
-              <div className={styles.phoneMockup}>
-                <video
-                  className={styles.mockupVideo}
-                  src="/cases.mp4"
-                  autoPlay loop muted playsInline
-                  ref={el => { if (el) el.muted = true; }}
-                />
-                <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
-              </div>
-            </div>
-          </div>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sbercoffeshop.jpg" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 4) {
-      return (
-        <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-          <div className={styles.slideThreeScreens}>
-            <img className={styles.screenImg} src="/images/sber3.webp" alt="" />
-            <img className={styles.screenImg} src="/images/sber4.webp" alt="" />
-            <img className={styles.screenImg} src="/images/sber5.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div className={styles.pilotGrid}>
-        <div className={styles.dark}>
-          <img className={`${styles.slideImg} ${styles.pilotImgTop}`} src="/images/EFNNGKMONtsws22lHnxN.jpg.webp" alt="" />
-        </div>
-        <div className={styles.dark}>
-          <img className={styles.slideImg} src="/images/photo_5361653863582208166_y.jpg" alt="" />
-        </div>
-        <div className={styles.dark}>
-          <img className={`${styles.slideImg} ${styles.pilotImgUpper}`} src="/images/photo_5361653863582208164_y.jpg" alt="" />
-        </div>
-        <div className={styles.dark}>
-          <img className={styles.slideImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
-        </div>
-      </div>
-    );
-  };
+  /* Slide visuals — illustrations not ready yet, placeholder for every slide */
+  const renderSlideMedia = () => <div className={styles.dark} />;
 
   /* ── Snap animation (same easing/lock pattern as main page) ── */
   const go = (nextIdx) => {
@@ -328,6 +387,8 @@ export default function RevoluInterviewCase() {
     };
   }, [isMobile]);
 
+  const activeSlide = SLIDES[displayedIdx];
+
   return (
     <>
       {/* ── MOBILE MENU ── */}
@@ -374,35 +435,35 @@ export default function RevoluInterviewCase() {
 
         {/* LEFT PANEL */}
         <div className={styles.left}>
-          <div className={styles.leftTop}>
+          <div className={`${styles.leftTop} ${!textVisible ? styles.leftDescHidden : ''}`}>
 
             <div className={styles.titleRow}>
-              <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Sber</span>
-              </div>
-              <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>POS</span>
-              </div>
-              <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Terminal</span>
-              </div>
-            </div>
-
-            <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Pushing The POS Terminal<br />Beyond Payments</p>
-            </div>
-
-            <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>
-              {SKILL_TAGS.map((tag) => (
-                <span key={tag} className="badge button" style={{ cursor: 'default' }} data-skill>
-                  {tag}
-                </span>
+              {activeSlide.tags.map((tag, i) => (
+                <div key={i} className={`tag ${tag.shape} ${styles.caseTag}`} data-case-tag>
+                  <span className={styles.caseTagText}>{tag.text}</span>
+                </div>
               ))}
             </div>
+
+            {activeSlide.subtitle && (
+              <div className={styles.subtitleBox} data-subtitle>
+                <p className={styles.subtitle}>{renderSubtitle(activeSlide.subtitle)}</p>
+              </div>
+            )}
+
+            {activeSlide.skillTags && (
+              <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>
+                {activeSlide.skillTags.map((tag) => (
+                  <span key={tag} className="badge button" style={{ cursor: 'default' }} data-skill>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className={`${styles.leftDesc} ${!textVisible ? styles.leftDescHidden : ''}`}>
-            <p>{SLIDES[displayedIdx].description}</p>
+            {renderDescription(activeSlide.description)}
           </div>
         </div>
 
@@ -437,9 +498,9 @@ export default function RevoluInterviewCase() {
             <div className={styles.mobileSlide} key={slide.id}>
               <div className={styles.mobileMedia}>{renderSlideMedia(i)}</div>
 
-              {i === 0 && (
+              {slide.skillTags && (
                 <div className={`${styles.skillTags} ${styles.skillTagsMobile}`}>
-                  {SKILL_TAGS.map((tag) => (
+                  {slide.skillTags.map((tag) => (
                     <span key={tag} className="badge button" style={{ cursor: 'default' }}>
                       {tag}
                     </span>
@@ -448,7 +509,7 @@ export default function RevoluInterviewCase() {
               )}
 
               <div className={styles.mobileDesc}>
-                <p>{slide.description}</p>
+                {renderDescription(slide.description)}
               </div>
             </div>
           ))}

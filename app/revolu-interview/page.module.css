@@ -24,6 +24,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  transition: opacity 0.25s ease,
+              transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .titleRow {
@@ -85,6 +87,9 @@
 
 .leftDesc {
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
   transition: opacity 0.25s ease,
               transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
@@ -95,11 +100,38 @@
 }
 
 .leftDesc p {
+  margin: 0;
   font-family: var(--font-body), Georgia, serif;
   font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
   color: var(--text-primary);
   line-height: 1.45;
   font-weight: 500;
+}
+
+.descList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.descList li {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-weight: 500;
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+
+.descList li::before {
+  content: "·";
+  display: inline-block;
+  width: 1.4em;
+  text-indent: 0;
 }
 
 /* ─── RIGHT PANEL ───────────────────────────────────────── */
@@ -388,11 +420,22 @@
     gap: 0.4rem;
   }
 
+  .mobileDesc {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
   .mobileDesc p {
+    margin: 0;
     font-family: var(--font-body), Georgia, serif;
     font-size: 1.6rem;
     color: var(--text-primary);
     line-height: 1.45;
     font-weight: 500;
+  }
+
+  .mobileDesc .descList li {
+    font-size: 1.6rem;
   }
 }
