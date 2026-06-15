@@ -5,6 +5,7 @@ import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
 import RevolutSkills from '../../components/RevolutSkills';
+import IterationsStack from '../../components/IterationsStack';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -16,6 +17,7 @@ const ST = ({ children }) => (
 );
 
 const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
+const PROTOTYPE_URL = '#';
 const downloadCV = () => {
   const a = document.createElement('a');
   a.href = CV_URL;
@@ -138,6 +140,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Vacation Planning Flow',
     skillTags: ['ux/ui design', 'research', 'usability testing', 'coded prototyping', 'developer handoff'],
+    media: { type: 'image', src: '/images/vacationcover.png' },
     description: [
       { p: 'Situation: when I joined the bank, the internal HR platform had outdated and inconsistent design. The vacation planning process was especially fragmented and confusing for employees.' },
       { p: 'Task - completely rethink and unify the vacation planning experience to reduce confusion between different scenarios and make the process simple and transparent for both employees and managers.' },
@@ -148,6 +151,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Research',
     skillTags: null,
+    media: { type: 'twoRows', images: ['/images/as-is-1.png', '/images/as-is-2.png'] },
     description: [
       { p: 'Key Problems:' },
       { list: ['Different vacation scenarios lived on separate pages', 'Employees got confused between planned and unplanned vacation', 'Poor visual design and inconsistent UX across the platform', 'Legal nuances'] },
@@ -160,6 +164,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Design Process & Iterations',
     skillTags: null,
+    media: { type: 'iterations' },
     description: [
       { p: 'I ran multiple iterations exploring different approaches.' },
       { p: 'The main challenge was the high number of variations in user scenarios combined with legal restrictions. It was important not only to design a clean interface, but also to clearly communicate complex rules to users.' },
@@ -170,6 +175,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Coded Prototype',
     skillTags: null,
+    media: { type: 'prototype-cta' },
     description: [
       { p: 'Instead of handing over a complex Figma layout with many states, I took the initiative to build a fully functional prototype in code.' },
       { p: 'Why I did it:' },
@@ -182,6 +188,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Result & Impact',
     skillTags: null,
+    media: { type: 'image', src: '/images/21.png' },
     description: [
       { p: 'Key Outcomes' },
       { list: ['Reduced time to complete vacation planning requests by 35%', 'Decreased number of incorrect vacation requests by ~12%', 'Noticeable reduction in questions to HRBP regarding the vacation planning process', 'Faster and higher-quality handoff to development thanks to the interactive coded prototype'] },
@@ -319,6 +326,39 @@ export default function RevolutInterviewCase() {
             </div>
             <div className={styles.dark}>
               <img className={styles.slideImg} src="/images/photo_5361653863582208165_y.jpg" alt="" />
+            </div>
+          </div>
+        );
+      case 'twoRows':
+        return (
+          <div className={styles.dark} style={{ background: '#E1D7CB' }}>
+            <div className={styles.slideTwoRows}>
+              {media.images.map((src, i) => (
+                <img className={styles.rowImg} src={src} key={i} alt="" />
+              ))}
+            </div>
+          </div>
+        );
+      case 'iterations':
+        return (
+          <div className={styles.dark}>
+            <IterationsStack />
+          </div>
+        );
+      case 'prototype-cta':
+        return (
+          <div className={styles.dark}>
+            <div className={styles.slideContent}>
+              <a
+                className={styles.prototypeBtn}
+                href={PROTOTYPE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={playFx}
+              >
+                Explore Prototype
+                <span className={styles.prototypeBtnArrow} aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
         );
