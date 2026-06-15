@@ -1,0 +1,547 @@
+/* ─── CASE PAGE LAYOUT ──────────────────────────────────── */
+
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── LEFT PANEL ────────────────────────────────────────── */
+
+.left {
+  width: 25%;
+  min-width: 26rem;
+  height: 100%;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  padding: calc(10.4rem + clamp(2rem, 2.5vw, 3.2rem)) var(--px) clamp(2.4rem, 3vw, 4rem);
+  overflow: clip;
+  flex-shrink: 0;
+}
+
+.leftTop {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: opacity 0.25s ease,
+              transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.caseTag {
+  background: var(--bg-button) !important;
+  padding: 1.6rem 2rem !important;
+}
+
+.caseTagText {
+  font-size: clamp(2.1rem, 1.9786rem + 0.3236vw, 2.6rem);
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+  white-space: nowrap;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
+
+.subtitleBox {
+  align-self: flex-start;
+  width: max-content;
+  max-width: 100%;
+  background: var(--bg-button);
+  border-radius: var(--r-xs);
+  padding: 1.2rem 1.4rem;
+}
+
+.subtitle {
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.3rem, 0.4vw + 1rem, 1.6rem);
+  line-height: 1.4;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.skillTagsMobile {
+  display: none;
+}
+
+/* ─── MOBILE SCROLL LAYOUT ──────────────────────────────── */
+/* Hidden on desktop — shown only at the mobile breakpoint below */
+
+.mobileSlides {
+  display: none;
+}
+
+.leftDesc {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: opacity 0.25s ease,
+              transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.leftDescHidden {
+  opacity: 0;
+  transform: translateY(1.4rem);
+}
+
+.leftDesc p {
+  margin: 0;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.descList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.descList li {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1.4rem, 0.6vw + 1rem, 1.8rem);
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-weight: 500;
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+
+.descList li::before {
+  content: "·";
+  display: inline-block;
+  width: 1.4em;
+  text-indent: 0;
+}
+
+/* ─── RIGHT PANEL ───────────────────────────────────────── */
+
+/* Clipping container — overflow:hidden so track slides inside without scrollbars */
+.right {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-primary);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animated track — JS sets transform: translateY */
+.track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
+
+/* One "page" per slide — height set by JS to match .right clientHeight */
+.slideWrapper {
+  padding: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  box-sizing: border-box;
+  /* Fallback height before JS sets it */
+  height: 100vh;
+}
+
+/* Dark rounded card inside each page */
+.dark {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-darker);
+  border-radius: 0.4rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Slide 1 — two dark cards side by side, gap = outer padding */
+.slideTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  width: 100%;
+  height: 100%;
+}
+
+/* Slide 2 — two phone screens side by side, same padding as slideContent */
+.slideTwoScreens {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+  gap: clamp(2rem, 2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(6.4rem, 0.0333333 * min(100vw, 177.778vh), 6.4rem));
+}
+
+/* Slide 4 — three phone screens side by side, lighter background */
+.slideThreeScreens {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(2rem, -3.5333rem + 7.2049vw, 10.3rem);
+  gap: clamp(1.2rem, 1.2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(4rem, 0.0333333 * min(100vw, 177.778vh), 4rem));
+}
+
+/* Slide 10 — two "as-is" screenshots stacked vertically, dark background like slide 11.
+   Row heights are proportional to the screenshots' natural heights (536:798) so both
+   render at the same width whether the row is width- or height-constrained. */
+.slideTwoRows {
+  display: grid;
+  grid-template-rows: minmax(0, 536fr) minmax(0, 798fr);
+  height: 100%;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(2rem, -3.5333rem + 7.2049vw, 10.3rem);
+  gap: clamp(1.2rem, 1.2rem + (0.0486188 * (-37.5rem + min(100vw, 177.778vh))), clamp(4rem, 0.0333333 * min(100vw, 177.778vh), 4rem));
+}
+
+.rowImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0.4rem;
+  filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
+/* Slide 5 — four dark cards in a 2x2 grid, same look as slide 1's two cards */
+.pilotGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  width: 100%;
+  height: 100%;
+}
+
+.pilotImgTop {
+  object-position: top;
+}
+
+.pilotImgUpper {
+  object-position: center 25%;
+}
+
+.screenImg {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  display: block;
+  flex-shrink: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
+/* Phone mockup — frame on top, video behind in screen area */
+.phoneMockup {
+  position: relative;
+  height: 100%;
+  width: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
+}
+
+.phoneFrame {
+  position: relative;
+  height: 100%;
+  width: auto;
+  display: block;
+  z-index: 2;
+}
+
+/* Video sits behind frame, inset to match transparent screen area.
+   Adjust top/left/right/bottom % once the actual frame is loaded. */
+.mockupVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 96%;
+  width: auto;
+  object-fit: cover;
+  border-radius: 8%;
+  z-index: 1;
+}
+
+/* Image fills entire dark card */
+.slideImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slide 0 — video fills entire dark card */
+.slideVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slides 1–4 — centered illustration with padding */
+.slideContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+}
+
+/* Slide 12 — big "Explore Prototype" CTA, replaces an illustration */
+.prototypeBtn {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  height: clamp(6rem, 4vw + 4.4rem, 9.6rem);
+  padding: 0 clamp(3.2rem, 2.5vw + 2.4rem, 5.6rem);
+  background: var(--text-light);
+  border-radius: var(--r-xs);
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2rem, 1.2vw + 1.4rem, 3.2rem);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: border-radius 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.15s;
+}
+
+.prototypeBtn:hover {
+  border-radius: var(--r-lg);
+  transition-delay: 0s;
+}
+
+.prototypeBtnArrow {
+  display: flex;
+  font-size: 1.2em;
+  line-height: 1;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.prototypeBtn:hover .prototypeBtnArrow {
+  transform: translateX(0.6rem);
+}
+
+/* Closing slide — Revolut logo on brand black + cycling "Because It's ___" tags */
+.outro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
+}
+
+.outroLogo {
+  width: clamp(10rem, 14vw, 20rem);
+  height: auto;
+  position: relative;
+  z-index: 0;
+  margin-bottom: clamp(-4rem, -3vw, -2rem);
+}
+
+.outroRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.outroTag {
+  background: rgba(250, 246, 239, 0.85) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 2rem 2.8rem !important;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.6rem, 1.4rem + 2.5vw, 4.8rem);
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+  white-space: nowrap;
+  font-variation-settings: "pxls" 0, "jnts" 100;
+}
+
+.outroCycling {
+  transition: opacity 0.3s ease;
+}
+
+.outroCycling.outroFade {
+  opacity: 0;
+}
+
+/* ─── OVERLAY (counter) ─────────────────────────────────── */
+/* Positioned relative to .right, outside .track — never moves with scroll */
+
+.counter {
+  position: absolute;
+  bottom: 2.4rem;
+  right: 2.8rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  user-select: none;
+  pointer-events: none;
+  z-index: 2;
+  background: rgba(17, 17, 17, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--r-xs);
+  padding: 0.7rem 1rem;
+}
+
+.counterCurrent,
+.counterSep,
+.counterTotal {
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+}
+
+.counterSep,
+.counterTotal {
+  opacity: 0.3;
+}
+
+.mobileFooter {
+  display: none;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .layout {
+    display: block;
+    flex-direction: unset;
+    height: auto;
+    overflow: visible;
+  }
+
+  .left {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    flex-shrink: 0;
+    padding: 1.2rem var(--px) 2rem;
+    border-right: none;
+  }
+
+  .leftDesc,
+  .skillTagsDesktop {
+    display: none;
+  }
+
+  /* Snap-pagination panel is desktop-only — replaced by .mobileSlides */
+  .right {
+    display: none;
+  }
+
+  .caseTagText {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+  }
+
+  /* ── Plain alternating scroll: media, then description, per slide ── */
+  .mobileSlides {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 2.4rem clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem) 4rem;
+  }
+
+  .mobileSlide {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .skillTagsMobile,
+  .mobileDesc {
+    padding-inline: var(--px);
+  }
+
+  .mobileFooter {
+    display: block;
+  }
+
+  .mobileMedia {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.4rem;
+    overflow: hidden;
+  }
+
+  /* Desktop clamp() values for these are sized against the wide .right panel;
+     on narrow mobile viewports they collapse to their min and leave the
+     screen illustrations tiny — override with smaller, fixed mobile values. */
+  .slideContent,
+  .slideTwoScreens,
+  .slideThreeScreens,
+  .slideTwoRows {
+    padding: 1.6rem;
+  }
+
+  .slideContent,
+  .slideTwoScreens,
+  .slideThreeScreens,
+  .slideTwoCol,
+  .slideTwoRows,
+  .pilotGrid {
+    gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
+  }
+
+  /* Three screens at height:100% are too wide for narrow viewports — their
+     drop-shadow gets clipped by the card's overflow:hidden. Shrink them
+     so the row (incl. shadows) fits within the available width. */
+  .slideThreeScreens .screenImg {
+    height: 72%;
+  }
+
+  .skillTagsMobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .mobileDesc {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .mobileDesc p {
+    margin: 0;
+    font-family: var(--font-body), Georgia, serif;
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  .mobileDesc .descList li {
+    font-size: 1.6rem;
+  }
+}

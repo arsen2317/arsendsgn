@@ -426,6 +426,12 @@ body {
   align-items: flex-end;
   overflow: hidden;
 }
+.dark-desc-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  width: 100%;
+}
 .dark-desc p {
   font-family: var(--font-body), Georgia, serif;
   font-weight: 500;
@@ -433,6 +439,39 @@ body {
   color: var(--text-light);
   line-height: 1.2;
 }
+
+/* "(for Revolut)" CTA — same shape/animation as .logo, inverted to light bg / dark text */
+.about-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  height: 38px;
+  padding: 0 16px;
+  background: var(--text-light);
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+  text-decoration: none;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+  --h: 38px;
+  transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
+}
+.about-cta:hover { border-radius: var(--r-lg); transition-delay: 0s; }
+.about-cta .st-wrap { height: 1.3em; }
+.about-cta .st > span { height: 1.3em; }
+.about-cta:hover .st { transform: translateY(-50%); }
+.about-cta-arrow {
+  display: flex;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.3s cubic-bezier(0.19,1,0.22,1);
+}
+.about-cta:hover .about-cta-arrow { transform: translateX(4px); }
 
 .dark-img-placeholder {
   background: #9caab7;
