@@ -97,8 +97,6 @@ const SLIDES = [
     description: [
       { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
       { list: ['Choose new colors', 'Use interchangeable branded covers and mascots', 'Add tipping, loyalty, and cashback features'] },
-      { p: 'Core Features:' },
-      { list: ['SberTips (tips + feedback right after payment)', 'Biometric authentication for loyalty benefits', 'Option to redeem SberSpasibo points at checkout'] },
     ],
   },
   {
@@ -110,8 +108,6 @@ const SLIDES = [
     description: [
       { p: 'Solution - a customizable POS platform accessible via the SberBusiness app, allowing merchants to:' },
       { list: ['Choose new colors', 'Use interchangeable branded covers and mascots', 'Add tipping, loyalty, and cashback features'] },
-      { p: 'Core Features:' },
-      { list: ['SberTips (tips + feedback right after payment)', 'Biometric authentication for loyalty benefits', 'Option to redeem SberSpasibo points at checkout'] },
     ],
   },
   {
