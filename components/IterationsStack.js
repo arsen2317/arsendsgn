@@ -46,7 +46,7 @@ export default function IterationsStack() {
         return (
           <img
             key={n}
-            src={`${base}/images/${n}.png`}
+            src={`${base}/images/${n}.${n === COUNT ? 'png' : 'webp'}`}
             alt=""
             className={`${styles.card}${visible ? ' ' + styles.visible : ''}`}
             style={style}
