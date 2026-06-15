@@ -680,7 +680,13 @@ export default function Home() {
         </div>
         <div className="dark-row">
           <div className="dark-desc">
-            <p>Currently working at MTS Fintech, one of Russia's largest banks, with a background in graphic design and training from the British Higher School of Art and Design.</p>
+            <div className="dark-desc-inner">
+              <p>Currently working at MTS Fintech, one of Russia's largest banks, with a background in graphic design and training from the British Higher School of Art and Design.</p>
+              <a href="/revolu-interview" className="about-cta" onMouseEnter={playFx}>
+                <ST>(for Revolut)</ST>
+                <span className="about-cta-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
           <video
             className="dark-img-placeholder"
