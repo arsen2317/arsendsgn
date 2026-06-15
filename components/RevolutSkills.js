@@ -15,11 +15,13 @@ const HARD = [
   'CJM', 'JTBD',
   { icon: true, key: 'Claude Code', src: `${base}/images/claude.svg`, alt: 'Claude Code' },
   'A/B Testing', 'Accessibility',
+  ['Coded', 'Prototyping'],
 ];
 
 const SOFT = [
   'Empathy', 'Curiosity', ['Critical', 'Thinking'],
   ['Attention', 'to Detail'], 'Proactivity', 'Teamwork',
+  ['High', 'Ownership'], 'Fast Iteration',
 ];
 
 /* Revolut brand palette — cycled across the falling chips */
