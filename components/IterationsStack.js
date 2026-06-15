@@ -12,6 +12,17 @@ const seeded = (i, scale) => {
   return ((x - Math.floor(x)) - 0.5) * 2 * scale;
 };
 
+/* Reveal delays — first three cards land slowly (600ms apart), then the rest
+   speed up, the gap between cards shrinking until it bottoms out at 20ms. */
+const DELAYS = (() => {
+  const d = [0];
+  for (let i = 1; i < COUNT; i++) {
+    const interval = i <= 2 ? 600 : Math.max(600 * Math.pow(0.8, i - 2), 20);
+    d.push(d[i - 1] + interval);
+  }
+  return d;
+})();
+
 /* Quick "cards falling into a stack" reveal — used on the design-iterations slide */
 export default function IterationsStack() {
   const containerRef = useRef(null);
@@ -38,7 +49,7 @@ export default function IterationsStack() {
         const style = visible
           ? {
               transform: `translate(calc(-50% + ${x}%), calc(-50% + ${y}%)) rotate(${angle}deg)`,
-              transitionDelay: `${i * 90}ms`,
+              transitionDelay: `${DELAYS[i]}ms`,
               zIndex: n,
             }
           : { transform: 'translate(-50%, 130%) rotate(0deg)', zIndex: n };
