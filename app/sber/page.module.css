@@ -200,8 +200,7 @@
 
 /* Phone mockup — frame on top, video behind in screen area */
 .phoneMockup {
-  display: grid;
-  place-items: center;
+  position: relative;
   height: 100%;
   width: auto;
   flex-shrink: 0;
@@ -209,17 +208,19 @@
 }
 
 .phoneFrame {
-  grid-area: 1 / 1;
+  position: relative;
   height: 100%;
   width: auto;
   display: block;
   z-index: 2;
 }
 
-/* Video stacked behind frame via grid — avoids Safari absolute-positioning
-   bug where left: 50% miscalculates on auto-width containing blocks. */
+/* inset: 0 + margin: auto centers without left: 50% — avoids Safari bug
+   where percentage left/transform miscalculate on auto-width containers. */
 .mockupVideo {
-  grid-area: 1 / 1;
+  position: absolute;
+  inset: 0;
+  margin: auto;
   height: 96%;
   width: auto;
   object-fit: cover;
