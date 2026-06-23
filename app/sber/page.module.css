@@ -202,7 +202,7 @@
 .phoneMockup {
   position: relative;
   height: 100%;
-  width: auto;
+  width: max-content; /* max-content forces Safari to resolve width before positioning video */
   flex-shrink: 0;
   filter: drop-shadow(0 12px 6px rgba(0, 0, 0, 0.25));
 }
@@ -215,18 +215,13 @@
   z-index: 2;
 }
 
-/* top/bottom + margin: auto centers vertically; left/right + fit-content +
-   margin: auto centers horizontally without left: 50% — avoids Safari bug
-   where percentage left miscalculates on auto-width containing blocks. */
 .mockupVideo {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 96%;
-  width: fit-content;
+  width: auto;
   object-fit: cover;
   border-radius: 8%;
   z-index: 1;
