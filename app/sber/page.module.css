@@ -215,14 +215,18 @@
   z-index: 2;
 }
 
-/* inset: 0 + margin: auto centers without left: 50% — avoids Safari bug
-   where percentage left/transform miscalculate on auto-width containers. */
+/* top/bottom + margin: auto centers vertically; left/right + fit-content +
+   margin: auto centers horizontally without left: 50% — avoids Safari bug
+   where percentage left miscalculates on auto-width containing blocks. */
 .mockupVideo {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: auto;
   height: 96%;
-  width: auto;
+  width: fit-content;
   object-fit: cover;
   border-radius: 8%;
   z-index: 1;
