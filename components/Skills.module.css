@@ -18,6 +18,10 @@
   z-index: 1;
 }
 
+:global(html.lang-ru) .title {
+  font-family: Georgia, ui-serif, serif;
+}
+
 /* ─── Skill tags ─────────────────────────── */
 .hard,
 .soft {

@@ -1,5 +1,6 @@
 import localFont from 'next/font/local';
 import { Forum } from 'next/font/google';
+import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
 const fkRaster = localFont({
@@ -23,8 +24,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${fkRaster.variable} ${forum.variable}`}>
-      <body>{children}</body>
+    <html lang="ru" className={`${fkRaster.variable} ${forum.variable}`}>
+      <body>
+        <LangProvider>{children}</LangProvider>
+      </body>
     </html>
   );
 }

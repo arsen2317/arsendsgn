@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import styles from './Skills.module.css';
+import { useLang } from '../context/LangContext';
+import { t } from '../lib/i18n';
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
@@ -23,6 +25,8 @@ const SOFT = [
 ];
 
 export default function Skills() {
+  const { lang } = useLang();
+  const tr = t[lang];
   const sectionRef = useRef(null);
   const startedRef = useRef(false);
   const cleanupRef = useRef(null);
@@ -119,7 +123,7 @@ export default function Skills() {
 
   return (
     <section ref={sectionRef} className={styles.skills}>
-      <p className={styles.title}>Skills That Drive<br />All My Projects</p>
+      <p className={styles.title}>{tr.skills.title[0]}<br />{tr.skills.title[1]}</p>
       {HARD.map(s => {
         if (s.icon) {
           return (

@@ -132,6 +132,81 @@ body {
   gap: 0.8rem;
 }
 
+/* ─── LANGUAGE TOGGLE ─────────────────────────────────── */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-self: start;
+  height: 38px;
+  padding: 0 16px;
+  background: var(--bg-darker);
+  border-radius: var(--r-xs);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 239, 0.4);
+  transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
+}
+
+.lang-toggle:hover {
+  border-radius: var(--r-lg);
+  transition-delay: 0s;
+}
+
+.lang-toggle__active {
+  color: var(--text-light);
+}
+
+.lang-toggle__sep {
+  color: rgba(250, 246, 239, 0.25);
+}
+
+/* ─── FONT OVERRIDES FOR RUSSIAN ──────────────────────── */
+/*
+  Neither FKRasterGrotesk (--font-ui) nor Forum (--font-body, latin-only)
+  support Cyrillic. When Russian is active, swap to system fallbacks until
+  a proper Cyrillic font is chosen.
+
+  To add a Cyrillic font later:
+    1. Load it in layout.js (localFont or next/font/google with subsets: ['cyrillic'])
+    2. Replace ui-sans-serif / Georgia below with the new font variable.
+*/
+html.lang-ru body,
+html.lang-ru .nav-item,
+html.lang-ru .logo,
+html.lang-ru .lang-toggle,
+html.lang-ru .menu-btn,
+html.lang-ru .header-hint,
+html.lang-ru .badge,
+html.lang-ru .work-discipline-tag,
+html.lang-ru .work-title,
+html.lang-ru .hero-exp,
+html.lang-ru .footer-nav-item,
+html.lang-ru .footer-copy,
+html.lang-ru .menu-contact-chip,
+html.lang-ru .menu-social-link,
+html.lang-ru .menu-email,
+html.lang-ru .terminal {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+/* dark-quote uses FKRasterGrotesk with variable-font axes — reset both */
+html.lang-ru .dark-quote p {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: normal;
+  letter-spacing: -0.02em;
+}
+
+/* About description + Skills title use Forum (latin-only) */
+html.lang-ru .dark-desc p {
+  font-family: Georgia, ui-serif, serif;
+}
+
+
 /* Back-arrow button — same height/radius rhythm as nav-item */
 .header-back {
   display: flex;

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Skills from '../components/Skills';
 import SiteHeader from '../components/SiteHeader';
+import { useLang } from '../context/LangContext';
+import { t } from '../lib/i18n';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
@@ -19,8 +21,7 @@ const downloadCV = () => {
 
 const SAY_HI = ['Say Hi', 'Привет', 'こんにちは', 'Hola', 'Bonjour', 'Ciao', 'Olá', '你好', '안녕', 'Hallo', 'مرحبا', 'Shalom'];
 
-const WORDS_1 = ['Empathetic', 'Curious', 'Thoughtful', 'Intentional', 'Holistic'];
-const WORDS_2 = ['Strategic', 'Systematic', 'Analytical', 'Iterative', 'Precise'];
+// Footer cycling words are now sourced from i18n via useLang()
 
 const CURSORS = ['sheep', 'cat'];
 
@@ -46,6 +47,12 @@ const ST = ({ children }) => (
 );
 
 export default function Home() {
+  const { lang } = useLang();
+  const tr = t[lang];
+
+  const WORDS_1 = tr.footer.word1;
+  const WORDS_2 = tr.footer.word2;
+
   const [word1, setWord1] = useState(WORDS_1[0]);
   const [word2, setWord2] = useState(WORDS_2[0]);
   const [fade1, setFade1] = useState(false);
@@ -386,10 +393,19 @@ export default function Home() {
     };
   }, [cursorMode]);
 
-  /* Cycling footer words */
+  /* Reset cycling words when language changes */
+  useEffect(() => {
+    idx1.current = 0;
+    idx2.current = 0;
+    setWord1(WORDS_1[0]);
+    setWord2(WORDS_2[0]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
+
+  /* Cycling footer words — restarts when lang changes to use new word list */
   useEffect(() => {
     let turn = 0;
-    const t = setInterval(() => {
+    const timer = setInterval(() => {
       if (turn === 0) {
         setFade1(true);
         setTimeout(() => {
@@ -407,11 +423,12 @@ export default function Home() {
       }
       turn = (turn + 1) % 2;
     }, 3000);
-    return () => clearInterval(t);
-  }, []);
+    return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   useEffect(() => {
-    const t = setInterval(() => {
+    const timer = setInterval(() => {
       setSayHiFade(true);
       setTimeout(() => {
         sayHiIdx.current = (sayHiIdx.current + 1) % SAY_HI.length;
@@ -419,7 +436,7 @@ export default function Home() {
         setSayHiFade(false);
       }, 200);
     }, 2000);
-    return () => clearInterval(t);
+    return () => clearInterval(timer);
   }, []);
 
   /* Lenis + GSAP */
@@ -557,21 +574,21 @@ export default function Home() {
       {/* ── MOBILE MENU OVERLAY ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
         <nav className="menu-overlay-nav">
-          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>About me</ST></button>
-          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>Cases</ST></button>
-          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>Contacts</ST></button>
-          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => downloadCV()}><ST>My CV</ST></button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>{tr.nav.about}</ST></button>
+          <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></button>
+          <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></button>
+          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => downloadCV()}><ST>{tr.nav.cv}</ST></button>
         </nav>
 
         <div className="menu-overlay-footer">
-          <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
+          <div className="nav-item square menu-contact-chip menu-footer-item">{tr.menu.contactMe}</div>
           <div className="menu-social-links menu-footer-item">
             <a href="https://t.me/arsendsgn" target="_blank" className="menu-social-link">Telegram</a>
             <a href="#" className="menu-social-link">LinkedIn</a>
           </div>
           <div className="menu-letter-chips menu-footer-item">
-            <div className="nav-item square">send</div>
-            <div className="nav-item pill">a letter</div>
+            <div className="nav-item square">{tr.menu.sendLetter[0]}</div>
+            <div className="nav-item pill">{tr.menu.sendLetter[1]}</div>
           </div>
           <a href="mailto:arackelian.arsen@gmail.com" className="menu-email menu-footer-item">
             arackelian.arsen@gmail.com
@@ -621,10 +638,10 @@ export default function Home() {
         playFx={playFx}
         navRef={navRef}
         navItems={[
-          { label: 'About me', onClick: () => scrollToSection('#about') },
-          { label: 'Cases',    onClick: () => scrollToSection('#cases'),    pill: true },
-          { label: 'Contacts', onClick: () => scrollToSection('#contacts') },
-          { label: 'My CV',    onClick: downloadCV,                         pill: true },
+          { label: tr.nav.about,    onClick: () => scrollToSection('#about') },
+          { label: tr.nav.cases,    onClick: () => scrollToSection('#cases'),    pill: true },
+          { label: tr.nav.contacts, onClick: () => scrollToSection('#contacts') },
+          { label: tr.nav.cv,       onClick: downloadCV,                         pill: true },
         ]}
         hintReset={!!(cursorMode || drawMode || filterMode)}
         onHint={
@@ -656,12 +673,12 @@ export default function Home() {
           <div className="hero-row">
             <div className="tag pill glass" data-word><span className="tag-xl">Product</span></div>
             <div className="tag square glass" data-word><span className="tag-xl">Designer</span></div>
-            <div className="tag pill lavender" data-word><span className="tag-lg">MTS Fintech</span></div>
+            <div className="tag pill lavender" data-word><span className="tag-lg">{tr.hero.company}</span></div>
           </div>
         </div>
 
         <div className="hero-bottom">
-          <div className="hero-exp"><span>3 years experience</span></div>
+          <div className="hero-exp"><span>{tr.hero.experience}</span></div>
           <div className="hero-socials">
             <div className="badge-wrap">
               <span className={`badge yellow${sayHiFade ? ' badge--fade' : ''}`} style={{cursor:'default'}}>{sayHiWord}</span>
@@ -676,12 +693,12 @@ export default function Home() {
       {/* ── DARK / ABOUT ── */}
       <section className="dark-section" id="about">
         <div className="dark-quote">
-          <p>I focus on the user by combining empathy, attention to detail, and analytics to simplify complexity</p>
+          <p>{tr.about.quote}</p>
         </div>
         <div className="dark-row">
           <div className="dark-desc">
             <div className="dark-desc-inner">
-              <p>Currently working at MTS Fintech, one of Russia's largest banks, with a background in graphic design and training from the British Higher School of Art and Design.</p>
+              <p>{tr.about.desc}</p>
             </div>
           </div>
           <video
@@ -698,11 +715,11 @@ export default function Home() {
       <section className="work-section" id="cases">
         <div className="work-section-header">
           <div className="work-section-labels">
-            <div className="work-label-tag work-label-square"><span className="tag-xl">Recent</span></div>
-            <div className="work-label-tag work-label-pill"><span className="tag-xl">Projects</span></div>
+            <div className="work-label-tag work-label-square"><span className="tag-xl">{tr.cases.label1}</span></div>
+            <div className="work-label-tag work-label-pill"><span className="tag-xl">{tr.cases.label2}</span></div>
           </div>
           <div className="work-disciplines">
-            {['UX/UI Design', 'Research', 'Usability Testing', 'Product Design', 'In-depth Interviews', 'Mobile App', 'Feature Ideation', '3D Animation'].map(tag => (
+            {tr.cases.disciplines.map(tag => (
               <span key={tag} className="work-discipline-tag">{tag}</span>
             ))}
           </div>
@@ -757,7 +774,7 @@ export default function Home() {
         </nav>
         <div className="footer-bottom">
           <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-          <div className="badge-wrap"><span className="badge yellow" onMouseEnter={playFx} onClick={downloadCV} style={{cursor:'pointer'}}><ST>Download CV</ST></span></div>
+          <div className="badge-wrap"><span className="badge yellow" onMouseEnter={playFx} onClick={downloadCV} style={{cursor:'pointer'}}><ST>{tr.footer.downloadCv}</ST></span></div>
           <div className="footer-links">
             <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
             <div className="badge-wrap"><a href="https://t.me/arsendsgn" target="_blank" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
