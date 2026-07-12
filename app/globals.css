@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'Shylock NBP';
+  font-family: 'UIFont';
   src: url('/fonts/ShylockNbp.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 :root {
-  --font-ui: 'Shylock NBP', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'UIFont', ui-sans-serif, system-ui, sans-serif;
 }
 
 *, *::before, *::after {
