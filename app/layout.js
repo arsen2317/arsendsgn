@@ -1,21 +1,20 @@
-import { Commissioner } from 'next/font/google';
 import localFont from 'next/font/local';
+import { Forum } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
-const commissioner = Commissioner({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500'],
-  variable: '--font-body',
+const fkRaster = localFont({
+  src: '../public/fonts/FKRasterGrotesk.ttf',
+  variable: '--font-ui',
   display: 'swap',
 });
 
-const uiFont = localFont({
-  src: '../public/fonts/RosencrantzNbp.ttf',
-  variable: '--font-ui-var',
-  display: 'block',
+const forum = Forum({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-body',
+  display: 'swap',
 });
-
 
 export const metadata = {
   title: 'Arsen Arakelyan — Product Designer',
@@ -25,7 +24,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${commissioner.variable} ${uiFont.variable}`}>
+    <html lang="ru" className={`${fkRaster.variable} ${forum.variable}`}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>
