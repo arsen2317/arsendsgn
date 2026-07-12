@@ -1,13 +1,5 @@
-@font-face {
-  font-family: 'UIFont';
-  src: url('/fonts/ShylockNbpPixel.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-
 :root {
-  --font-ui: 'UIFont', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: var(--font-ui-var), ui-sans-serif, system-ui, sans-serif;
 }
 
 *, *::before, *::after {
