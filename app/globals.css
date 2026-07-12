@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'Mercutio NBP Basic';
-  src: url('/fonts/MercutioNbpBasic.ttf') format('truetype');
+  font-family: 'Nine By Five NBP';
+  src: url('/fonts/NineByFiveNbp.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-ui: 'Mercutio NBP Basic', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Nine By Five NBP', ui-sans-serif, system-ui, sans-serif;
 }
 
 *, *::before, *::after {
