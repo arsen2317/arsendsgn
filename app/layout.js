@@ -3,10 +3,11 @@ import { Forum } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
-const fkRaster = localFont({
-  src: '../public/fonts/FKRasterGrotesk.ttf',
+const uiFont = localFont({
+  src: '../public/fonts/Chipndale2.ttf',
   variable: '--font-ui',
   display: 'swap',
+  declarations: [{ prop: 'size-adjust', value: '167%' }],
 });
 
 const forum = Forum({
@@ -24,7 +25,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${fkRaster.variable} ${forum.variable}`}>
+    <html lang="ru" className={`${uiFont.variable} ${forum.variable}`}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>
