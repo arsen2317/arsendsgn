@@ -3,8 +3,8 @@ import { Forum } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
-const fkRaster = localFont({
-  src: '../public/fonts/FKRasterGrotesk.ttf',
+const glasstown = localFont({
+  src: '../public/fonts/GlasstownNbp.ttf',
   variable: '--font-ui',
   display: 'swap',
 });
@@ -24,7 +24,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${fkRaster.variable} ${forum.variable}`}>
+    <html lang="ru" className={`${glasstown.variable} ${forum.variable}`}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>

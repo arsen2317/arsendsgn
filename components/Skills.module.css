@@ -19,7 +19,7 @@
 }
 
 :global(html.lang-ru) .title {
-  font-family: Georgia, ui-serif, serif;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ─── Skill tags ─────────────────────────── */

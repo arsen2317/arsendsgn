@@ -167,43 +167,13 @@ body {
 
 /* ─── FONT OVERRIDES FOR RUSSIAN ──────────────────────── */
 /*
-  Neither FKRasterGrotesk (--font-ui) nor Forum (--font-body, latin-only)
-  support Cyrillic. When Russian is active, swap to system fallbacks until
-  a proper Cyrillic font is chosen.
-
-  To add a Cyrillic font later:
-    1. Load it in layout.js (localFont or next/font/google with subsets: ['cyrillic'])
-    2. Replace ui-sans-serif / Georgia below with the new font variable.
+  Glasstown (--font-ui) supports Cyrillic — no overrides needed for UI text.
+  Forum (--font-body) is latin-only, so elements using it fall back to
+  Glasstown when Russian is active.
 */
-html.lang-ru body,
-html.lang-ru .nav-item,
-html.lang-ru .logo,
-html.lang-ru .lang-toggle,
-html.lang-ru .menu-btn,
-html.lang-ru .header-hint,
-html.lang-ru .badge,
-html.lang-ru .work-discipline-tag,
-html.lang-ru .work-title,
-html.lang-ru .hero-exp,
-html.lang-ru .footer-nav-item,
-html.lang-ru .footer-copy,
-html.lang-ru .menu-contact-chip,
-html.lang-ru .menu-social-link,
-html.lang-ru .menu-email,
-html.lang-ru .terminal {
-  font-family: ui-sans-serif, system-ui, sans-serif;
-}
-
-/* dark-quote uses FKRasterGrotesk with variable-font axes — reset both */
-html.lang-ru .dark-quote p {
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-variation-settings: normal;
-  letter-spacing: -0.02em;
-}
-
-/* About description + Skills title use Forum (latin-only) */
-html.lang-ru .dark-desc p {
-  font-family: Georgia, ui-serif, serif;
+html.lang-ru .dark-desc p,
+html.lang-ru .case-desc p {
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
 
 
@@ -475,7 +445,6 @@ html.lang-ru .dark-desc p {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(3.6rem, 3.6rem + 0vw, 3.6rem);
   font-weight: normal;
-  font-variation-settings: "pxls" 30, "jnts" 100;
   letter-spacing: -0.03em;
   line-height: 1.4;
   color: var(--text-light);
@@ -590,7 +559,6 @@ html.lang-ru .dark-desc p {
   letter-spacing: -0.02em;
   line-height: 1.1;
   font-weight: 400;
-  font-variation-settings: "pxls" 30, "jnts" 100;
   text-transform: none;
   white-space: nowrap;
   color: inherit;
