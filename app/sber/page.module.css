@@ -39,13 +39,11 @@
 }
 
 .caseTagText {
-  font-size: clamp(2.1rem, 1.9786rem + 0.3236vw, 2.6rem);
-  letter-spacing: -0.04em;
+  font-size: clamp(3.3rem, 3.08rem + 0.5vw, 4.0rem);
   color: var(--text-primary);
   line-height: 1;
   white-space: nowrap;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-variation-settings: "pxls" 0, "jnts" 100;
 }
 
 .subtitleBox {
@@ -59,11 +57,9 @@
 
 .subtitle {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1.3rem, 0.4vw + 1rem, 1.6rem);
-  line-height: 1.4;
+  font-size: clamp(2.0rem, 0.6vw + 1.6rem, 2.5rem);
+  line-height: 1;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
-  font-variation-settings: "pxls" 0, "jnts" 100;
 }
 
 .skillTags {
@@ -279,8 +275,7 @@
 .counterSep,
 .counterTotal {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
+  font-size: 1.7rem;
   color: var(--text-light);
 }
 
@@ -323,7 +318,7 @@
   }
 
   .caseTagText {
-    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-size: clamp(3.4rem, 7.8vw, 5.0rem);
   }
 
   /* ── Plain alternating scroll: media, then description, per slide ── */

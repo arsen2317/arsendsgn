@@ -100,10 +100,9 @@ body {
   background: var(--bg-button);
   border: none;
   border-radius: var(--r-lg);
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   position: relative;
@@ -119,10 +118,9 @@ body {
   padding: 0 16px;
   background: var(--bg-darker);
   border-radius: var(--r-xs);
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-light);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   border: none;
   cursor: pointer;
@@ -157,7 +155,7 @@ body {
   border: none;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.9rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba(250, 246, 239, 0.4);
@@ -186,7 +184,7 @@ body {
   padding: 0 14px;
   background: var(--bg-button);
   border-radius: var(--r-xs);
-  font-size: 14px;
+  font-size: 22px;
   color: var(--text-primary);
   text-decoration: none;
   white-space: nowrap;
@@ -206,10 +204,9 @@ body {
   padding: 0 16px;
   background: var(--bg-button);
   border: none;
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
@@ -246,10 +243,9 @@ body {
   justify-content: center;
   height: 38px;
   padding: 0 16px;
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   background: transparent;
   border: none;
@@ -354,8 +350,7 @@ body {
 }
 
 .tag-xl {
-  font-size: clamp(36px, 4vw + 18px, 72px);
-  letter-spacing: -7.6px;
+  font-size: clamp(5.6rem, 6.24vw + 2.8rem, 11.2rem);
   color: var(--text-primary);
   text-align: center;
   white-space: nowrap;
@@ -365,8 +360,7 @@ body {
   z-index: 1;
 }
 .tag-lg {
-  font-size: clamp(26px, 2.5vw + 14px, 48px);
-  letter-spacing: -4.6px;
+  font-size: clamp(4.0rem, 3.9vw + 2.2rem, 7.5rem);
   color: var(--text-primary);
   text-align: center;
   white-space: nowrap;
@@ -395,9 +389,9 @@ body {
   align-items: flex-start;
 }
 .hero-exp span {
-  font-size: 12px;
+  font-size: 19px;
   color: var(--bg-dark);
-  line-height: 20px;
+  line-height: 1;
   white-space: nowrap;
 }
 
@@ -411,7 +405,7 @@ body {
   height: 20px;
   padding: 0 6px;
   border-radius: var(--r-xs);
-  font-size: 11px;
+  font-size: 17px;
   white-space: nowrap;
   color: var(--bg-dark);
   line-height: 1;
@@ -443,10 +437,9 @@ body {
 .dark-quote { display: flex; justify-content: flex-end; width: 100%; }
 .dark-quote p {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(3.6rem, 3.6rem + 0vw, 3.6rem);
+  font-size: 5.6rem;
   font-weight: normal;
-  letter-spacing: -0.03em;
-  line-height: 1.4;
+  line-height: 1;
   color: var(--text-light);
   text-align: right;
   width: calc(50% - 50px);
@@ -494,10 +487,9 @@ body {
   padding: 0 16px;
   background: var(--text-light);
   border-radius: var(--r-xs);
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   text-decoration: none;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
@@ -546,7 +538,7 @@ body {
 /* Font styles from reference */
 .work-label-tag {
   background: var(--bg-button);
-  font-size: clamp(2.8rem, 1.6571rem + 1.1161vw, 3.8rem);
+  font-size: clamp(4.4rem, 2.58rem + 1.74vw, 5.9rem);
   padding: 0.4em;
   margin-bottom: 4px;
   width: fit-content;
@@ -556,8 +548,7 @@ body {
 
 .work-label-tag .tag-xl {
   font-size: inherit;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1;
   font-weight: 400;
   text-transform: none;
   white-space: nowrap;
@@ -579,11 +570,10 @@ body {
   height: 20px;
   padding: 0 6px;
   border-radius: var(--r-xs);
-  font-size: 11px;
+  font-size: 17px;
   background: var(--bg-primary);
   color: var(--bg-dark);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.3px;
   white-space: nowrap;
   cursor: default;
 }
@@ -650,11 +640,10 @@ body {
   background: var(--bg-darker);
   color: var(--text-light);
   border-radius: var(--r-pill);
-  font-size: 11px;
+  font-size: 17px;
   line-height: 1;
   padding: 6px 10px;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.3px;
   white-space: nowrap;
 }
 
@@ -694,10 +683,9 @@ body {
   justify-content: center;
   height: 38px;
   padding: 0 16px;
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   background: var(--bg-secondary);
@@ -717,9 +705,9 @@ body {
 
 .footer-copy { justify-self: start; }
 .footer-copy span {
-  font-size: 12px;
+  font-size: 19px;
   color: var(--bg-dark);
-  line-height: 20px;
+  line-height: 1;
   white-space: nowrap;
   opacity: 0.55;
 }
@@ -760,9 +748,8 @@ body {
   color: var(--text-light);
   border: none;
   border-radius: 64px;
-  font-size: 12px;
+  font-size: 19px;
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
@@ -816,7 +803,7 @@ body {
 .menu-contact-chip {
   background: white !important;
   height: 20px !important;
-  font-size: 10px !important;
+  font-size: 16px !important;
   padding: 0 10px !important;
   letter-spacing: 0.4px !important;
   font-weight: 500 !important;
@@ -825,7 +812,7 @@ body {
 /* [send] [a letter] chips — small size per ref */
 .menu-letter-chips .nav-item {
   height: 20px !important;
-  font-size: 10px !important;
+  font-size: 16px !important;
   padding: 0 10px !important;
   letter-spacing: 0.4px !important;
   font-weight: 500 !important;
@@ -834,10 +821,9 @@ body {
 /* Social links */
 .menu-social-links { display: flex; gap: 28px; }
 .menu-social-link {
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-decoration: none;
-  letter-spacing: -0.3px;
   opacity: 0.65;
   transition: opacity 0.2s ease;
 }
@@ -848,10 +834,9 @@ body {
 
 /* Email */
 .menu-email {
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-primary);
   text-decoration: none;
-  letter-spacing: -0.3px;
   opacity: 0.65;
 }
 .menu-email:hover { opacity: 1; }
@@ -923,18 +908,16 @@ body {
   .portrait-3d { width: 180px; height: 230px; }
 
   .tag { padding: 14px 18px; }
-  .tag-xl { letter-spacing: -3px; }
-  .tag-lg { letter-spacing: -1.5px; }
 
   .hero-row { gap: 4px; flex-wrap: wrap; justify-content: center; }
   .hero-name { gap: 4px; }
 
   .hero-bottom { padding: 0 var(--px); }
-  .hero-exp span { font-size: 11px; }
+  .hero-exp span { font-size: 17px; }
 
   /* Dark section */
   .dark-section { padding: 90px var(--px) 60px; gap: 40px; align-items: flex-start; min-height: 100vh; min-height: 100dvh; overflow: visible; }
-  .dark-quote p { font-size: 24px; width: 100%; text-align: left; margin-left: 0; }
+  .dark-quote p { font-size: 37px; width: 100%; text-align: left; margin-left: 0; }
   .dark-row { display: block; height: auto; }
   .dark-desc { display: block; flex: none; overflow: visible; margin-bottom: 28px; }
   .dark-desc p { font-size: 20px; width: 100%; }
@@ -983,8 +966,7 @@ body {
   .menu-overlay-nav .nav-item {
     --h: 60px;
     height: 60px;
-    font-size: 25.4px;
-    letter-spacing: -0.763px;
+    font-size: 40px;
     padding: 0 28px;
     width: auto;
   }
@@ -1058,7 +1040,7 @@ body {
 
 .terminal-title {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
+  font-size: 17px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-light);
@@ -1075,7 +1057,7 @@ body {
   color: var(--text-light);
   border: none;
   border-radius: var(--r-xs);
-  font-size: 11px;
+  font-size: 17px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -1095,9 +1077,8 @@ body {
 
 .terminal-prefix {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 22px;
   color: var(--accent-yellow);
-  letter-spacing: -0.3px;
   flex-shrink: 0;
 }
 
@@ -1107,9 +1088,8 @@ body {
   border: none;
   outline: none;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 22px;
   color: var(--text-light);
-  letter-spacing: -0.3px;
 }
 .terminal-input::placeholder { color: rgba(250,246,239,0.3); }
 
@@ -1121,7 +1101,7 @@ body {
 
 .terminal-section-label {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 10px;
+  font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-light);
@@ -1147,18 +1127,16 @@ body {
 
 .terminal-cmd-name {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 19px;
   color: var(--text-light);
   text-transform: uppercase;
-  letter-spacing: -0.2px;
 }
 
 .terminal-cmd-desc {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
+  font-size: 17px;
   color: var(--text-light);
   opacity: 0.35;
-  letter-spacing: -0.2px;
 }
 
 @media (max-width: 900px) {

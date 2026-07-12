@@ -30,9 +30,8 @@
   background: var(--bg-darker);
   color: var(--text-light);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(2.8rem, 1.6571rem + 1.1161vw, 3.8rem);
+  font-size: clamp(4.4rem, 2.58rem + 1.74vw, 5.9rem);
   line-height: 1;
-  letter-spacing: -0.03em;
   font-weight: 400;
   padding: 1.2rem 2rem;
   user-select: none;
@@ -46,7 +45,7 @@
 .multiline {
   white-space: normal;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .soft {
@@ -82,7 +81,7 @@
 @media (max-width: 768px) {
   .hard,
   .soft {
-    font-size: 1.4rem;
+    font-size: 2.2rem;
     padding: 0.8rem 1.4rem;
   }
 
