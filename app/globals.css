@@ -1,5 +1,13 @@
+@font-face {
+  font-family: 'MotorolaV50';
+  src: url('/fonts/MotorolaV50.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  font-variation-settings: "ELGR" 1, "ELSH" 2;
+  --font-ui: 'MotorolaV50', ui-sans-serif, system-ui, sans-serif;
 }
 
 *, *::before, *::after {

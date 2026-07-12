@@ -1,4 +1,4 @@
-import { Commissioner, Handjet } from 'next/font/google';
+import { Commissioner } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
@@ -9,12 +9,6 @@ const commissioner = Commissioner({
   display: 'swap',
 });
 
-const handjet = Handjet({
-  subsets: ['latin', 'cyrillic'],
-  axes: ['ELGR', 'ELSH'],
-  variable: '--font-ui',
-  display: 'swap',
-});
 
 export const metadata = {
   title: 'Arsen Arakelyan — Product Designer',
@@ -24,7 +18,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${commissioner.variable} ${handjet.variable}`}>
+    <html lang="ru" className={commissioner.variable}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>
