@@ -11,7 +11,7 @@ const commissioner = Commissioner({
 });
 
 const uiFont = localFont({
-  src: '../public/fonts/WindowsXPTahoma.otf',
+  src: '../public/fonts/RosencrantzNbp.ttf',
   variable: '--font-ui-var',
   display: 'block',
 });
