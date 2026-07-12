@@ -353,6 +353,7 @@ body {
 
 .tag-xl {
   font-size: clamp(5.6rem, 6.24vw + 2.8rem, 11.2rem);
+  letter-spacing: -7.6px;
   color: var(--text-primary);
   text-align: center;
   white-space: nowrap;
@@ -910,6 +911,9 @@ body {
   .portrait-3d { width: 180px; height: 230px; }
 
   .tag { padding: 14px 18px; }
+
+  .tag-xl { letter-spacing: -3px; }
+  .tag-lg { letter-spacing: -1.5px; }
 
   .hero-row { gap: 4px; flex-wrap: wrap; justify-content: center; }
   .hero-name { gap: 4px; }
