@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'MotorolaV50';
-  src: url('/fonts/MotorolaV50.ttf') format('truetype');
+  font-family: 'Pixeloid Sans';
+  src: url('/fonts/PixeloidSans.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-ui: 'MotorolaV50', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Pixeloid Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 *, *::before, *::after {
