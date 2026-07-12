@@ -8,7 +8,7 @@
 }
 
 :root {
-  --font-ui: 'Glasstown NBP', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Glasstown NBP', Georgia, serif;
 }
 
 *, *::before, *::after {
@@ -177,18 +177,6 @@ body {
 .lang-toggle__sep {
   color: rgba(250, 246, 239, 0.25);
 }
-
-/* ─── FONT OVERRIDES FOR RUSSIAN ──────────────────────── */
-/*
-  Glasstown (--font-ui) supports Cyrillic — no overrides needed for UI text.
-  Forum (--font-body) is latin-only, so elements using it fall back to
-  Glasstown when Russian is active.
-*/
-html.lang-ru .dark-desc p,
-html.lang-ru .case-desc p {
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-}
-
 
 /* Back-arrow button — same height/radius rhythm as nav-item */
 .header-back {

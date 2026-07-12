@@ -18,9 +18,6 @@
   z-index: 1;
 }
 
-:global(html.lang-ru) .title {
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-}
 
 /* ─── Skill tags ─────────────────────────── */
 .hard,
