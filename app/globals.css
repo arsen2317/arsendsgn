@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'Mercutio NBP Basic';
+  src: url('/fonts/MercutioNbpBasic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-ui: 'Mercutio NBP Basic', ui-sans-serif, system-ui, sans-serif;
+}
 
 *, *::before, *::after {
   margin: 0;
