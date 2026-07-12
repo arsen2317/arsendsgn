@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'Pixeloid Sans';
-  src: url('/fonts/PixeloidSans.otf') format('opentype');
+  font-family: 'Shylock NBP';
+  src: url('/fonts/ShylockNbp.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-ui: 'Pixeloid Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Shylock NBP', ui-sans-serif, system-ui, sans-serif;
 }
 
 *, *::before, *::after {
