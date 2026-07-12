@@ -1,16 +1,6 @@
-import localFont from 'next/font/local';
 import { Forum } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
-
-const glasstown = localFont({
-  src: '../public/fonts/GlasstownNbp.ttf',
-  variable: '--font-ui',
-  display: 'swap',
-  declarations: [
-    { prop: 'size-adjust', value: '160%' },
-  ],
-});
 
 const forum = Forum({
   subsets: ['latin'],
@@ -27,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${glasstown.variable} ${forum.variable}`}>
+    <html lang="ru" className={forum.variable}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>
