@@ -1,15 +1,3 @@
-@font-face {
-  font-family: 'Glasstown NBP';
-  src: url('/fonts/GlasstownNbp.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-  size-adjust: 220%;
-}
-
-:root {
-  --font-ui: 'Glasstown NBP', ui-sans-serif, system-ui, sans-serif;
-}
 
 *, *::before, *::after {
   margin: 0;
