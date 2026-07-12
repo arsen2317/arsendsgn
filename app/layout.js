@@ -10,8 +10,8 @@ const commissioner = Commissioner({
   display: 'swap',
 });
 
-const shylock = localFont({
-  src: '../public/fonts/ShylockNbpPixel.ttf',
+const uiFont = localFont({
+  src: '../public/fonts/WindowsXPTahoma.otf',
   variable: '--font-ui-var',
   display: 'block',
 });
@@ -25,7 +25,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${commissioner.variable} ${shylock.variable}`}>
+    <html lang="ru" className={`${commissioner.variable} ${uiFont.variable}`}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>
