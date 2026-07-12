@@ -355,6 +355,7 @@ body {
 }
 
 .tag-xl {
+  font-family: var(--font-body), Georgia, serif;
   font-size: clamp(36px, 4vw + 18px, 72px);
   letter-spacing: -7.6px;
   color: var(--text-primary);
@@ -366,6 +367,7 @@ body {
   z-index: 1;
 }
 .tag-lg {
+  font-family: var(--font-body), Georgia, serif;
   font-size: clamp(26px, 2.5vw + 14px, 48px);
   letter-spacing: -4.6px;
   color: var(--text-primary);
@@ -443,7 +445,7 @@ body {
 
 .dark-quote { display: flex; justify-content: flex-end; width: 100%; }
 .dark-quote p {
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body), Georgia, serif;
   font-size: clamp(3.6rem, 3.6rem + 0vw, 3.6rem);
   font-weight: normal;
   letter-spacing: -0.03em;
@@ -478,7 +480,7 @@ body {
   width: 100%;
 }
 .dark-desc p {
-  font-family: var(--font-body), Georgia, serif;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
   font-size: 32px;
   color: var(--text-light);
