@@ -7,6 +7,9 @@ const glasstown = localFont({
   src: '../public/fonts/GlasstownNbp.ttf',
   variable: '--font-ui',
   display: 'swap',
+  declarations: [
+    { prop: 'size-adjust', value: '160%' },
+  ],
 });
 
 const forum = Forum({
