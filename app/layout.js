@@ -1,4 +1,4 @@
-import { Commissioner } from 'next/font/google';
+import { Commissioner, Handjet } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
@@ -6,6 +6,13 @@ const commissioner = Commissioner({
   subsets: ['latin', 'cyrillic'],
   weight: ['400', '500'],
   variable: '--font-body',
+  display: 'swap',
+});
+
+const handjet = Handjet({
+  subsets: ['latin', 'cyrillic'],
+  axes: ['ELGR', 'ELSH'],
+  variable: '--font-ui',
   display: 'swap',
 });
 
@@ -17,7 +24,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={commissioner.variable}>
+    <html lang="ru" className={`${commissioner.variable} ${handjet.variable}`}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>

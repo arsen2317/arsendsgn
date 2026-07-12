@@ -1,13 +1,5 @@
-@font-face {
-  font-family: 'Nine By Five NBP';
-  src: url('/fonts/NineByFiveNbp.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --font-ui: 'Nine By Five NBP', ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: "ELGR" 1, "ELSH" 2;
 }
 
 *, *::before, *::after {
