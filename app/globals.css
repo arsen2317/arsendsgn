@@ -204,6 +204,7 @@ body {
   white-space: nowrap;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-stretch: 103%;
   overflow: hidden;
   text-decoration: none;
   --h: 38px;
