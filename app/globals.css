@@ -150,6 +150,8 @@ body {
   text-transform: uppercase;
   color: rgba(250, 246, 239, 0.4);
   transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
+  transform: scaleX(0.9);
+  transform-origin: left center;
 }
 
 .lang-toggle:hover {
@@ -265,7 +267,7 @@ html.lang-ru .dark-desc p {
 /* Vertical scroll text — clipped at text height, not button height */
 .st-wrap { overflow: hidden; line-height: 1; display: block; }
 .st { display: flex; flex-direction: column; transition: transform 0.7s cubic-bezier(0.19,1,0.22,1); }
-.st > span { display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1; }
+.st > span { display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1; transform: scaleX(0.9); }
 .nav-item .st-wrap { height: 1.3em; }
 .nav-item .st > span { height: 1.3em; }
 .nav-item:hover .st  { transform: translateY(-50%); }
@@ -385,6 +387,7 @@ html.lang-ru .dark-desc p {
 
 .tag-xl {
   font-size: clamp(36px, 4vw + 18px, 72px);
+  transform: scaleX(0.9);
   letter-spacing: -7.6px;
   color: var(--text-primary);
   text-align: center;
@@ -396,6 +399,7 @@ html.lang-ru .dark-desc p {
 }
 .tag-lg {
   font-size: clamp(26px, 2.5vw + 14px, 48px);
+  transform: scaleX(0.9);
   letter-spacing: -4.6px;
   color: var(--text-primary);
   text-align: center;
@@ -477,6 +481,8 @@ html.lang-ru .dark-desc p {
   font-weight: normal;
   font-variation-settings: "pxls" 30, "jnts" 100;
   letter-spacing: -0.03em;
+  transform: scaleX(0.9);
+  transform-origin: right center;
   line-height: 1.4;
   color: var(--text-light);
   text-align: right;
