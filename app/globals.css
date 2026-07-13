@@ -388,7 +388,7 @@ body {
   align-items: flex-start;
 }
 .hero-exp span {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--bg-dark);
   line-height: 20px;
   white-space: nowrap;
