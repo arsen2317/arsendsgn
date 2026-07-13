@@ -30,7 +30,7 @@
   background: var(--bg-darker);
   color: var(--text-light);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(3.4rem, 1.94rem + 1.3vw, 4.4rem);
+  font-size: clamp(2.8rem, 1.6571rem + 1.1161vw, 3.8rem);
   line-height: 1;
   font-weight: 400;
   padding: 1.2rem 2rem;
@@ -81,7 +81,7 @@
 @media (max-width: 768px) {
   .hard,
   .soft {
-    font-size: 2.2rem;
+    font-size: 1.4rem;
     padding: 0.8rem 1.4rem;
   }
 

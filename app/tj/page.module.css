@@ -39,7 +39,7 @@
 }
 
 .caseTagText {
-  font-size: clamp(2.23rem, 2.08rem + 0.34vw, 2.70rem);
+  font-size: clamp(2.1rem, 1.9786rem + 0.3236vw, 2.6rem);
   color: var(--text-primary);
   line-height: 1;
   white-space: nowrap;
@@ -57,7 +57,7 @@
 
 .subtitle {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1.35rem, 1.08rem + 0.41vw, 1.69rem);
+  font-size: clamp(1.3rem, 1rem + 0.4vw, 1.6rem);
   line-height: 1;
   color: var(--text-primary);
 }
@@ -364,7 +364,7 @@
 .counterSep,
 .counterTotal {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.7rem;
+  font-size: 1.1rem;
   color: var(--text-light);
 }
 
@@ -407,7 +407,7 @@
   }
 
   .caseTagText {
-    font-size: clamp(2.30rem, 5.27vw, 3.38rem);
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
   }
 
   /* ── Plain alternating scroll: media, then description, per slide ── */
