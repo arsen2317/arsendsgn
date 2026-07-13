@@ -180,7 +180,7 @@ body {
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-raster), ui-sans-serif, system-ui, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
 }
 .header-back:hover { border-radius: var(--r-lg); transition-delay: 0s; }
@@ -421,7 +421,7 @@ body {
 .badge:hover .st  { transform: translateY(-50%); }
 .badge.yellow  { background: var(--accent-yellow); transition: opacity 0.2s ease; }
 .badge--fade   { opacity: 0; }
-.badge.button  { background: var(--bg-button); }
+.badge.button  { background: var(--bg-button); font-size: 12px; }
 .badge.primary { background: var(--bg-primary); }
 .badge-wrap { display: flex; align-items: flex-start; }
 

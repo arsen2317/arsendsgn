@@ -48,13 +48,10 @@ export default function SiteHeader({
       {/*
         Logo area:
         • main page  → LangToggle (replaces the arsendsgn scroll-to-top button)
-        • case page  → <div class="header-logo-group"> with logo link + back arrow + LangToggle
+        • case page  → <div class="header-logo-group"> with back arrow + LangToggle
       */}
       {backHref ? (
         <div className="header-logo-group">
-          <a href={backHref} className="logo" onMouseEnter={playFx}>
-            <ST>arsendsgn</ST>
-          </a>
           <a href={backHref} className="header-back" onMouseEnter={playFx} aria-label="Back">
             ←
           </a>
