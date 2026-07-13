@@ -667,12 +667,12 @@ export default function Home() {
 
         <div className="hero-name">
           <div className="hero-row">
-            <div className="tag pill pink" data-word><span className="tag-lg">Arsen</span></div>
-            <div className="tag square glass" data-word><span className="tag-xl">Arakelyan</span></div>
+            <div className="tag pill pink" data-word><span className="tag-lg">{tr.hero.name}</span></div>
+            <div className="tag square glass" data-word><span className="tag-xl">{tr.hero.surname}</span></div>
           </div>
           <div className="hero-row">
-            <div className="tag pill glass" data-word><span className="tag-xl">Product</span></div>
-            <div className="tag square glass" data-word><span className="tag-xl">Designer</span></div>
+            <div className="tag pill glass" data-word><span className="tag-xl">{tr.hero.role1}</span></div>
+            <div className="tag square glass" data-word><span className="tag-xl">{tr.hero.role2}</span></div>
             <div className="tag pill lavender" data-word><span className="tag-lg">{tr.hero.company}</span></div>
           </div>
         </div>
