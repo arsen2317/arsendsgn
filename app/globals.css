@@ -554,7 +554,6 @@ body {
 
 .work-label-tag .tag-xl {
   font-size: inherit;
-  letter-spacing: -0.02em;
   line-height: 1.1;
   font-weight: 400;
   font-variation-settings: "pxls" 30, "jnts" 100;
@@ -578,11 +577,10 @@ body {
   height: 20px;
   padding: 0 6px;
   border-radius: var(--r-xs);
-  font-size: 11px;
+  font-size: 12px;
   background: var(--bg-primary);
   color: var(--bg-dark);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.3px;
   white-space: nowrap;
   cursor: default;
 }
