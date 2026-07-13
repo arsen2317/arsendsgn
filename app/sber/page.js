@@ -352,13 +352,13 @@ export default function SberCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Sber</span>
+                <span className={styles.caseTagText}>{tr.caseSber.tags[0]}</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>POS</span>
+                <span className={styles.caseTagText}>{tr.caseSber.tags[1]}</span>
               </div>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Terminal</span>
+                <span className={styles.caseTagText}>{tr.caseSber.tags[2]}</span>
               </div>
             </div>
 
