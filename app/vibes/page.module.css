@@ -39,7 +39,7 @@
 }
 
 .caseTagText {
-  font-size: clamp(3.3rem, 3.08rem + 0.5vw, 4.0rem);
+  font-size: clamp(2.23rem, 2.08rem + 0.34vw, 2.70rem);
   color: var(--text-primary);
   line-height: 1;
   white-space: nowrap;
@@ -57,7 +57,7 @@
 
 .subtitle {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(2.0rem, 0.6vw + 1.6rem, 2.5rem);
+  font-size: clamp(1.35rem, 1.08rem + 0.41vw, 1.69rem);
   line-height: 1;
   color: var(--text-primary);
 }
@@ -377,7 +377,7 @@
   }
 
   .caseTagText {
-    font-size: clamp(3.4rem, 7.8vw, 5.0rem);
+    font-size: clamp(2.30rem, 5.27vw, 3.38rem);
   }
 
   /* ── Plain alternating scroll: media, then description, per slide ── */
