@@ -377,6 +377,14 @@
   display: none;
 }
 
+/* Short viewport (short window height, common on laptops) — the left
+   panel's text (esp. Russian, which runs longer) needs more width to
+   avoid overflowing its fixed 100vh column, so borrow some width from
+   the illustration panel. */
+@media (max-height: 760px) and (min-width: 901px) {
+  .left { width: 34%; min-width: 30rem; }
+}
+
 /* ─── RESPONSIVE ────────────────────────────────────────── */
 
 @media (max-width: 900px) {
