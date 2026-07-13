@@ -4,10 +4,16 @@ import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
 const uiFont = localFont({
-  src: '../public/fonts/FFVIIVector_tight.otf',
+  src: '../public/fonts/FFVIIVector_x95.otf',
   variable: '--font-ui',
   display: 'swap',
   declarations: [{ prop: 'size-adjust', value: '148%' }],
+});
+
+const fkRaster = localFont({
+  src: '../public/fonts/FKRasterGrotesk.ttf',
+  variable: '--font-raster',
+  display: 'swap',
 });
 
 const forum = Forum({
@@ -25,7 +31,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${uiFont.variable} ${forum.variable}`}>
+    <html lang="ru" className={`${uiFont.variable} ${fkRaster.variable} ${forum.variable}`}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>
