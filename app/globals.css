@@ -39,6 +39,7 @@ html {
   font-size: 10px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   scrollbar-width: none;
 }
 
@@ -194,7 +195,7 @@ body {
   padding: 0 16px;
   background: var(--bg-button);
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.68px;
