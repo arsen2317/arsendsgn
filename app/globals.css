@@ -161,10 +161,10 @@ body {
   padding: 0 16px;
   background: var(--bg-button);
   border: none;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: 0.68px;
+  letter-spacing: -0.32px;
   white-space: nowrap;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
@@ -331,12 +331,6 @@ body {
   z-index: 1;
 }
 
-.tag.square.glass .tag-xl,
-.tag.pill.pink .tag-lg,
-.tag.pill.lavender .tag-lg {
-  letter-spacing: -1.6px;
-}
-
 .hero-bottom {
   position: absolute;
   bottom: 0;
@@ -386,11 +380,6 @@ body {
 .badge--fade   { opacity: 0; }
 .badge.button  { background: var(--bg-button); }
 .badge.primary { background: var(--bg-primary); }
-
-/* Hero "hello" / telegram badges keep the original (uncompressed) FK Raster */
-.hero-socials .badge {
-  font-family: var(--font-ui-original), ui-sans-serif, system-ui, sans-serif;
-}
 .badge-wrap { display: flex; align-items: flex-start; }
 
 /* ─── DARK SECTION ────────────────────────────────────── */

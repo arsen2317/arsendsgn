@@ -3,14 +3,8 @@ import { Forum } from 'next/font/google';
 import './globals.css';
 
 const fkRaster = localFont({
-  src: '../public/fonts/FKRasterGroteskCondensed.ttf',
-  variable: '--font-ui',
-  display: 'swap',
-});
-
-const fkRasterOriginal = localFont({
   src: '../public/fonts/FKRasterGrotesk.ttf',
-  variable: '--font-ui-original',
+  variable: '--font-ui',
   display: 'swap',
 });
 
@@ -29,7 +23,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${fkRaster.variable} ${fkRasterOriginal.variable} ${forum.variable}`}>
+    <html lang="en" className={`${fkRaster.variable} ${forum.variable}`}>
       <body>{children}</body>
     </html>
   );
