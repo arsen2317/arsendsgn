@@ -268,9 +268,12 @@ export default function PoCopilotCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Product Owner</span>
+                <span className={styles.caseTagText}>Product</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>Owner</span>
+              </div>
+              <div className={`tag square ${styles.caseTag}`} data-case-tag>
                 <span className={styles.caseTagText}>Copilot</span>
               </div>
             </div>
