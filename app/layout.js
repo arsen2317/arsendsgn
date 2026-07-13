@@ -17,7 +17,7 @@ const fkRaster = localFont({
 });
 
 const forum = Forum({
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   weight: ['400'],
   variable: '--font-body',
   display: 'swap',
