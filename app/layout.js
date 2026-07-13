@@ -4,7 +4,7 @@ import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
 const uiFont = localFont({
-  src: '../public/fonts/FFVIIVector.otf',
+  src: '../public/fonts/FFVIIVector_tight.otf',
   variable: '--font-ui',
   display: 'swap',
   declarations: [{ prop: 'size-adjust', value: '148%' }],
