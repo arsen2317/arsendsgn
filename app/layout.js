@@ -4,10 +4,10 @@ import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
 const uiFont = localFont({
-  src: '../public/fonts/Chipndale2.ttf',
+  src: '../public/fonts/FFVIIVector.otf',
   variable: '--font-ui',
   display: 'swap',
-  declarations: [{ prop: 'size-adjust', value: '167%' }],
+  declarations: [{ prop: 'size-adjust', value: '148%' }],
 });
 
 const forum = Forum({
