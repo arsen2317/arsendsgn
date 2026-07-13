@@ -377,13 +377,13 @@ export default function TjCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>T-Bank</span>
+                <span className={styles.caseTagText}>{tr.caseTj.tags[0]}</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Media</span>
+                <span className={styles.caseTagText}>{tr.caseTj.tags[1]}</span>
               </div>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Platform</span>
+                <span className={styles.caseTagText}>{tr.caseTj.tags[2]}</span>
               </div>
             </div>
 
