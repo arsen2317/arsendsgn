@@ -58,7 +58,7 @@
 .subtitle {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(1.3rem, 1rem + 0.4vw, 1.6rem);
-  line-height: 1;
+  line-height: 1.4;
   color: var(--text-primary);
 }
 
