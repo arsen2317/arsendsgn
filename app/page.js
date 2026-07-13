@@ -25,17 +25,7 @@ const SAY_HI = ['Say Hi', 'Привет', 'こんにちは', 'Hola', 'Bonjour', 
 
 const CURSORS = ['sheep', 'cat'];
 
-const COMMANDS = [
-  { name: 'about',    desc: '→ About section' },
-  { name: 'cases',    desc: '→ Cases section' },
-  { name: 'contacts', desc: '→ Contacts' },
-  { name: 'draw',     desc: 'Have fun' },
-  { name: 'cursor',   desc: 'Random cursor' },
-  { name: 'noire',    desc: 'Black & white' },
-  { name: 'negative', desc: 'Invert colors' },
-  { name: 'reset',    desc: 'Reset all effects' },
-  { name: 'close',    desc: 'Close terminal' },
-];
+const COMMAND_NAMES = ['about', 'cases', 'contacts', 'draw', 'cursor', 'noire', 'negative', 'reset', 'close'];
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -277,6 +267,10 @@ export default function Home() {
           clearCanvas();
         } else if (terminalOpenRef.current) {
           setTerminalOpen(false);
+        } else {
+          document.documentElement.style.filter = '';
+          setCursorMode(null);
+          setFilterMode(null);
         }
       }
     };
@@ -361,7 +355,7 @@ export default function Home() {
 
     if (!cursorMode) {
       el.style.display = 'none';
-      document.documentElement.style.cursor = '';
+      document.documentElement.classList.remove('custom-cursor-active');
       return;
     }
 
@@ -378,7 +372,7 @@ export default function Home() {
     const img = el.querySelector('img');
     if (img) img.src = src;
 
-    document.documentElement.style.cursor = 'none';
+    document.documentElement.classList.add('custom-cursor-active');
 
     const onMove = (e) => {
       el.style.left = e.clientX + 'px';
@@ -389,7 +383,7 @@ export default function Home() {
     return () => {
       window.removeEventListener('mousemove', onMove);
       el.style.display = 'none';
-      document.documentElement.style.cursor = '';
+      document.documentElement.classList.remove('custom-cursor-active');
     };
   }, [cursorMode]);
 
@@ -601,7 +595,7 @@ export default function Home() {
       {/* ── TOS COMMAND TERMINAL ── */}
       <div ref={terminalRef} className={`terminal${terminalOpen ? ' terminal--open' : ''}`}>
         <div className="terminal-header">
-          <span className="terminal-title">ASD Terminal</span>
+          <span className="terminal-title">{tr.terminal.title}</span>
           <button className="terminal-esc-btn" onClick={() => setTerminalOpen(false)}>ESC</button>
         </div>
         <div className="terminal-input-row">
@@ -615,17 +609,17 @@ export default function Home() {
               if (e.key === 'Enter') executeCommand(terminalInput.trim().toLowerCase());
               if (e.key === 'Escape') setTerminalOpen(false);
             }}
-            placeholder="type a command…"
+            placeholder={tr.terminal.placeholder}
             autoComplete="off"
             spellCheck={false}
           />
         </div>
         <div className="terminal-commands">
-          <div className="terminal-section-label">Available commands</div>
-          {COMMANDS.map((cmd) => (
-            <button key={cmd.name} className="terminal-cmd" onClick={() => executeCommand(cmd.name)}>
-              <span className="terminal-cmd-name">{cmd.name}</span>
-              <span className="terminal-cmd-desc">{cmd.desc}</span>
+          <div className="terminal-section-label">{tr.terminal.available}</div>
+          {COMMAND_NAMES.map((name) => (
+            <button key={name} className="terminal-cmd" onClick={() => executeCommand(name)}>
+              <span className="terminal-cmd-name">{name}</span>
+              <span className="terminal-cmd-desc">{tr.terminal.commands[name]}</span>
             </button>
           ))}
         </div>
