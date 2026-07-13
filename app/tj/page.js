@@ -36,13 +36,17 @@ const FRAME_TO_SLIDE = [0, 1, 2, 3, 4, 4, 5, 5, 6, 7];
 /* Mobile groups slides 1:1 with SLIDES — slides 4 and 5 show both of their frames stacked */
 const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
 
-const FRAME_MEDIA = [
+/* Builds FRAME_MEDIA for the given language — RU screenshots (tj*-ru.webp / tj6-2-ru.mp4)
+   ship for every frame except tj6-3.webp and the phone bezel, which have no on-screen text. */
+const buildFrameMedia = (ru) => {
+  const img = (path) => ru ? path.replace(/(\.[a-z0-9]+)$/i, '-ru$1') : path;
+  return [
   // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.profileScreens}>
-        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj1-1.webp" alt="" />
-        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj1-2.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src={img("/images/tj1-1.webp")} alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src={img("/images/tj1-2.webp")} alt="" />
       </div>
     </div>
   ),
@@ -50,7 +54,7 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideContent}>
-        <img className={styles.screenImg} src="/images/tj2.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj2.webp")} alt="" />
       </div>
     </div>
   ),
@@ -58,7 +62,7 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideContent}>
-        <img className={`${styles.screenImg} ${styles.noShadow}`} src="/images/tj3.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.noShadow}`} src={img("/images/tj3.webp")} alt="" />
       </div>
     </div>
   ),
@@ -66,32 +70,32 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideThreeScreens}>
-        <img className={styles.screenImg} src="/images/tj4-1.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj4-2.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj4-3.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj4-1.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj4-2.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj4-3.webp")} alt="" />
       </div>
     </div>
   ),
   // 4 — editor, sub-slide A: single image pinned to the bottom
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-      <img className={styles.editorImgBottom} src="/images/tj5-1.webp" alt="" />
+      <img className={styles.editorImgBottom} src={img("/images/tj5-1.webp")} alt="" />
     </div>
   ),
   // 5 — editor, sub-slide B: three screens in a row
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideThreeScreens}>
-        <img className={styles.screenImg} src="/images/tj5-2.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj5-3.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj5-4.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj5-2.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj5-3.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj5-4.webp")} alt="" />
       </div>
     </div>
   ),
   // 6 — matching, sub-slide A: single image pinned to the bottom, same principle as frame 4
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-      <img className={styles.editorImgBottom} src="/images/tj6-1.webp" alt="" />
+      <img className={styles.editorImgBottom} src={img("/images/tj6-1.webp")} alt="" />
     </div>
   ),
   // 7 — matching, sub-slide B: video in a phone mockup + image, same layout as sber slide 4
@@ -102,7 +106,7 @@ const FRAME_MEDIA = [
           <div className={styles.phoneMockup}>
             <video
               className={styles.mockupVideo}
-              src="/tj6-2.mp4"
+              src={img("/tj6-2.mp4")}
               autoPlay loop muted playsInline
               ref={el => { if (el) el.muted = true; }}
             />
@@ -119,8 +123,8 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.profileScreens}>
-        <img className={`${styles.screenImg} ${styles.profileImgCropTop}`} src="/images/tj7-1.webp" alt="" />
-        <img className={`${styles.screenImg} ${styles.profileImgCropBottom}`} src="/images/tj7-2.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropTop}`} src={img("/images/tj7-1.webp")} alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropBottom}`} src={img("/images/tj7-2.webp")} alt="" />
       </div>
     </div>
   ),
@@ -128,18 +132,20 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideTwoScreens}>
-        <img className={styles.screenImg} src="/images/tj8-1.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj8-2.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj8-1.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj8-2.webp")} alt="" />
       </div>
     </div>
   ),
-];
+  ];
+};
 
 export default function TjCase() {
   const { lang } = useLang();
   const tr = t[lang];
   const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseTj.slides[id] }));
   const SKILL_TAGS = tr.caseTj.skills;
+  const FRAME_MEDIA = buildFrameMedia(lang === 'ru');
 
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
