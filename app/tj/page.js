@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
+import { useLang } from '../../context/LangContext';
+import { t } from '../../lib/i18n';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -24,50 +26,7 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
-const SLIDES = [
-  {
-    id: 'context',
-    description:
-      'T—J has an audience of 42 million readers, but less than 20% of them are T-Bank customers. The goal was to connect T—J and T-Bank through meaningful user scenarios without compromising the media platform’s trust. The focus was on the “Travel” section — one of the most popular and engaging on the platform.',
-  },
-  {
-    id: 'research',
-    description:
-      'Research showed that authorization provided little value to users, the journey to bank products was too long, motivations varied from spontaneous to planned, and readers lacked simple tools to act on the inspiration from articles.',
-  },
-  {
-    id: 'concept',
-    description:
-      'As a solution, we developed T-ID as a seamless authorization method that converts T—Journal readers into T-Bank customers by enhancing its appeal with new functionality and social features.',
-  },
-  {
-    id: 'profile',
-    description:
-      'We created the “Geogenius” quiz game inspired by GeoGuessr, using real travel photos submitted by T—Journal readers in the travel section. Participation offered prizes and discounts, but required T-ID authorization — creating a soft and motivating entry point for registration.',
-  },
-  {
-    id: 'editor',
-    description:
-      'A new Travel Hub became a vibrant community space for travelers, allowing users to check in during trips, share live streams and stories, create checklists, rate places, and track live cashback earned together with other participants.',
-  },
-  {
-    id: 'matching',
-    description:
-      'Users can create and share their own travel plans in the Trip Planner — with curated selections based on personal interests, AI assistance trained on T—Journal content, and the ability to share plans with the community.',
-  },
-  {
-    id: 'icebreaker',
-    description:
-      'For those who prefer not to plan trips themselves, we created ready-made travel plans by both users and the editorial team — complete with day-by-day plans, integrated ticket booking through T-Travel, and hotel reservations.',
-  },
-  {
-    id: 'games',
-    description:
-      'The concept was first implemented and tested in the popular Travel section, with plans to scale the approach to other life scenarios supported by both T-Bank products and T—Journal content, eventually turning the platform into a universal life goals planner with seamless bank integration.',
-  },
-];
-
-const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
+const SLIDE_IDS = ['context', 'research', 'concept', 'profile', 'editor', 'matching', 'icebreaker', 'games'];
 
 /* Media frames for the desktop snap track — finer-grained than SLIDES, since
    the "editor" (index 4) and "matching" (index 5) slides are each split into
@@ -177,6 +136,11 @@ const FRAME_MEDIA = [
 ];
 
 export default function TjCase() {
+  const { lang } = useLang();
+  const tr = t[lang];
+  const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseTj.slides[id] }));
+  const SKILL_TAGS = tr.caseTj.skills;
+
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
@@ -368,20 +332,20 @@ export default function TjCase() {
       {/* ── MOBILE MENU ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
         <nav className="menu-overlay-nav">
-          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>About me</ST></a>
-          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>Cases</ST></a>
-          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>Contacts</ST></a>
-          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
+          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.about}</ST></a>
+          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></a>
+          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></a>
+          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>{tr.nav.cv}</ST></button>
         </nav>
         <div className="menu-overlay-footer">
-          <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
+          <div className="nav-item square menu-contact-chip menu-footer-item">{tr.menu.contactMe}</div>
           <div className="menu-social-links menu-footer-item">
             <a href="https://t.me/arsendsgn" target="_blank" className="menu-social-link">Telegram</a>
             <a href="https://www.linkedin.com/in/arsendsgn/" target="_blank" className="menu-social-link">LinkedIn</a>
           </div>
           <div className="menu-letter-chips menu-footer-item">
-            <div className="nav-item square">send</div>
-            <div className="nav-item pill">a letter</div>
+            <div className="nav-item square">{tr.menu.sendLetter[0]}</div>
+            <div className="nav-item pill">{tr.menu.sendLetter[1]}</div>
           </div>
           <a href="mailto:arackelian.arsen@gmail.com" className="menu-email menu-footer-item">
             arackelian.arsen@gmail.com
@@ -397,10 +361,10 @@ export default function TjCase() {
         onMenuToggle={() => setMenuOpen(p => !p)}
         playFx={playFx}
         navItems={[
-          { label: 'About me', href: '/#about' },
-          { label: 'Cases',    href: '/#cases',    pill: true },
-          { label: 'Contacts', href: '/#contacts' },
-          { label: 'My CV',    onClick: downloadCV, pill: true },
+          { label: tr.nav.about, href: '/#about' },
+          { label: tr.nav.cases,    href: '/#cases',    pill: true },
+          { label: tr.nav.contacts, href: '/#contacts' },
+          { label: tr.nav.cv,    onClick: downloadCV, pill: true },
         ]}
       />
 
@@ -424,7 +388,7 @@ export default function TjCase() {
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>T-J — Linking<br />Content With Banking</p>
+              <p className={styles.subtitle}>{tr.caseTj.subtitle[0]}<br />{tr.caseTj.subtitle[1]}</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>

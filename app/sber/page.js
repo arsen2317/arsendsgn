@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
+import { useLang } from '../../context/LangContext';
+import { t } from '../../lib/i18n';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -24,44 +26,16 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
-const SLIDES = [
-  {
-    id: 'context',
-    description:
-      "Sber is Russia's largest acquiring provider with over 2 million terminals deployed across the country. The hardware is everywhere — payments via QR code, card, and biometrics are already solved. The question now is: can we expand the user experience of a payment terminal and find new value beyond the transaction itself?",
-  },
-  {
-    id: 'research',
-    description:
-      'Through field research, desk research, competitive analysis, and in-depth interviews it became clear that merchants transform payment terminals into part of their venue\'s atmosphere by decorating them and opting for custom stands. Customers love this personalization because it makes the payment experience brighter and more enjoyable.',
-  },
-  {
-    id: 'concept',
-    description:
-      'The solution is a constructor for customizable POS. Through SberBusiness app, merchants can tailor the device by selecting body and interface colors, using interchangeable branded covers, creating personal mascots, and integrating tipping, loyalty, and cashback.',
-  },
-  {
-    id: 'design',
-    description:
-      'To validate the idea, prototype thematic covers were created for various retail niches such as coffee shops, florists, and pet stores. These prototypes show how simple installation can be and how seamlessly the terminal can integrate into the venue\'s atmosphere.',
-  },
-  {
-    id: 'tips',
-    description:
-      'SberTips is built into the terminal interface so customers can leave tips and feedback immediately after payment. They can authenticate via biometrics to access loyalty benefits without a card or dictating their phone number. At the final payment stage, an option to redeem SberSpasibo points is displayed. This raises the device\'s value for both customers and businesses.',
-  },
-  {
-    id: 'pilot',
-    description:
-      'To demonstrate the idea, a 3D model and test prototype of the first thematic cover were created. Sber has launched a live pilot with several customized terminals installed in Moscow retail locations. Initial metrics showed positive impact: higher tipping rates, greater loyalty engagement, and improved merchant satisfaction with the terminal\'s integration into their retail space.',
-  },
-];
-
-const SKILL_TAGS = ['ux/ui design', 'research', 'usability testing', '3d animation', 'product design'];
+const SLIDE_IDS = ['context', 'research', 'concept', 'design', 'tips', 'pilot'];
 
 const VIDEO_URL = '/sber.mp4';
 
 export default function SberCase() {
+  const { lang } = useLang();
+  const tr = t[lang];
+  const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseSber.slides[id] }));
+  const SKILL_TAGS = tr.caseSber.skills;
+
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
@@ -333,20 +307,20 @@ export default function SberCase() {
       {/* ── MOBILE MENU ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
         <nav className="menu-overlay-nav">
-          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>About me</ST></a>
-          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>Cases</ST></a>
-          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>Contacts</ST></a>
-          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
+          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.about}</ST></a>
+          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></a>
+          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></a>
+          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>{tr.nav.cv}</ST></button>
         </nav>
         <div className="menu-overlay-footer">
-          <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
+          <div className="nav-item square menu-contact-chip menu-footer-item">{tr.menu.contactMe}</div>
           <div className="menu-social-links menu-footer-item">
             <a href="https://t.me/arsendsgn" target="_blank" className="menu-social-link">Telegram</a>
             <a href="https://www.linkedin.com/in/arsendsgn/" target="_blank" className="menu-social-link">LinkedIn</a>
           </div>
           <div className="menu-letter-chips menu-footer-item">
-            <div className="nav-item square">send</div>
-            <div className="nav-item pill">a letter</div>
+            <div className="nav-item square">{tr.menu.sendLetter[0]}</div>
+            <div className="nav-item pill">{tr.menu.sendLetter[1]}</div>
           </div>
           <a href="mailto:arackelian.arsen@gmail.com" className="menu-email menu-footer-item">
             arackelian.arsen@gmail.com
@@ -362,10 +336,10 @@ export default function SberCase() {
         onMenuToggle={() => setMenuOpen(p => !p)}
         playFx={playFx}
         navItems={[
-          { label: 'About me', href: '/#about' },
-          { label: 'Cases',    href: '/#cases',    pill: true },
-          { label: 'Contacts', href: '/#contacts' },
-          { label: 'My CV',    onClick: downloadCV, pill: true },
+          { label: tr.nav.about, href: '/#about' },
+          { label: tr.nav.cases,    href: '/#cases',    pill: true },
+          { label: tr.nav.contacts, href: '/#contacts' },
+          { label: tr.nav.cv,    onClick: downloadCV, pill: true },
         ]}
       />
 
@@ -389,7 +363,7 @@ export default function SberCase() {
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Pushing The POS Terminal<br />Beyond Payments</p>
+              <p className={styles.subtitle}>{tr.caseSber.subtitle[0]}<br />{tr.caseSber.subtitle[1]}</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>

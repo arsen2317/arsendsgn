@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
+import { useLang } from '../../context/LangContext';
+import { t } from '../../lib/i18n';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -24,62 +26,14 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
-const SLIDES = [
-  {
-    id: 'context',
-    description:
-      'Modern dating apps are built around endless swiping and superficial interactions. We wanted to create an alternative where users match based on shared interests, aesthetics, and vibe — not just photos.',
-  },
-  {
-    id: 'research',
-    description:
-      'In-depth interviews with Russian and international respondents, along with a quantitative survey, showed that users lose interest due to repetitive profiles and shallow conversations. People often struggle to describe themselves but enjoy exploring others’ stories. Visual details such as surroundings, music, and atmosphere in photos play a significant role, while seeing other users’ success stories motivates them to return to the app.',
-  },
-  {
-    id: 'concept',
-    description:
-      'Users find it hard to describe their own vibe but easily sense it in others. This insight shaped Vibes — a visual dating app where people express themselves through collages and music rather than text. We replace endless swiping with deeper, vibe-based connections.',
-  },
-  {
-    id: 'profile',
-    description:
-      'In Vibes, the user profile is an interactive collage made of photos, music, and tags. It can be created manually or automatically generated from Pinterest boards, playlists, and other personal data.',
-  },
-  {
-    id: 'editor',
-    description:
-      'A flexible editor lets users adjust colors and apply neural filters to transform the collage\'s vibe. This makes it possible to create a compelling profile even without knowing how to describe yourself in words.',
-  },
-  {
-    id: 'matching',
-    description:
-      'The algorithm matches users based on visual compatibility and shared interests. In addition to regular filters, there is an experimental mode that pairs people with contrasting vibes.',
-  },
-  {
-    id: 'icebreaker',
-    description:
-      'After a match, a shared collage is generated as a conversation starter. Users can tap on individual elements to discuss them and build conversations around shared interests.',
-  },
-  {
-    id: 'games',
-    description:
-      'Vibes includes several mini-games designed to help users reveal themselves and connect. These feature planning the perfect date, collage roulette with anonymous matches, music-based matching, and other activities. Games can be shared with friends to invite them into the experience.',
-  },
-  {
-    id: 'safety',
-    description:
-      'The Comfort+ mode provides content filtering to reduce unwanted interactions. It also includes a dedicated safety widget featuring geolocation sharing and an SOS button, designed to support users if a date feels unsafe.',
-  },
-  {
-    id: 'results',
-    description:
-      'Following the MVP release on the App Store, the product showed solid performance during testing. 74% of users completed onboarding and created their first profile. Average profile viewing time reached 8.5 seconds — notably higher than the typical 4–5 seconds in dating apps — and 47% of matches led to conversations.',
-  },
-];
-
-const SKILL_TAGS = ['ux/ui design', 'JTBD research', 'feature ideation', 'usability testing', '2d animation'];
+const SLIDE_IDS = ['context', 'research', 'concept', 'profile', 'editor', 'matching', 'icebreaker', 'games', 'safety', 'results'];
 
 export default function VibesCase() {
+  const { lang } = useLang();
+  const tr = t[lang];
+  const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseVibes.slides[id] }));
+  const SKILL_TAGS = tr.caseVibes.skills;
+
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
@@ -380,20 +334,20 @@ export default function VibesCase() {
       {/* ── MOBILE MENU ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
         <nav className="menu-overlay-nav">
-          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>About me</ST></a>
-          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>Cases</ST></a>
-          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>Contacts</ST></a>
-          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
+          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.about}</ST></a>
+          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></a>
+          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></a>
+          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>{tr.nav.cv}</ST></button>
         </nav>
         <div className="menu-overlay-footer">
-          <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
+          <div className="nav-item square menu-contact-chip menu-footer-item">{tr.menu.contactMe}</div>
           <div className="menu-social-links menu-footer-item">
             <a href="https://t.me/arsendsgn" target="_blank" className="menu-social-link">Telegram</a>
             <a href="https://www.linkedin.com/in/arsendsgn/" target="_blank" className="menu-social-link">LinkedIn</a>
           </div>
           <div className="menu-letter-chips menu-footer-item">
-            <div className="nav-item square">send</div>
-            <div className="nav-item pill">a letter</div>
+            <div className="nav-item square">{tr.menu.sendLetter[0]}</div>
+            <div className="nav-item pill">{tr.menu.sendLetter[1]}</div>
           </div>
           <a href="mailto:arackelian.arsen@gmail.com" className="menu-email menu-footer-item">
             arackelian.arsen@gmail.com
@@ -409,10 +363,10 @@ export default function VibesCase() {
         onMenuToggle={() => setMenuOpen(p => !p)}
         playFx={playFx}
         navItems={[
-          { label: 'About me', href: '/#about' },
-          { label: 'Cases',    href: '/#cases',    pill: true },
-          { label: 'Contacts', href: '/#contacts' },
-          { label: 'My CV',    onClick: downloadCV, pill: true },
+          { label: tr.nav.about, href: '/#about' },
+          { label: tr.nav.cases,    href: '/#cases',    pill: true },
+          { label: tr.nav.contacts, href: '/#contacts' },
+          { label: tr.nav.cv,    onClick: downloadCV, pill: true },
         ]}
       />
 
@@ -433,7 +387,7 @@ export default function VibesCase() {
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>Dating Reimagined<br />Around Vibe And Aesthetics</p>
+              <p className={styles.subtitle}>{tr.caseVibes.subtitle[0]}<br />{tr.caseVibes.subtitle[1]}</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>
