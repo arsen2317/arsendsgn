@@ -330,9 +330,9 @@ body {
 .tag.square { border-radius: var(--r-xs); }
 .tag.pink     { background: var(--accent-pink); }
 .tag.lavender { background: var(--accent-lavender); }
-.tag.square.glass,
-.tag.pill.pink,
-.tag.pill.lavender { letter-spacing: -1.6px; }
+.tag.square.glass .tag-xl,
+.tag.pill.pink .tag-lg,
+.tag.pill.lavender .tag-lg { letter-spacing: -1.6px; }
 .tag.glass {
   background: rgba(241, 237, 231, 0.3);
   backdrop-filter: blur(5px);
