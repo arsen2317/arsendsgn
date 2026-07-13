@@ -647,11 +647,10 @@ body {
   background: var(--bg-darker);
   color: var(--text-light);
   border-radius: var(--r-pill);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1;
   padding: 6px 10px;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.3px;
   white-space: nowrap;
 }
 
@@ -694,7 +693,6 @@ body {
   font-size: 12px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   background: var(--bg-secondary);
@@ -722,6 +720,8 @@ body {
 }
 
 .footer-links { display: flex; gap: 4px; justify-self: end; }
+
+.footer-bottom .badge { font-size: 12px; }
 
 /* ─── MOBILE MENU OVERLAY ─────────────────────────────── */
 .menu-overlay {

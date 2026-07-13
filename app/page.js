@@ -50,8 +50,8 @@ export default function Home() {
   const { lang } = useLang();
   const tr = t[lang];
 
-  const WORDS_1 = tr.footer.word1;
-  const WORDS_2 = tr.footer.word2;
+  const WORDS_1 = t.en.footer.word1;
+  const WORDS_2 = t.en.footer.word2;
 
   const [word1, setWord1] = useState(WORDS_1[0]);
   const [word2, setWord2] = useState(WORDS_2[0]);
