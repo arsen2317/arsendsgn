@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLang } from '../context/LangContext';
+import { t } from '../lib/i18n';
 
 const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
 
@@ -26,6 +28,8 @@ const ST = ({ children }) => (
 );
 
 export default function Footer() {
+  const { lang } = useLang();
+  const tr = t[lang];
   const idx1 = useRef(0);
   const idx2 = useRef(0);
   const [word1, setWord1] = useState(WORDS_1[0]);
@@ -66,7 +70,7 @@ export default function Footer() {
       </nav>
       <div className="footer-bottom">
         <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-        <div className="badge-wrap"><span className="badge yellow" onClick={downloadCV} style={{ cursor: 'pointer' }}><ST>Download CV</ST></span></div>
+        <div className="badge-wrap"><span className="badge yellow" onClick={downloadCV} style={{ cursor: 'pointer' }}><ST>{tr.footer.downloadCv}</ST></span></div>
         <div className="footer-links">
           <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary"><ST>E-mail</ST></a></div>
           <div className="badge-wrap"><a href="https://t.me/arsendsgn" target="_blank" className="badge primary"><ST>Telegram</ST></a></div>

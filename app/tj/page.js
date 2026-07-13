@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 import SiteHeader from '../../components/SiteHeader';
 import Footer from '../../components/Footer';
+import { useLang } from '../../context/LangContext';
+import { t } from '../../lib/i18n';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -24,50 +26,7 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
-const SLIDES = [
-  {
-    id: 'context',
-    description:
-      'T—J has an audience of 42 million readers, but less than 20% of them are T-Bank customers. The goal was to connect T—J and T-Bank through meaningful user scenarios without compromising the media platform’s trust. The focus was on the “Travel” section — one of the most popular and engaging on the platform.',
-  },
-  {
-    id: 'research',
-    description:
-      'Research showed that authorization provided little value to users, the journey to bank products was too long, motivations varied from spontaneous to planned, and readers lacked simple tools to act on the inspiration from articles.',
-  },
-  {
-    id: 'concept',
-    description:
-      'As a solution, we developed T-ID as a seamless authorization method that converts T—Journal readers into T-Bank customers by enhancing its appeal with new functionality and social features.',
-  },
-  {
-    id: 'profile',
-    description:
-      'We created the “Geogenius” quiz game inspired by GeoGuessr, using real travel photos submitted by T—Journal readers in the travel section. Participation offered prizes and discounts, but required T-ID authorization — creating a soft and motivating entry point for registration.',
-  },
-  {
-    id: 'editor',
-    description:
-      'A new Travel Hub became a vibrant community space for travelers, allowing users to check in during trips, share live streams and stories, create checklists, rate places, and track live cashback earned together with other participants.',
-  },
-  {
-    id: 'matching',
-    description:
-      'Users can create and share their own travel plans in the Trip Planner — with curated selections based on personal interests, AI assistance trained on T—Journal content, and the ability to share plans with the community.',
-  },
-  {
-    id: 'icebreaker',
-    description:
-      'For those who prefer not to plan trips themselves, we created ready-made travel plans by both users and the editorial team — complete with day-by-day plans, integrated ticket booking through T-Travel, and hotel reservations.',
-  },
-  {
-    id: 'games',
-    description:
-      'The concept was first implemented and tested in the popular Travel section, with plans to scale the approach to other life scenarios supported by both T-Bank products and T—Journal content, eventually turning the platform into a universal life goals planner with seamless bank integration.',
-  },
-];
-
-const SKILL_TAGS = ['ux/ui design', 'research', 'scaling concept', 'usability testing', 'illustration'];
+const SLIDE_IDS = ['context', 'research', 'concept', 'profile', 'editor', 'matching', 'icebreaker', 'games'];
 
 /* Media frames for the desktop snap track — finer-grained than SLIDES, since
    the "editor" (index 4) and "matching" (index 5) slides are each split into
@@ -77,13 +36,17 @@ const FRAME_TO_SLIDE = [0, 1, 2, 3, 4, 4, 5, 5, 6, 7];
 /* Mobile groups slides 1:1 with SLIDES — slides 4 and 5 show both of their frames stacked */
 const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
 
-const FRAME_MEDIA = [
+/* Builds FRAME_MEDIA for the given language — RU screenshots (tj*-ru.webp / tj6-2-ru.mp4)
+   ship for every frame except tj6-3.webp and the phone bezel, which have no on-screen text. */
+const buildFrameMedia = (ru) => {
+  const img = (path) => ru ? path.replace(/(\.[a-z0-9]+)$/i, '-ru$1') : path;
+  return [
   // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.profileScreens}>
-        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj1-1.webp" alt="" />
-        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/tj1-2.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src={img("/images/tj1-1.webp")} alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src={img("/images/tj1-2.webp")} alt="" />
       </div>
     </div>
   ),
@@ -91,7 +54,7 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideContent}>
-        <img className={styles.screenImg} src="/images/tj2.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj2.webp")} alt="" />
       </div>
     </div>
   ),
@@ -99,7 +62,7 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideContent}>
-        <img className={`${styles.screenImg} ${styles.noShadow}`} src="/images/tj3.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.noShadow}`} src={img("/images/tj3.webp")} alt="" />
       </div>
     </div>
   ),
@@ -107,32 +70,32 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideThreeScreens}>
-        <img className={styles.screenImg} src="/images/tj4-1.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj4-2.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj4-3.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj4-1.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj4-2.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj4-3.webp")} alt="" />
       </div>
     </div>
   ),
   // 4 — editor, sub-slide A: single image pinned to the bottom
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-      <img className={styles.editorImgBottom} src="/images/tj5-1.webp" alt="" />
+      <img className={styles.editorImgBottom} src={img("/images/tj5-1.webp")} alt="" />
     </div>
   ),
   // 5 — editor, sub-slide B: three screens in a row
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideThreeScreens}>
-        <img className={styles.screenImg} src="/images/tj5-2.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj5-3.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj5-4.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj5-2.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj5-3.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj5-4.webp")} alt="" />
       </div>
     </div>
   ),
   // 6 — matching, sub-slide A: single image pinned to the bottom, same principle as frame 4
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
-      <img className={styles.editorImgBottom} src="/images/tj6-1.webp" alt="" />
+      <img className={styles.editorImgBottom} src={img("/images/tj6-1.webp")} alt="" />
     </div>
   ),
   // 7 — matching, sub-slide B: video in a phone mockup + image, same layout as sber slide 4
@@ -143,7 +106,7 @@ const FRAME_MEDIA = [
           <div className={styles.phoneMockup}>
             <video
               className={styles.mockupVideo}
-              src="/tj6-2.mp4"
+              src={img("/tj6-2.mp4")}
               autoPlay loop muted playsInline
               ref={el => { if (el) el.muted = true; }}
             />
@@ -160,8 +123,8 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.profileScreens}>
-        <img className={`${styles.screenImg} ${styles.profileImgCropTop}`} src="/images/tj7-1.webp" alt="" />
-        <img className={`${styles.screenImg} ${styles.profileImgCropBottom}`} src="/images/tj7-2.webp" alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropTop}`} src={img("/images/tj7-1.webp")} alt="" />
+        <img className={`${styles.screenImg} ${styles.profileImgCropBottom}`} src={img("/images/tj7-2.webp")} alt="" />
       </div>
     </div>
   ),
@@ -169,14 +132,21 @@ const FRAME_MEDIA = [
   () => (
     <div className={styles.dark} style={{ background: '#E1D7CB' }}>
       <div className={styles.slideTwoScreens}>
-        <img className={styles.screenImg} src="/images/tj8-1.webp" alt="" />
-        <img className={styles.screenImg} src="/images/tj8-2.webp" alt="" />
+        <img className={styles.screenImg} src={img("/images/tj8-1.webp")} alt="" />
+        <img className={styles.screenImg} src={img("/images/tj8-2.webp")} alt="" />
       </div>
     </div>
   ),
-];
+  ];
+};
 
 export default function TjCase() {
+  const { lang } = useLang();
+  const tr = t[lang];
+  const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseTj.slides[id] }));
+  const SKILL_TAGS = tr.caseTj.skills;
+  const FRAME_MEDIA = buildFrameMedia(lang === 'ru');
+
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
   const [textVisible, setTextVisible]   = useState(true);
@@ -368,20 +338,20 @@ export default function TjCase() {
       {/* ── MOBILE MENU ── */}
       <div className={`menu-overlay${menuOpen ? ' menu-overlay--open' : ''}`}>
         <nav className="menu-overlay-nav">
-          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>About me</ST></a>
-          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>Cases</ST></a>
-          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>Contacts</ST></a>
-          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>My CV</ST></button>
+          <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.about}</ST></a>
+          <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></a>
+          <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></a>
+          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>{tr.nav.cv}</ST></button>
         </nav>
         <div className="menu-overlay-footer">
-          <div className="nav-item square menu-contact-chip menu-footer-item">Contact me</div>
+          <div className="nav-item square menu-contact-chip menu-footer-item">{tr.menu.contactMe}</div>
           <div className="menu-social-links menu-footer-item">
             <a href="https://t.me/arsendsgn" target="_blank" className="menu-social-link">Telegram</a>
             <a href="https://www.linkedin.com/in/arsendsgn/" target="_blank" className="menu-social-link">LinkedIn</a>
           </div>
           <div className="menu-letter-chips menu-footer-item">
-            <div className="nav-item square">send</div>
-            <div className="nav-item pill">a letter</div>
+            <div className="nav-item square">{tr.menu.sendLetter[0]}</div>
+            <div className="nav-item pill">{tr.menu.sendLetter[1]}</div>
           </div>
           <a href="mailto:arackelian.arsen@gmail.com" className="menu-email menu-footer-item">
             arackelian.arsen@gmail.com
@@ -397,10 +367,10 @@ export default function TjCase() {
         onMenuToggle={() => setMenuOpen(p => !p)}
         playFx={playFx}
         navItems={[
-          { label: 'About me', href: '/#about' },
-          { label: 'Cases',    href: '/#cases',    pill: true },
-          { label: 'Contacts', href: '/#contacts' },
-          { label: 'My CV',    onClick: downloadCV, pill: true },
+          { label: tr.nav.about, href: '/#about' },
+          { label: tr.nav.cases,    href: '/#cases',    pill: true },
+          { label: tr.nav.contacts, href: '/#contacts' },
+          { label: tr.nav.cv,    onClick: downloadCV, pill: true },
         ]}
       />
 
@@ -413,18 +383,18 @@ export default function TjCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>T-Bank</span>
+                <span className={styles.caseTagText}>{tr.caseTj.tags[0]}</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Media</span>
+                <span className={styles.caseTagText}>{tr.caseTj.tags[1]}</span>
               </div>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Platform</span>
+                <span className={styles.caseTagText}>{tr.caseTj.tags[2]}</span>
               </div>
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>T-J — Linking<br />Content With Banking</p>
+              <p className={styles.subtitle}>{tr.caseTj.subtitle[0]}<br />{tr.caseTj.subtitle[1]}</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>

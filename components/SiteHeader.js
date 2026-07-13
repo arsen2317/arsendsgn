@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import LangToggle from './LangToggle';
 
 const ST = ({ children }) => (
   <span className="st-wrap">
@@ -45,28 +46,19 @@ export default function SiteHeader({
     <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
 
       {/*
-        Logo:
-        • main page  → plain <button class="logo"> as direct header child,
-                        identical to what was inline before
-        • case page  → <div class="header-logo-group"> wraps logo link + back arrow
+        Logo area:
+        • main page  → LangToggle (replaces the arsendsgn scroll-to-top button)
+        • case page  → <div class="header-logo-group"> with back arrow + LangToggle
       */}
       {backHref ? (
         <div className="header-logo-group">
-          <a href={backHref} className="logo" onMouseEnter={playFx}>
-            <ST>arsendsgn</ST>
-          </a>
           <a href={backHref} className="header-back" onMouseEnter={playFx} aria-label="Back">
             ←
           </a>
+          <LangToggle playFx={playFx} />
         </div>
       ) : (
-        <button
-          className="logo"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          onMouseEnter={playFx}
-        >
-          <ST>arsendsgn</ST>
-        </button>
+        <LangToggle playFx={playFx} />
       )}
 
       {/* Nav */}

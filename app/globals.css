@@ -9,7 +9,7 @@ a, button {
   cursor: pointer;
 }
 
-a *, button * {
+a *, button *, .badge * {
   cursor: pointer;
 }
 
@@ -39,6 +39,7 @@ html {
   font-size: 10px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   scrollbar-width: none;
 }
 
@@ -132,6 +133,39 @@ body {
   gap: 0.8rem;
 }
 
+/* ─── LANGUAGE TOGGLE ─────────────────────────────────── */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-self: start;
+  height: 38px;
+  padding: 0 16px;
+  background: var(--bg-darker);
+  border-radius: var(--r-xs);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 239, 0.4);
+  transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
+}
+
+.lang-toggle:hover {
+  border-radius: var(--r-lg);
+  transition-delay: 0s;
+}
+
+.lang-toggle__active {
+  color: var(--text-light);
+}
+
+.lang-toggle__sep {
+  color: rgba(250, 246, 239, 0.25);
+}
+
 /* Back-arrow button — same height/radius rhythm as nav-item */
 .header-back {
   display: flex;
@@ -146,7 +180,7 @@ body {
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-raster), ui-sans-serif, system-ui, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.19,1,0.22,1) 0.15s;
 }
 .header-back:hover { border-radius: var(--r-lg); transition-delay: 0s; }
@@ -161,10 +195,10 @@ body {
   padding: 0 16px;
   background: var(--bg-button);
   border: none;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
+  letter-spacing: 0.68px;
   white-space: nowrap;
   cursor: pointer;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
@@ -201,7 +235,7 @@ body {
   justify-content: center;
   height: 38px;
   padding: 0 16px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: -0.32px;
@@ -296,6 +330,10 @@ body {
 .tag.square { border-radius: var(--r-xs); }
 .tag.pink     { background: var(--accent-pink); }
 .tag.lavender { background: var(--accent-lavender); }
+.tag.square.glass .tag-xl,
+.tag.pill.glass .tag-xl,
+.tag.pill.pink .tag-lg,
+.tag.pill.lavender .tag-lg { letter-spacing: -1.6px; }
 .tag.glass {
   background: rgba(241, 237, 231, 0.3);
   backdrop-filter: blur(5px);
@@ -350,13 +388,18 @@ body {
   align-items: flex-start;
 }
 .hero-exp span {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--bg-dark);
   line-height: 20px;
   white-space: nowrap;
 }
 
 .hero-socials { display: flex; gap: 4px; align-items: flex-start; }
+.hero-socials .badge {
+  font-family: var(--font-raster), ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: -0.32px;
+}
 
 .badge {
   display: flex;
@@ -378,7 +421,7 @@ body {
 .badge:hover .st  { transform: translateY(-50%); }
 .badge.yellow  { background: var(--accent-yellow); transition: opacity 0.2s ease; }
 .badge--fade   { opacity: 0; }
-.badge.button  { background: var(--bg-button); }
+.badge.button  { background: var(--bg-button); font-size: 12px; letter-spacing: 0.2px; }
 .badge.primary { background: var(--bg-primary); }
 .badge-wrap { display: flex; align-items: flex-start; }
 
@@ -401,7 +444,6 @@ body {
   font-size: clamp(3.6rem, 3.6rem + 0vw, 3.6rem);
   font-weight: normal;
   font-variation-settings: "pxls" 30, "jnts" 100;
-  letter-spacing: -0.03em;
   line-height: 1.4;
   color: var(--text-light);
   text-align: right;
@@ -512,7 +554,7 @@ body {
 
 .work-label-tag .tag-xl {
   font-size: inherit;
-  letter-spacing: -0.02em;
+  letter-spacing: normal;
   line-height: 1.1;
   font-weight: 400;
   font-variation-settings: "pxls" 30, "jnts" 100;
@@ -536,11 +578,10 @@ body {
   height: 20px;
   padding: 0 6px;
   border-radius: var(--r-xs);
-  font-size: 11px;
+  font-size: 12px;
   background: var(--bg-primary);
   color: var(--bg-dark);
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.3px;
   white-space: nowrap;
   cursor: default;
 }
@@ -607,11 +648,10 @@ body {
   background: var(--bg-darker);
   color: var(--text-light);
   border-radius: var(--r-pill);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1;
   padding: 6px 10px;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.3px;
   white-space: nowrap;
 }
 
@@ -654,7 +694,6 @@ body {
   font-size: 12px;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: -0.32px;
   white-space: nowrap;
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   background: var(--bg-secondary);
@@ -682,6 +721,8 @@ body {
 }
 
 .footer-links { display: flex; gap: 4px; justify-self: end; }
+
+.footer-bottom .badge { font-size: 12px; }
 
 /* ─── MOBILE MENU OVERLAY ─────────────────────────────── */
 .menu-overlay {
@@ -1054,7 +1095,6 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
   color: var(--accent-yellow);
-  letter-spacing: -0.3px;
   flex-shrink: 0;
 }
 
@@ -1066,7 +1106,6 @@ body {
   font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
   color: var(--text-light);
-  letter-spacing: -0.3px;
 }
 .terminal-input::placeholder { color: rgba(250,246,239,0.3); }
 
@@ -1107,7 +1146,6 @@ body {
   font-size: 12px;
   color: var(--text-light);
   text-transform: uppercase;
-  letter-spacing: -0.2px;
 }
 
 .terminal-cmd-desc {
@@ -1115,7 +1153,6 @@ body {
   font-size: 11px;
   color: var(--text-light);
   opacity: 0.35;
-  letter-spacing: -0.2px;
 }
 
 @media (max-width: 900px) {
@@ -1161,6 +1198,14 @@ body {
 }
 
 /* ─── FAKE CURSOR ─────────────────────────────────────── */
+/* Custom cursor active: hide the native cursor everywhere, not just on <html> —
+   .badge/.nav-item/a/button etc. set their own explicit cursor that would
+   otherwise win over the inherited value. */
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
 .fake-cursor {
   position: fixed;
   pointer-events: none;
