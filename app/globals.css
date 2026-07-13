@@ -331,6 +331,7 @@ body {
 .tag.pink     { background: var(--accent-pink); }
 .tag.lavender { background: var(--accent-lavender); }
 .tag.square.glass .tag-xl,
+.tag.pill.glass .tag-xl,
 .tag.pill.pink .tag-lg,
 .tag.pill.lavender .tag-lg { letter-spacing: -1.6px; }
 .tag.glass {
