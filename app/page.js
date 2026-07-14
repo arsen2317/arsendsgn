@@ -9,8 +9,8 @@ import { t } from '../lib/i18n';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
-const CV_URL_EN = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
-const CV_URL_RU = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.rus.pdf';
+const CV_URL_EN = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
+const CV_URL_RU = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.rus.pdf`;
 const downloadCV = (lang) => {
   const a = document.createElement('a');
   a.href = lang === 'ru' ? CV_URL_RU : CV_URL_EN;
@@ -106,7 +106,8 @@ export default function Home() {
   /* noire/draw/fahh are rarely used — fetch them on first actual use instead of on every page load */
   const getNoireAudio = () => {
     if (!noireRef.current) {
-      const a = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/noire.mp3');
+      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const a = new Audio(`${base}/noire.mp3`);
       a.loop = true;
       noireRef.current = a;
     }
@@ -114,14 +115,18 @@ export default function Home() {
   };
   const getDrawMusic = () => {
     if (!drawMusicRef.current) {
-      const a = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/draw.mp3');
+      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const a = new Audio(`${base}/draw.mp3`);
       a.loop = true;
       drawMusicRef.current = a;
     }
     return drawMusicRef.current;
   };
   const getFahhAudio = () => {
-    if (!fahhRef.current) fahhRef.current = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/fahh.mp3');
+    if (!fahhRef.current) {
+      const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      fahhRef.current = new Audio(`${base}/fahh.mp3`);
+    }
     return fahhRef.current;
   };
 

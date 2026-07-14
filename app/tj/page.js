@@ -16,8 +16,8 @@ const ST = ({ children }) => (
   </span>
 );
 
-const CV_URL_EN = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
-const CV_URL_RU = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.rus.pdf';
+const CV_URL_EN = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
+const CV_URL_RU = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.rus.pdf`;
 const downloadCV = (lang) => {
   const a = document.createElement('a');
   a.href = lang === 'ru' ? CV_URL_RU : CV_URL_EN;
