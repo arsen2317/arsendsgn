@@ -43,7 +43,7 @@ export default function SiteHeader({
   const handleNavLeave = () => ref.current?.classList.remove('nav--active');
 
   return (
-    <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
+    <header className={`header${menuOpen ? ' header--menu-open' : ''}${!backHref ? ' header--home' : ''}`}>
 
       {/*
         Logo area:
