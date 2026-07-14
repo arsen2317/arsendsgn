@@ -64,7 +64,7 @@ export default function PoCopilotCase() {
             <video
               ref={variant === 'mobile' ? mobileIntroVideoRef : introVideoRef}
               className={styles.frameMedia}
-              src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
+              src="/po-copilot.mp4"
               poster="/images/copilot-video-poster.jpg"
               width={1920}
               height={1080}

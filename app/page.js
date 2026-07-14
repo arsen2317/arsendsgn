@@ -457,40 +457,16 @@ export default function Home() {
   /* Lenis + GSAP */
   useEffect(() => {
     let lenis;
-    let ctx;
     let onSnapWheel;
 
     async function init() {
       const { default: Lenis }    = await import('lenis');
       const { gsap }              = await import('gsap');
-      const { ScrollTrigger }     = await import('gsap/ScrollTrigger');
-
-      gsap.registerPlugin(ScrollTrigger);
 
       lenis = new Lenis();
       lenisRef.current = lenis;
-      lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
-
-      ctx = gsap.context(() => {
-        gsap.from('.header', { y: -80, opacity: 0, duration: 0.7, ease: 'power3.out' });
-        gsap.from('.portrait-wrap', { y: -24, opacity: 0, scale: 0.92, duration: 0.8, delay: 0.25, ease: 'power3.out' });
-        gsap.from('[data-word]', { y: 70, opacity: 0, duration: 0.9, delay: 0.35, stagger: 0.1, ease: 'back.out(2)' });
-        gsap.from('.hero-bottom', { opacity: 0, duration: 0.6, delay: 0.85, ease: 'power2.out' });
-
-        gsap.from('.dark-quote p', { x: 50, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dark-section', start: 'top 70%' } });
-        gsap.from('.dark-desc p', { y: 30, opacity: 0, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' } });
-        gsap.from('.dark-img-placeholder', { scale: 0.94, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: '.dark-row', start: 'top 80%' } });
-
-        gsap.from('.work-item', {
-          y: 48, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1,
-          scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
-        });
-      });
 
       // ── Section snap ──────────────────────────────────────
       const SNAP_IDS = ['#hero', '#about', '#cases', '#skills'];
@@ -579,9 +555,37 @@ export default function Home() {
 
     return () => {
       lenis?.destroy();
-      ctx?.revert();
       if (onSnapWheel) window.removeEventListener('wheel', onSnapWheel);
     };
+  }, []);
+
+  /* Entrance reveal — CSS-driven (see .header/.portrait-wrap/etc in globals.css)
+     instead of gsap.from(opacity:0,...): a JS tween interrupted mid-flight (tab
+     backgrounded, rAF throttled) can leave elements stuck invisible forever; a
+     CSS transition always reaches its committed end state once the class lands. */
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      document.documentElement.classList.add('entrance-ready');
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  /* Scroll-triggered reveals (about section + work grid) — IntersectionObserver
+     instead of ScrollTrigger, which needs an explicit refresh() after any late
+     layout shift (video/font load, mobile URL-bar collapse) or its cached
+     trigger positions go stale and the reveal never fires. */
+  useEffect(() => {
+    const targets = ['.dark-section', '.dark-row', '.work-grid'];
+    const observers = targets.map((selector) => {
+      const el = document.querySelector(selector);
+      if (!el) return null;
+      const io = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) { el.classList.add('is-visible'); io.disconnect(); }
+      }, { threshold: 0.2 });
+      io.observe(el);
+      return io;
+    });
+    return () => observers.forEach((io) => io?.disconnect());
   }, []);
 
   /* Pause background videos once they scroll out of view — several autoplay
@@ -698,19 +702,19 @@ export default function Home() {
 
         <div className="hero-name">
           <div className="hero-row">
-            <div className="tag pill pink" data-word><span className="tag-lg">{tr.hero.name}</span></div>
-            <div className="tag square glass" data-word><span className="tag-xl">{tr.hero.surname}</span></div>
+            <div className="tag pill pink" data-word style={{ transitionDelay: '0.35s' }}><span className="tag-lg">{tr.hero.name}</span></div>
+            <div className="tag square glass" data-word style={{ transitionDelay: '0.45s' }}><span className="tag-xl">{tr.hero.surname}</span></div>
           </div>
           <div className="hero-row">
-            <div className="tag pill glass" data-word>
+            <div className="tag pill glass" data-word style={{ transitionDelay: '0.55s' }}>
               <span className="tag-xl hero-role-default">{tr.hero.role1}</span>
               <span className="tag-xl hero-role-mobile-en">Product</span>
             </div>
-            <div className="tag square glass" data-word>
+            <div className="tag square glass" data-word style={{ transitionDelay: '0.65s' }}>
               <span className="tag-xl hero-role-default">{tr.hero.role2}</span>
               <span className="tag-xl hero-role-mobile-en">designer</span>
             </div>
-            <div className="tag pill lavender" data-word><span className="tag-lg">{tr.hero.company}</span></div>
+            <div className="tag pill lavender" data-word style={{ transitionDelay: '0.75s' }}><span className="tag-lg">{tr.hero.company}</span></div>
           </div>
         </div>
 
