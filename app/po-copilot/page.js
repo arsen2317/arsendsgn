@@ -50,16 +50,19 @@ export default function PoCopilotCase() {
   const snapLockRef  = useRef(false);
   const offsetRef    = useRef(0);
   const fxRef        = useRef(null);
+  const introVideoRef       = useRef(null);
+  const mobileIntroVideoRef = useRef(null);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
   /* Slide visuals — shared between the desktop snap track and the mobile scroll layout */
-  const renderSlideMedia = (i) => {
+  const renderSlideMedia = (i, variant) => {
     if (i === 0) {
       return (
         <div className={styles.dark}>
           <div className={styles.mediaFrame}>
             <video
+              ref={variant === 'mobile' ? mobileIntroVideoRef : introVideoRef}
               className={styles.frameMedia}
               src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
               poster="/images/copilot-video-poster.jpg"
@@ -159,6 +162,24 @@ export default function PoCopilotCase() {
       document.body.style.overflow   = '';
       document.body.style.paddingTop = '';
     };
+  }, [isMobile]);
+
+  /* Pause the intro video when navigating away from the first slide (desktop snap track) */
+  useEffect(() => {
+    if (activeIdx !== 0) introVideoRef.current?.pause();
+  }, [activeIdx]);
+
+  /* Pause the intro video once it scrolls out of view (mobile) */
+  useEffect(() => {
+    if (!isMobile) return;
+    const video = mobileIntroVideoRef.current;
+    if (!video) return;
+    const io = new IntersectionObserver(
+      ([entry]) => { if (!entry.isIntersecting) video.pause(); },
+      { threshold: 0.5 }
+    );
+    io.observe(video);
+    return () => io.disconnect();
   }, [isMobile]);
 
   /* Audio unlock */
@@ -334,7 +355,7 @@ export default function PoCopilotCase() {
                 className={styles.slideWrapper}
                 style={slideH ? { height: slideH } : undefined}
               >
-                {renderSlideMedia(i)}
+                {renderSlideMedia(i, 'desktop')}
               </div>
             ))}
           </div>
@@ -352,7 +373,7 @@ export default function PoCopilotCase() {
         <div className={styles.mobileSlides}>
           {SLIDES.map((slide, i) => (
             <div className={styles.mobileSlide} key={slide.id}>
-              <div className={styles.mobileMedia}>{renderSlideMedia(i)}</div>
+              <div className={styles.mobileMedia}>{renderSlideMedia(i, 'mobile')}</div>
 
               {i === 0 && (
                 <div className={`${styles.skillTags} ${styles.skillTagsMobile}`}>
