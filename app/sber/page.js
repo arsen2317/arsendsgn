@@ -61,10 +61,12 @@ export default function SberCase() {
         <div className={styles.dark}>
           <video
             className={styles.slideVideo}
-            src={VIDEO_URL}
             autoPlay loop muted playsInline
             ref={el => { if (el) { el.muted = true; slideVideosRef.current.add(el); } }}
-          />
+          >
+            <source src="/sber-mobile.mp4" media="(max-width: 900px)" />
+            <source src={VIDEO_URL} />
+          </video>
         </div>
       );
     }
