@@ -731,7 +731,13 @@ export default function Home() {
             <p className="work-title">Sber</p>
           </a>
           <a href="/po-copilot" className="work-item">
-            <div className="work-thumb" style={{ aspectRatio: '16 / 9' }} />
+            <div className="work-thumb" style={{ aspectRatio: '16 / 9' }}>
+              <img
+                src="/images/copilot4.png"
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
             <p className="work-title">PO-Copilot</p>
           </a>
           <a href="/vibes" className="work-item">

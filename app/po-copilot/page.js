@@ -26,7 +26,9 @@ const downloadCV = () => {
   document.body.removeChild(a);
 };
 
-const SLIDE_IDS = ['intro'];
+const SLIDE_IDS = ['intro', 'slide2', 'slide3', 'slide4', 'slide5', 'slide6', 'slide7'];
+
+const SLIDE_IMAGES = ['/images/copilot2.png', '/images/copilot3.png', '/images/copilot4.png', '/images/copilot5.png', '/images/copilot6.png', '/images/copilot7.png'];
 
 export default function PoCopilotCase() {
   const { lang } = useLang();
@@ -55,9 +57,9 @@ export default function PoCopilotCase() {
     if (i === 0) {
       return (
         <div className={styles.dark}>
-          <div className={styles.introVideoWrap}>
+          <div className={styles.mediaFrame}>
             <video
-              className={styles.introVideo}
+              className={styles.frameMedia}
               src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
               controls
               playsInline
@@ -66,7 +68,13 @@ export default function PoCopilotCase() {
         </div>
       );
     }
-    return <div className={styles.dark} />;
+    return (
+      <div className={styles.dark}>
+        <div className={styles.mediaFrame}>
+          <img className={styles.frameMedia} src={SLIDE_IMAGES[i - 1]} alt="" />
+        </div>
+      </div>
+    );
   };
 
   /* ── Snap animation (same easing/lock pattern as main page) ── */

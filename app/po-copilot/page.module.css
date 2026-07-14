@@ -242,9 +242,9 @@
   object-fit: cover;
 }
 
-/* Intro video — centered frame that keeps the video's own aspect ratio
-   instead of cropping/stretching it to cover the whole dark card */
-.introVideoWrap {
+/* Media frame — centered container that keeps a video/image's own aspect
+   ratio instead of cropping/stretching it to cover the whole dark card */
+.mediaFrame {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -254,7 +254,7 @@
   padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
 }
 
-.introVideo {
+.frameMedia {
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -387,7 +387,7 @@
   .slideContent,
   .slideTwoScreens,
   .slideThreeScreens,
-  .introVideoWrap {
+  .mediaFrame {
     padding: 1.6rem;
   }
 
