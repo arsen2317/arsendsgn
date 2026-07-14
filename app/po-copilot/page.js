@@ -52,6 +52,18 @@ export default function PoCopilotCase() {
 
   /* Slide visuals — shared between the desktop snap track and the mobile scroll layout */
   const renderSlideMedia = (i) => {
+    if (i === 0) {
+      return (
+        <div className={styles.dark}>
+          <video
+            className={styles.slideVideo}
+            src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
+            controls
+            playsInline
+          />
+        </div>
+      );
+    }
     return <div className={styles.dark} />;
   };
 
