@@ -285,6 +285,14 @@ body {
   height: 100% !important;
 }
 
+.portrait-static {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
 .hero-portrait {
   width: 100%;
   height: 100%;
