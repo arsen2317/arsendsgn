@@ -55,12 +55,14 @@ export default function PoCopilotCase() {
     if (i === 0) {
       return (
         <div className={styles.dark}>
-          <video
-            className={styles.slideVideo}
-            src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
-            controls
-            playsInline
-          />
+          <div className={styles.introVideoWrap}>
+            <video
+              className={styles.introVideo}
+              src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
+              controls
+              playsInline
+            />
+          </div>
         </div>
       );
     }
