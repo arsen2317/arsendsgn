@@ -62,8 +62,12 @@ export default function PoCopilotCase() {
             <video
               className={styles.frameMedia}
               src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
+              poster="/images/copilot-video-poster.jpg"
+              width={1920}
+              height={1080}
               controls
               playsInline
+              preload="metadata"
             />
           </div>
         </div>
