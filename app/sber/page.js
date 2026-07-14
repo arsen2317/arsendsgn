@@ -16,10 +16,11 @@ const ST = ({ children }) => (
   </span>
 );
 
-const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
-const downloadCV = () => {
+const CV_URL_EN = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
+const CV_URL_RU = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.rus.pdf';
+const downloadCV = (lang) => {
   const a = document.createElement('a');
-  a.href = CV_URL;
+  a.href = lang === 'ru' ? CV_URL_RU : CV_URL_EN;
   a.target = '_blank';
   document.body.appendChild(a);
   a.click();
@@ -310,7 +311,7 @@ export default function SberCase() {
           <a href="/"          className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.about}</ST></a>
           <a href="/#cases"    className="nav-item pill   menu-item" onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></a>
           <a href="/#contacts" className="nav-item square menu-item" onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></a>
-          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={downloadCV}><ST>{tr.nav.cv}</ST></button>
+          <button              className="nav-item pill   menu-item" onMouseEnter={playFx} onClick={() => downloadCV(lang)}><ST>{tr.nav.cv}</ST></button>
         </nav>
         <div className="menu-overlay-footer">
           <div className="nav-item square menu-contact-chip menu-footer-item">{tr.menu.contactMe}</div>
@@ -339,7 +340,7 @@ export default function SberCase() {
           { label: tr.nav.about, href: '/#about' },
           { label: tr.nav.cases,    href: '/#cases',    pill: true },
           { label: tr.nav.contacts, href: '/#contacts' },
-          { label: tr.nav.cv,    onClick: downloadCV, pill: true },
+          { label: tr.nav.cv,    onClick: () => downloadCV(lang), pill: true },
         ]}
       />
 

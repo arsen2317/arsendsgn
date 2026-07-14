@@ -9,10 +9,11 @@ import { t } from '../lib/i18n';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
-const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
-const downloadCV = () => {
+const CV_URL_EN = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
+const CV_URL_RU = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.rus.pdf';
+const downloadCV = (lang) => {
   const a = document.createElement('a');
-  a.href = CV_URL;
+  a.href = lang === 'ru' ? CV_URL_RU : CV_URL_EN;
   a.target = '_blank';
   document.body.appendChild(a);
   a.click();
@@ -571,7 +572,7 @@ export default function Home() {
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#about')} onMouseEnter={playFx}><ST>{tr.nav.about}</ST></button>
           <button className="nav-item pill   menu-item" onClick={() => scrollToSection('#cases')} onMouseEnter={playFx}><ST>{tr.nav.cases}</ST></button>
           <button className="nav-item square menu-item" onClick={() => scrollToSection('#contacts')} onMouseEnter={playFx}><ST>{tr.nav.contacts}</ST></button>
-          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => downloadCV()}><ST>{tr.nav.cv}</ST></button>
+          <button className="nav-item pill menu-item" onMouseEnter={playFx} onClick={() => downloadCV(lang)}><ST>{tr.nav.cv}</ST></button>
         </nav>
 
         <div className="menu-overlay-footer">
@@ -635,7 +636,7 @@ export default function Home() {
           { label: tr.nav.about,    onClick: () => scrollToSection('#about') },
           { label: tr.nav.cases,    onClick: () => scrollToSection('#cases'),    pill: true },
           { label: tr.nav.contacts, onClick: () => scrollToSection('#contacts') },
-          { label: tr.nav.cv,       onClick: downloadCV,                         pill: true },
+          { label: tr.nav.cv,       onClick: () => downloadCV(lang),              pill: true },
         ]}
         hintReset={!!(cursorMode || drawMode || filterMode)}
         onHint={
@@ -778,7 +779,7 @@ export default function Home() {
         </nav>
         <div className="footer-bottom">
           <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-          <div className="badge-wrap"><span className="badge yellow" onMouseEnter={playFx} onClick={downloadCV} style={{cursor:'pointer'}}><ST>{tr.footer.downloadCv}</ST></span></div>
+          <div className="badge-wrap"><span className="badge yellow" onMouseEnter={playFx} onClick={() => downloadCV(lang)} style={{cursor:'pointer'}}><ST>{tr.footer.downloadCv}</ST></span></div>
           <div className="footer-links">
             <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary" onMouseEnter={playFx}><ST>E-mail</ST></a></div>
             <div className="badge-wrap"><a href="https://t.me/arsendsgn" target="_blank" className="badge primary" onMouseEnter={playFx}><ST>Telegram</ST></a></div>
