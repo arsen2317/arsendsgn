@@ -740,11 +740,13 @@ export default function Home() {
           </div>
           <video
             className="dark-img-placeholder"
-            src="/sber.mp4"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
             ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-          />
+          >
+            <source src="/sber-mobile.mp4" media="(max-width: 900px)" />
+            <source src="/sber.mp4" />
+          </video>
         </div>
       </section>
 
@@ -765,11 +767,13 @@ export default function Home() {
           <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
-                src="/sber.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
                 ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-              />
+              >
+                <source src="/sber-mobile.mp4" media="(max-width: 900px)" />
+                <source src="/sber.mp4" />
+              </video>
             </div>
             <p className="work-title">Sber</p>
           </a>

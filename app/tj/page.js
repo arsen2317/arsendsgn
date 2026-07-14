@@ -107,10 +107,12 @@ const buildFrameMedia = (ru, videosRef) => {
           <div className={styles.phoneMockup}>
             <video
               className={styles.mockupVideo}
-              src={img("/tj6-2.mp4")}
               autoPlay loop muted playsInline
               ref={el => { if (el) { el.muted = true; videosRef.current.add(el); } }}
-            />
+            >
+              <source src={ru ? '/tj6-2-ru-mobile.mp4' : '/tj6-2-mobile.mp4'} media="(max-width: 900px)" />
+              <source src={img("/tj6-2.mp4")} />
+            </video>
             <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
           </div>
         </div>

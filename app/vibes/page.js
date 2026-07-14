@@ -84,10 +84,12 @@ export default function VibesCase() {
           <div className={styles.slideContent}>
             <video
               className={`${styles.screenImg} ${styles.conceptVideo}`}
-              src="/vibes3.mp4"
               autoPlay loop muted playsInline
               ref={el => { if (el) { el.muted = true; slideVideosRef.current.add(el); } }}
-            />
+            >
+              <source src="/vibes3-mobile.mp4" media="(max-width: 900px)" />
+              <source src="/vibes3.mp4" />
+            </video>
           </div>
         </div>
       );
