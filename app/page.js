@@ -59,11 +59,6 @@ export default function Home() {
   const [filterMode, setFilterMode] = useState(null); // null | 'noire' | 'negative'
   const [musicOpen, setMusicOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  /* Defaults to false (static image) rather than true, so the WebGL avatar
-     never even mounts on mobile while this is being determined — flips the
-     "flash of wrong version" tradeoff onto desktop instead, which can
-     afford a brief static-image flash before the 3D avatar takes over. */
-  const [isDesktopConfirmed, setIsDesktopConfirmed] = useState(false);
   const musicOpenRef = useRef(false);
   const musicWasOpenRef = useRef(false);
   const spotifyControllerRef = useRef(null);
@@ -94,10 +89,7 @@ export default function Home() {
      "must not be present" when the source's parent is a media element. */
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 900px)');
-    const sync = () => {
-      setIsMobile(mq.matches);
-      setIsDesktopConfirmed(!mq.matches);
-    };
+    const sync = () => setIsMobile(mq.matches);
     sync();
     mq.addEventListener('change', sync);
     return () => mq.removeEventListener('change', sync);
@@ -722,16 +714,7 @@ export default function Home() {
       <section className="hero" id="hero">
         <div className="portrait-wrap">
           <div className="portrait-3d" id="portrait-3d">
-            {isDesktopConfirmed ? (
-              <PortraitScene />
-            ) : (
-              <img
-                src="/images/avatar-static.png"
-                alt=""
-                className="portrait-static"
-                draggable={false}
-              />
-            )}
+            <PortraitScene />
           </div>
         </div>
 

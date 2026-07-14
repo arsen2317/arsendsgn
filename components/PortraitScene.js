@@ -6,6 +6,12 @@ import { useGLTF } from '@react-three/drei';
 
 const MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/voxel-avatar.glb`;
 
+/* drei's useGLTF defaults the Draco decoder to Google's gstatic.com CDN —
+   self-host it instead so the avatar doesn't depend on a third-party host
+   that's proven unreliable from Russia (gstatic.com was affected by the
+   same July 2026 connectivity incident that hit github.com). */
+useGLTF.setDecoderPath(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/draco/`);
+
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
