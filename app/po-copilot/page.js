@@ -27,13 +27,15 @@ const downloadCV = (lang) => {
   document.body.removeChild(a);
 };
 
-const SLIDE_IDS = ['context', 'research', 'concept', 'profile', 'editor', 'matching', 'icebreaker', 'games', 'safety', 'results'];
+const SLIDE_IDS = ['intro', 'slide2', 'slide3', 'slide4', 'slide5', 'slide6', 'slide7'];
 
-export default function VibesCase() {
+const SLIDE_IMAGES = ['/images/copilot2.png', '/images/copilot3.png', '/images/copilot4.png', '/images/copilot5.png', '/images/copilot6.png', '/images/copilot7.png'];
+
+export default function PoCopilotCase() {
   const { lang } = useLang();
   const tr = t[lang];
-  const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseVibes.slides[id] }));
-  const SKILL_TAGS = tr.caseVibes.skills;
+  const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseCopilot.slides[id] }));
+  const SKILL_TAGS = tr.caseCopilot.skills;
 
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
@@ -55,114 +57,23 @@ export default function VibesCase() {
   const renderSlideMedia = (i) => {
     if (i === 0) {
       return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <video
-            className={styles.coverVideo}
-            src="/vibes1.mp4"
-            autoPlay loop muted playsInline
-            ref={el => { if (el) el.muted = true; }}
-          />
-        </div>
-      );
-    }
-    if (i === 1) {
-      return (
-        <div className={styles.slideTwoCol}>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/vibesuser1.jpg" alt="" />
-          </div>
-          <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/vibesuser2.jpg" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 2) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideContent}>
+        <div className={styles.dark}>
+          <div className={styles.mediaFrame}>
             <video
-              className={`${styles.screenImg} ${styles.conceptVideo}`}
-              src="/vibes3.mp4"
-              autoPlay loop muted playsInline
-              ref={el => { if (el) el.muted = true; }}
+              className={styles.frameMedia}
+              src="https://github.com/arsen2317/arsendsgn/releases/download/media/po-copilot.mp4"
+              controls
+              playsInline
             />
-          </div>
-        </div>
-      );
-    }
-    if (i === 3) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.profileScreens}>
-            <img className={`${styles.screenImg} ${styles.profileImgTop}`} src="/images/vibes4-1.webp" alt="" />
-            <img className={`${styles.screenImg} ${styles.profileImgBottom}`} src="/images/vibes4-2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 4) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideThreeScreens}>
-            <img className={styles.screenImg} src="/images/vibes5-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes5-2.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes5-3.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 5) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideTwoScreens}>
-            <img className={styles.screenImg} src="/images/vibes6-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes6-2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 6) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideTwoScreens}>
-            <img className={styles.screenImg} src="/images/vibes7-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes7-2.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 7) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <div className={styles.slideThreeScreens}>
-            <img className={styles.screenImg} src="/images/vibes8-1.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes8-2.webp" alt="" />
-            <img className={styles.screenImg} src="/images/vibes8-3.webp" alt="" />
-          </div>
-        </div>
-      );
-    }
-    if (i === 8) {
-      return (
-        <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
-          <img className={styles.safetyImg} src="/images/vibes9.webp" alt="" />
-        </div>
-      );
-    }
-    if (i === 9) {
-      return (
-        <div className={styles.dark} style={{ background: '#131314' }}>
-          <img className={styles.slideImg} src="/images/vibes10bg.webp" alt="" />
-          <div className={styles.resultsWrap}>
-            <img className={styles.resultsImg} src="/images/vibes10.webp" alt="" />
           </div>
         </div>
       );
     }
     return (
       <div className={styles.dark}>
-        <img className={styles.slideImg} src={`/images/vibes-${i}.webp`} alt="" />
+        <div className={styles.mediaFrame}>
+          <img className={styles.frameMedia} src={SLIDE_IMAGES[i - 1]} alt="" />
+        </div>
       </div>
     );
   };
@@ -380,15 +291,18 @@ export default function VibesCase() {
 
             <div className={styles.titleRow}>
               <div className={`tag square ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>Vibes</span>
+                <span className={styles.caseTagText}>Product</span>
               </div>
               <div className={`tag pill ${styles.caseTag}`} data-case-tag>
-                <span className={styles.caseTagText}>App</span>
+                <span className={styles.caseTagText}>Owner</span>
+              </div>
+              <div className={`tag square ${styles.caseTag}`} data-case-tag>
+                <span className={styles.caseTagText}>Copilot</span>
               </div>
             </div>
 
             <div className={styles.subtitleBox} data-subtitle>
-              <p className={styles.subtitle}>{tr.caseVibes.subtitle[0]}<br />{tr.caseVibes.subtitle[1]}</p>
+              <p className={styles.subtitle}>{tr.caseCopilot.subtitle[0]}<br />{tr.caseCopilot.subtitle[1]}</p>
             </div>
 
             <div className={`${styles.skillTags} ${styles.skillTagsDesktop}`}>

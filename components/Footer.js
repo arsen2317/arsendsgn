@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useLang } from '../context/LangContext';
 import { t } from '../lib/i18n';
 
-const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
+const CV_URL_EN = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
+const CV_URL_RU = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.rus.pdf';
 
-const downloadCV = () => {
+const downloadCV = (lang) => {
   const a = document.createElement('a');
-  a.href = CV_URL;
+  a.href = lang === 'ru' ? CV_URL_RU : CV_URL_EN;
   a.target = '_blank';
   document.body.appendChild(a);
   a.click();
@@ -70,7 +71,7 @@ export default function Footer() {
       </nav>
       <div className="footer-bottom">
         <div className="footer-copy"><span>© 2026 Arsen Arakelyan</span></div>
-        <div className="badge-wrap"><span className="badge yellow" onClick={downloadCV} style={{ cursor: 'pointer' }}><ST>{tr.footer.downloadCv}</ST></span></div>
+        <div className="badge-wrap"><span className="badge yellow" onClick={() => downloadCV(lang)} style={{ cursor: 'pointer' }}><ST>{tr.footer.downloadCv}</ST></span></div>
         <div className="footer-links">
           <div className="badge-wrap"><a href="mailto:arsart94@yandex.ru" className="badge primary"><ST>E-mail</ST></a></div>
           <div className="badge-wrap"><a href="https://t.me/arsendsgn" target="_blank" className="badge primary"><ST>Telegram</ST></a></div>
