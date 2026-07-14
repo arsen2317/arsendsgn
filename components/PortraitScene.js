@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, useRef, useEffect, Suspense } from 'react';
+import { Component, useRef, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 
@@ -55,6 +55,8 @@ export default function PortraitScene() {
   if (process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true') return null;
   const mouseRef = useRef({ x: 0, y: 0 });
   const isMobile = useRef(false);
+  const containerRef = useRef(null);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     isMobile.current = !window.matchMedia('(pointer: fine)').matches;
@@ -67,24 +69,42 @@ export default function PortraitScene() {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
+  /* Stop the render loop entirely once scrolled out of view — useFrame
+     otherwise keeps ticking (and WebGL keeps rendering) forever, competing
+     for the main thread/GPU right when the user has scrolled to the work
+     grid and is trying to tap into a case page. */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <ErrorBoundary>
-      <Canvas
-        camera={{ position: [0, 0.3, 5], fov: 45 }}
-        style={{ width: '100%', height: '100%' }}
-        gl={{ alpha: true, antialias: true }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(0x000000, 0);
-        }}
-      >
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[0, 4, 6]} intensity={2.0} />
-        <directionalLight position={[4, 2, 2]} intensity={0.8} />
-        <directionalLight position={[-4, 2, 2]} intensity={0.5} />
-        <Suspense fallback={null}>
-          <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
-        </Suspense>
-      </Canvas>
+      <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+        <Canvas
+          frameloop={visible ? 'always' : 'never'}
+          camera={{ position: [0, 0.3, 5], fov: 45 }}
+          style={{ width: '100%', height: '100%' }}
+          gl={{ alpha: true, antialias: true }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(0x000000, 0);
+          }}
+        >
+          <ambientLight intensity={1.2} />
+          <directionalLight position={[0, 4, 6]} intensity={2.0} />
+          <directionalLight position={[4, 2, 2]} intensity={0.8} />
+          <directionalLight position={[-4, 2, 2]} intensity={0.5} />
+          <Suspense fallback={null}>
+            <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
+          </Suspense>
+        </Canvas>
+      </div>
     </ErrorBoundary>
   );
 }
