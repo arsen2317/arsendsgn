@@ -414,7 +414,7 @@
   .mobileMedia {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 5 / 4;
     border-radius: 0.4rem;
     overflow: hidden;
   }
@@ -425,14 +425,14 @@
   .slideContent,
   .slideTwoScreens,
   .slideThreeScreens {
-    padding: 1.6rem;
+    padding: 0.8rem;
   }
 
   /* .profileScreens intentionally has no vertical padding on desktop so
      profileImgTop/profileImgBottom sit flush against the card's top/bottom
      edge — horizontal-only padding here to keep that flush edge on mobile */
   .profileScreens {
-    padding: 0 1.6rem;
+    padding: 0 0.8rem;
   }
 
   .slideContent,
@@ -449,24 +449,30 @@
      so the row (incl. shadows) fits within the available width. */
   .slideTwoScreens .screenImg,
   .slideThreeScreens .screenImg {
-    height: 72%;
+    height: 84%;
   }
 
   /* .coverVideo/.safetyImg's clamp() insets are tuned for the tall desktop
-     .right panel; inside the mobile 4:3 .mobileMedia box they eat most of
-     the height (or double-crop, for safetyImg) and look broken. Re-center
-     with a mobile-appropriate size instead. */
-  .mobileMedia .coverVideo,
-  .mobileMedia .safetyImg {
-    top: 50%;
+     .right panel; inside the mobile 5:4 .mobileMedia box they eat most of
+     the height (or double-crop, for safetyImg) and look broken. Keep them
+     pinned to the edge they're designed for (matching desktop's intent)
+     but with a mobile-appropriate size — centering them read as "floating". */
+  .mobileMedia .coverVideo {
+    top: 3%;
     bottom: auto;
-    transform: translate(-50%, -50%);
-    height: 82%;
-    max-width: 88%;
+    height: 94%;
+    max-width: 92%;
+  }
+
+  .mobileMedia .safetyImg {
+    bottom: 0;
+    top: auto;
+    height: 94%;
+    max-width: 92%;
   }
 
   .resultsWrap {
-    padding: 0 1.6rem;
+    padding: 0 0.8rem;
   }
 
   .skillTagsMobile {

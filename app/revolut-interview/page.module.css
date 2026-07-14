@@ -481,7 +481,7 @@
   .mobileMedia {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 5 / 4;
     border-radius: 0.4rem;
     overflow: hidden;
   }
@@ -493,7 +493,7 @@
   .slideTwoScreens,
   .slideThreeScreens,
   .slideTwoRows {
-    padding: 1.6rem;
+    padding: 0.8rem;
   }
 
   .slideContent,
@@ -505,11 +505,12 @@
     gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
   }
 
-  /* Three screens at height:100% are too wide for narrow viewports — their
+  /* Screens at height:100% are too wide for narrow viewports — their
      drop-shadow gets clipped by the card's overflow:hidden. Shrink them
      so the row (incl. shadows) fits within the available width. */
+  .slideTwoScreens .screenImg,
   .slideThreeScreens .screenImg {
-    height: 72%;
+    height: 84%;
   }
 
   .skillTagsMobile {
