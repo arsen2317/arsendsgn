@@ -666,8 +666,14 @@ export default function Home() {
             <div className="tag square glass" data-word><span className="tag-xl">{tr.hero.surname}</span></div>
           </div>
           <div className="hero-row">
-            <div className="tag pill glass" data-word><span className="tag-xl">{tr.hero.role1}</span></div>
-            <div className="tag square glass" data-word><span className="tag-xl">{tr.hero.role2}</span></div>
+            <div className="tag pill glass" data-word>
+              <span className="tag-xl hero-role-default">{tr.hero.role1}</span>
+              <span className="tag-xl hero-role-mobile-en">Product</span>
+            </div>
+            <div className="tag square glass" data-word>
+              <span className="tag-xl hero-role-default">{tr.hero.role2}</span>
+              <span className="tag-xl hero-role-mobile-en">designer</span>
+            </div>
             <div className="tag pill lavender" data-word><span className="tag-lg">{tr.hero.company}</span></div>
           </div>
         </div>
@@ -701,7 +707,7 @@ export default function Home() {
             src="/sber.mp4"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
-            ref={el => { if (el) el.muted = true; }}
+            ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
           />
         </div>
       </section>
@@ -726,7 +732,7 @@ export default function Home() {
                 src="/sber.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
-                ref={el => { if (el) el.muted = true; }}
+                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
               />
             </div>
             <p className="work-title">Sber</p>
@@ -747,7 +753,7 @@ export default function Home() {
                 <video
                   src="/vibes1.mp4"
                   autoPlay loop muted playsInline
-                  ref={el => { if (el) el.muted = true; }}
+                  ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
                 />
               </div>
             </div>
@@ -759,7 +765,7 @@ export default function Home() {
                 src="/tj-720p.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
-                ref={el => { if (el) el.muted = true; }}
+                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
               />
             </div>
             <p className="work-title">T-Journal</p>

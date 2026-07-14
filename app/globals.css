@@ -894,6 +894,16 @@ body {
 
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */
+
+/* Hero role tags — Russian mobile shows the English "Product designer"
+   instead of "Продуктовый Дизайнер" (desktop keeps the Russian copy) */
+.hero-role-mobile-en { display: none; }
+
+@media (max-width: 900px) {
+  html.lang-ru .hero-role-default { display: none; }
+  html.lang-ru .hero-role-mobile-en { display: inline; }
+}
+
 @media (max-width: 900px) {
   body {
     width: 100%;
