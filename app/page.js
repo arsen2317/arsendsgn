@@ -58,6 +58,7 @@ export default function Home() {
   const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
   const [filterMode, setFilterMode] = useState(null); // null | 'noire' | 'negative'
   const [musicOpen, setMusicOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const musicOpenRef = useRef(false);
   const musicWasOpenRef = useRef(false);
   const spotifyControllerRef = useRef(null);
@@ -81,6 +82,18 @@ export default function Home() {
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
+  /* Mobile/desktop video src switching is done in JS (matchMedia), not via
+     <source media="..."> — that attribute is unreliable on <video>: Chrome
+     ignores media queries on <source> entirely, Firefox doesn't recognize
+     the attribute at all, and the current HTML spec says media/srcset/sizes
+     "must not be present" when the source's parent is a media element. */
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 900px)');
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -748,14 +761,13 @@ export default function Home() {
             </div>
           </div>
           <video
+            key={isMobile ? 'mobile' : 'desktop'}
             className="dark-img-placeholder"
+            src={isMobile ? '/sber-mobile.mp4' : '/sber.mp4'}
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
             ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-          >
-            <source src="/sber-mobile.mp4" media="(max-width: 900px)" />
-            <source src="/sber.mp4" />
-          </video>
+          />
         </div>
       </section>
 
@@ -776,13 +788,12 @@ export default function Home() {
           <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
+                key={isMobile ? 'mobile' : 'desktop'}
+                src={isMobile ? '/sber-mobile.mp4' : '/sber.mp4'}
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
                 ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-              >
-                <source src="/sber-mobile.mp4" media="(max-width: 900px)" />
-                <source src="/sber.mp4" />
-              </video>
+              />
             </div>
             <p className="work-title">Sber</p>
           </a>

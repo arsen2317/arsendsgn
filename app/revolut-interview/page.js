@@ -258,13 +258,12 @@ export default function RevolutInterviewCase() {
         return (
           <div className={styles.dark}>
             <video
+              key={isMobile ? 'mobile' : 'desktop'}
               className={styles.slideVideo}
+              src={isMobile ? media.src.replace(/\.mp4$/, '-mobile.mp4') : media.src}
               autoPlay loop muted playsInline
               ref={el => { if (el) el.muted = true; }}
-            >
-              <source src={media.src.replace(/\.mp4$/, '-mobile.mp4')} media="(max-width: 900px)" />
-              <source src={media.src} />
-            </video>
+            />
           </div>
         );
       case 'image':

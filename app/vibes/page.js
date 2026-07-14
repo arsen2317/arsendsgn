@@ -83,13 +83,12 @@ export default function VibesCase() {
         <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
           <div className={styles.slideContent}>
             <video
+              key={isMobile ? 'mobile' : 'desktop'}
               className={`${styles.screenImg} ${styles.conceptVideo}`}
+              src={isMobile ? '/vibes3-mobile.mp4' : '/vibes3.mp4'}
               autoPlay loop muted playsInline
               ref={el => { if (el) { el.muted = true; slideVideosRef.current.add(el); } }}
-            >
-              <source src="/vibes3-mobile.mp4" media="(max-width: 900px)" />
-              <source src="/vibes3.mp4" />
-            </video>
+            />
           </div>
         </div>
       );
