@@ -16,7 +16,7 @@ const ST = ({ children }) => (
   </span>
 );
 
-const CV_URL = 'https://github.com/arsen2317/arsendsgn/releases/download/cv/Arsen.Arakelyan.CV.eng.pdf';
+const CV_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
 const PROTOTYPE_URL = 'https://vacations-mts.vercel.app/en';
 const downloadCV = () => {
   const a = document.createElement('a');
