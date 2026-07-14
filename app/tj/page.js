@@ -39,7 +39,7 @@ const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
 
 /* Builds FRAME_MEDIA for the given language — RU screenshots (tj*-ru.webp / tj6-2-ru.mp4)
    ship for every frame except tj6-3.webp and the phone bezel, which have no on-screen text. */
-const buildFrameMedia = (ru) => {
+const buildFrameMedia = (ru, videosRef) => {
   const img = (path) => ru ? path.replace(/(\.[a-z0-9]+)$/i, '-ru$1') : path;
   return [
   // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
@@ -109,7 +109,7 @@ const buildFrameMedia = (ru) => {
               className={styles.mockupVideo}
               src={img("/tj6-2.mp4")}
               autoPlay loop muted playsInline
-              ref={el => { if (el) el.muted = true; }}
+              ref={el => { if (el) { el.muted = true; videosRef.current.add(el); } }}
             />
             <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
           </div>
@@ -146,7 +146,6 @@ export default function TjCase() {
   const tr = t[lang];
   const SLIDES = SLIDE_IDS.map((id) => ({ id, description: tr.caseTj.slides[id] }));
   const SKILL_TAGS = tr.caseTj.skills;
-  const FRAME_MEDIA = buildFrameMedia(lang === 'ru');
 
   const [activeIdx, setActiveIdx]       = useState(0);
   const [displayedIdx, setDisplayedIdx] = useState(0);
@@ -161,6 +160,9 @@ export default function TjCase() {
   const snapLockRef  = useRef(false);
   const offsetRef    = useRef(0);
   const fxRef        = useRef(null);
+  const slideVideosRef = useRef(new Set());
+
+  const FRAME_MEDIA = buildFrameMedia(lang === 'ru', slideVideosRef);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
@@ -277,6 +279,23 @@ export default function TjCase() {
     }
     init();
     return () => ctx?.revert();
+  }, []);
+
+  /* Pause slide videos once they scroll out of view — both the desktop track and the
+     mobile scroll layout render every frame's media at once, so without this the
+     video autoplays regardless of whether its frame is actually visible */
+  useEffect(() => {
+    const videos = Array.from(slideVideosRef.current);
+    if (!videos.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const v = entry.target;
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      });
+    }, { threshold: 0.15 });
+    videos.forEach((v) => io.observe(v));
+    return () => io.disconnect();
   }, []);
 
   /* Wheel snap — identical accumulator/lock pattern to main page (desktop only) */

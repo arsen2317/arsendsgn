@@ -50,6 +50,7 @@ export default function SberCase() {
   const snapLockRef  = useRef(false);
   const offsetRef    = useRef(0);
   const fxRef        = useRef(null);
+  const slideVideosRef = useRef(new Set());
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
@@ -62,7 +63,7 @@ export default function SberCase() {
             className={styles.slideVideo}
             src={VIDEO_URL}
             autoPlay loop muted playsInline
-            ref={el => { if (el) el.muted = true; }}
+            ref={el => { if (el) { el.muted = true; slideVideosRef.current.add(el); } }}
           />
         </div>
       );
@@ -99,7 +100,7 @@ export default function SberCase() {
                   className={styles.mockupVideo}
                   src="/cases.mp4"
                   autoPlay loop muted playsInline
-                  ref={el => { if (el) el.muted = true; }}
+                  ref={el => { if (el) { el.muted = true; slideVideosRef.current.add(el); } }}
                 />
                 <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
               </div>
@@ -246,6 +247,23 @@ export default function SberCase() {
     }
     init();
     return () => ctx?.revert();
+  }, []);
+
+  /* Pause slide videos once they scroll out of view — both the desktop track and the
+     mobile scroll layout render every slide's media at once, so without this every
+     video autoplays simultaneously regardless of which slide is actually visible */
+  useEffect(() => {
+    const videos = Array.from(slideVideosRef.current);
+    if (!videos.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const v = entry.target;
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      });
+    }, { threshold: 0.15 });
+    videos.forEach((v) => io.observe(v));
+    return () => io.disconnect();
   }, []);
 
   /* Wheel snap — identical accumulator/lock pattern to main page (desktop only) */

@@ -77,6 +77,7 @@ export default function Home() {
   const navRef = useRef(null);
   const fakeCursorRef = useRef(null);
   const terminalRef = useRef(null);
+  const bgVideosRef = useRef(new Set());
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -85,13 +86,6 @@ export default function Home() {
     const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const audio = new Audio(`${base}/fx.mp3`);
     fxRef.current = audio;
-    const noire = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/noire.mp3');
-    noire.loop = true;
-    noireRef.current = noire;
-    const drawMusic = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/draw.mp3');
-    drawMusic.loop = true;
-    drawMusicRef.current = drawMusic;
-    fahhRef.current = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/fahh.mp3');
 
     const unlock = () => {
       audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
@@ -109,31 +103,57 @@ export default function Home() {
     fxRef.current.cloneNode().play().catch(() => {});
   };
 
+  /* noire/draw/fahh are rarely used — fetch them on first actual use instead of on every page load */
+  const getNoireAudio = () => {
+    if (!noireRef.current) {
+      const a = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/noire.mp3');
+      a.loop = true;
+      noireRef.current = a;
+    }
+    return noireRef.current;
+  };
+  const getDrawMusic = () => {
+    if (!drawMusicRef.current) {
+      const a = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/draw.mp3');
+      a.loop = true;
+      drawMusicRef.current = a;
+    }
+    return drawMusicRef.current;
+  };
+  const getFahhAudio = () => {
+    if (!fahhRef.current) fahhRef.current = new Audio('https://github.com/arsen2317/arsendsgn/releases/download/sfx/fahh.mp3');
+    return fahhRef.current;
+  };
+
   /* Filter mode audio effects */
   useEffect(() => {
-    const noire = noireRef.current;
     if (filterMode === 'noire') {
-      if (noire) { noire.currentTime = 0; noire.play().catch(() => {}); }
-    } else {
-      if (noire) { noire.pause(); noire.currentTime = 0; }
+      const noire = getNoireAudio();
+      noire.currentTime = 0;
+      noire.play().catch(() => {});
+    } else if (noireRef.current) {
+      noireRef.current.pause();
+      noireRef.current.currentTime = 0;
     }
     if (filterMode === 'negative') {
-      const a = fahhRef.current;
-      if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+      const a = getFahhAudio();
+      a.currentTime = 0;
+      a.play().catch(() => {});
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterMode]);
 
   /* Draw mode music */
   useEffect(() => {
-    const music = drawMusicRef.current;
-    if (!music) return;
     if (drawMode) {
+      const music = getDrawMusic();
       music.currentTime = 0;
       music.play().catch(() => {});
-    } else {
-      music.pause();
-      music.currentTime = 0;
+    } else if (drawMusicRef.current) {
+      drawMusicRef.current.pause();
+      drawMusicRef.current.currentTime = 0;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawMode]);
 
   useEffect(() => { musicOpenRef.current = musicOpen; }, [musicOpen]);
@@ -564,6 +584,22 @@ export default function Home() {
     };
   }, []);
 
+  /* Pause background videos once they scroll out of view — several autoplay
+     at once on mount otherwise, which overloads the decoder on iOS Safari */
+  useEffect(() => {
+    const videos = Array.from(bgVideosRef.current);
+    if (!videos.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const v = entry.target;
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      });
+    }, { threshold: 0.15 });
+    videos.forEach((v) => io.observe(v));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <>
       {/* ── MOBILE MENU OVERLAY ── */}
@@ -707,7 +743,7 @@ export default function Home() {
             src="/sber.mp4"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
-            ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
+            ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
           />
         </div>
       </section>
@@ -732,7 +768,7 @@ export default function Home() {
                 src="/sber.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
-                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
+                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
               />
             </div>
             <p className="work-title">Sber</p>
@@ -753,7 +789,7 @@ export default function Home() {
                 <video
                   src="/vibes1.mp4"
                   autoPlay loop muted playsInline
-                  ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
+                  ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
                 />
               </div>
             </div>
@@ -765,7 +801,7 @@ export default function Home() {
                 src="/tj-720p.mp4"
                 autoPlay loop muted playsInline
                 style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
-                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
+                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
               />
             </div>
             <p className="work-title">T-Journal</p>
