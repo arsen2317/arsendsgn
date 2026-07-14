@@ -39,7 +39,7 @@ const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
 
 /* Builds FRAME_MEDIA for the given language — RU screenshots (tj*-ru.webp / tj6-2-ru.mp4)
    ship for every frame except tj6-3.webp and the phone bezel, which have no on-screen text. */
-const buildFrameMedia = (ru, videosRef) => {
+const buildFrameMedia = (ru, videosRef, isMobile) => {
   const img = (path) => ru ? path.replace(/(\.[a-z0-9]+)$/i, '-ru$1') : path;
   return [
   // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
@@ -106,13 +106,12 @@ const buildFrameMedia = (ru, videosRef) => {
         <div className={styles.slideContent}>
           <div className={styles.phoneMockup}>
             <video
+              key={isMobile ? 'mobile' : 'desktop'}
               className={styles.mockupVideo}
+              src={isMobile ? (ru ? '/tj6-2-ru-mobile.mp4' : '/tj6-2-mobile.mp4') : img("/tj6-2.mp4")}
               autoPlay loop muted playsInline
               ref={el => { if (el) { el.muted = true; videosRef.current.add(el); } }}
-            >
-              <source src={ru ? '/tj6-2-ru-mobile.mp4' : '/tj6-2-mobile.mp4'} media="(max-width: 900px)" />
-              <source src={img("/tj6-2.mp4")} />
-            </video>
+            />
             <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
           </div>
         </div>
@@ -164,7 +163,7 @@ export default function TjCase() {
   const fxRef        = useRef(null);
   const slideVideosRef = useRef(new Set());
 
-  const FRAME_MEDIA = buildFrameMedia(lang === 'ru', slideVideosRef);
+  const FRAME_MEDIA = buildFrameMedia(lang === 'ru', slideVideosRef, isMobile);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 
