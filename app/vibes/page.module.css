@@ -424,9 +424,15 @@
      screen illustrations tiny — override with smaller, fixed mobile values. */
   .slideContent,
   .slideTwoScreens,
-  .slideThreeScreens,
-  .profileScreens {
+  .slideThreeScreens {
     padding: 1.6rem;
+  }
+
+  /* .profileScreens intentionally has no vertical padding on desktop so
+     profileImgTop/profileImgBottom sit flush against the card's top/bottom
+     edge — horizontal-only padding here to keep that flush edge on mobile */
+  .profileScreens {
+    padding: 0 1.6rem;
   }
 
   .slideContent,
@@ -438,11 +444,29 @@
     gap: clamp(0.4rem, 0.3029rem + 0.2589vw, 0.8rem);
   }
 
-  /* Three screens at height:100% are too wide for narrow viewports — their
+  /* Screens at height:100% are too wide for narrow viewports — their
      drop-shadow gets clipped by the card's overflow:hidden. Shrink them
      so the row (incl. shadows) fits within the available width. */
+  .slideTwoScreens .screenImg,
   .slideThreeScreens .screenImg {
     height: 72%;
+  }
+
+  /* .coverVideo/.safetyImg's clamp() insets are tuned for the tall desktop
+     .right panel; inside the mobile 4:3 .mobileMedia box they eat most of
+     the height (or double-crop, for safetyImg) and look broken. Re-center
+     with a mobile-appropriate size instead. */
+  .mobileMedia .coverVideo,
+  .mobileMedia .safetyImg {
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    height: 82%;
+    max-width: 88%;
+  }
+
+  .resultsWrap {
+    padding: 0 1.6rem;
   }
 
   .skillTagsMobile {
