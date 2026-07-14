@@ -260,6 +260,7 @@
   width: auto;
   height: auto;
   display: block;
+  border-radius: 0.4rem;
 }
 
 /* Slides 1–4 — centered illustration with padding */
