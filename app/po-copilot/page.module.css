@@ -250,6 +250,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  padding: clamp(3.3333rem, -2.9778rem + 8.2176vw, 12.8rem) clamp(3rem, -2.5333rem + 7.2049vw, 11.3rem);
 }
 
 .introVideo {
@@ -383,7 +385,8 @@
      screen illustrations tiny — override with smaller, fixed mobile values. */
   .slideContent,
   .slideTwoScreens,
-  .slideThreeScreens {
+  .slideThreeScreens,
+  .introVideoWrap {
     padding: 1.6rem;
   }
 
