@@ -775,7 +775,7 @@ export default function Home() {
               <video
                 src="/sber.mp4"
                 autoPlay loop muted playsInline
-                style={{width:'100%',objectFit:'cover'}}
+                style={{width:'100%',height:'100%',objectFit:'cover'}}
                 ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
               />
             </div>
