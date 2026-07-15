@@ -4,14 +4,14 @@ import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
 const uiFont = localFont({
-  src: '../public/fonts/FFVIIVector_x95.otf',
+  src: '../public/fonts/FFVIIVector_x95.woff2',
   variable: '--font-ui',
   display: 'swap',
   declarations: [{ prop: 'size-adjust', value: '148%' }],
 });
 
 const fkRaster = localFont({
-  src: '../public/fonts/FKRasterGrotesk.ttf',
+  src: '../public/fonts/FKRasterGrotesk.woff2',
   variable: '--font-raster',
   display: 'swap',
 });
