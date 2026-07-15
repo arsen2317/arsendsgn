@@ -1,24 +1,30 @@
 import localFont from 'next/font/local';
-import { Forum } from 'next/font/google';
 import { LangProvider } from '../context/LangContext';
 import './globals.css';
 
 const uiFont = localFont({
-  src: '../public/fonts/FFVIIVector_x95.otf',
+  src: '../public/fonts/FFVIIVector_x95.woff2',
   variable: '--font-ui',
   display: 'swap',
   declarations: [{ prop: 'size-adjust', value: '148%' }],
 });
 
 const fkRaster = localFont({
-  src: '../public/fonts/FKRasterGrotesk.ttf',
+  src: '../public/fonts/FKRasterGrotesk.woff2',
   variable: '--font-raster',
   display: 'swap',
 });
 
-const forum = Forum({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400'],
+/* Self-hosted instead of next/font/google: that loader fetches the font's
+   CSS + files live from fonts.googleapis.com/fonts.gstatic.com on every
+   `next build` (no persistent cache across builds, only an in-memory Map
+   for the duration of a single build process), with no timeout outside dev
+   mode. Deploys run `next build` directly on the VPS — if Google is
+   unreachable/degraded from there, that fetch can hang or retry for a long
+   time. Downloaded the single (non-subsetted-by-script) Forum woff2 once
+   and self-host it, same as the other two fonts. */
+const forum = localFont({
+  src: '../public/fonts/Forum-Regular.woff2',
   variable: '--font-body',
   display: 'swap',
 });
