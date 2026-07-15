@@ -18,6 +18,17 @@ const ST = ({ children }) => (
 
 const CV_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
 const PROTOTYPE_URL = 'https://vacations-mts.vercel.app/en';
+
+/* Set a <video>'s src in its ref callback (client-only) rather than via a src
+   prop, so the SSR HTML has no video src for the browser's preload scanner to
+   fetch. Without this the phone downloads the full-size desktop clip (grabbed
+   from the SSR src before JS runs) plus the mobile one after isMobile flips. */
+const attachVideoSrc = (el, mobileSrc, desktopSrc) => {
+  if (!el) return;
+  el.muted = true;
+  el.src = window.matchMedia('(max-width: 900px)').matches ? mobileSrc : desktopSrc;
+  el.play().catch(() => {});
+};
 const downloadCV = () => {
   const a = document.createElement('a');
   a.href = CV_URL;
@@ -83,7 +94,7 @@ const SLIDES = [
     tags: SBER_TAGS,
     subtitle: 'Research & Insights',
     skillTags: null,
-    media: { type: 'twoCol', images: ['/images/sber-r1.png', '/images/sber-r2.png'] },
+    media: { type: 'twoCol', images: ['/images/sber-r1.webp', '/images/sber-r2.webp'] },
     description: [
       { p: 'Research: field research, in-depth interviews with merchants and customers, competitive analysis and desk research.' },
       { p: "Key Insight: merchants actively try to personalize their terminals (decorating them and using custom stands) to better fit their venue's atmosphere. Customers respond positively to more personalized and enjoyable payment experiences." },
@@ -140,7 +151,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Vacation Planning Flow',
     skillTags: ['ux/ui design', 'research', 'usability testing', 'coded prototyping', 'developer handoff'],
-    media: { type: 'image', src: '/images/vacationcover.png' },
+    media: { type: 'image', src: '/images/vacationcover.webp' },
     description: [
       { p: 'Situation: when I joined the bank, the internal HR platform had outdated and inconsistent design. The vacation planning process was especially fragmented and confusing for employees.' },
       { p: 'Task - completely rethink and unify the vacation planning experience to reduce confusion between different scenarios and make the process simple and transparent for both employees and managers.' },
@@ -258,11 +269,9 @@ export default function RevolutInterviewCase() {
         return (
           <div className={styles.dark}>
             <video
-              key={isMobile ? 'mobile' : 'desktop'}
               className={styles.slideVideo}
-              src={isMobile ? media.src.replace(/\.mp4$/, '-mobile.mp4') : media.src}
               autoPlay loop muted playsInline
-              ref={el => { if (el) el.muted = true; }}
+              ref={el => attachVideoSrc(el, media.src.replace(/\.mp4$/, '-mobile.mp4'), media.src)}
             />
           </div>
         );
