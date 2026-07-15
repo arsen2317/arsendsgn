@@ -82,10 +82,10 @@ export default function SberCase() {
       return (
         <div className={styles.slideTwoCol}>
           <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sber-r1.png" alt="" />
+            <img className={styles.slideImg} src="/images/sber-r1.webp" alt="" />
           </div>
           <div className={styles.dark}>
-            <img className={styles.slideImg} src="/images/sber-r2.png" alt="" />
+            <img className={styles.slideImg} src="/images/sber-r2.webp" alt="" />
           </div>
         </div>
       );

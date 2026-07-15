@@ -94,7 +94,7 @@ const SLIDES = [
     tags: SBER_TAGS,
     subtitle: 'Research & Insights',
     skillTags: null,
-    media: { type: 'twoCol', images: ['/images/sber-r1.png', '/images/sber-r2.png'] },
+    media: { type: 'twoCol', images: ['/images/sber-r1.webp', '/images/sber-r2.webp'] },
     description: [
       { p: 'Research: field research, in-depth interviews with merchants and customers, competitive analysis and desk research.' },
       { p: "Key Insight: merchants actively try to personalize their terminals (decorating them and using custom stands) to better fit their venue's atmosphere. Customers respond positively to more personalized and enjoyable payment experiences." },
@@ -151,7 +151,7 @@ const SLIDES = [
     tags: MTS_TAGS,
     subtitle: 'Vacation Planning Flow',
     skillTags: ['ux/ui design', 'research', 'usability testing', 'coded prototyping', 'developer handoff'],
-    media: { type: 'image', src: '/images/vacationcover.png' },
+    media: { type: 'image', src: '/images/vacationcover.webp' },
     description: [
       { p: 'Situation: when I joined the bank, the internal HR platform had outdated and inconsistent design. The vacation planning process was especially fragmented and confusing for employees.' },
       { p: 'Task - completely rethink and unify the vacation planning experience to reduce confusion between different scenarios and make the process simple and transparent for both employees and managers.' },

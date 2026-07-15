@@ -808,8 +808,9 @@ export default function Home() {
           <a href="/po-copilot" className="work-item">
             <div className="work-thumb">
               <img
-                src="/images/copilot4.png"
+                src="/images/copilot4.webp"
                 alt=""
+                loading="lazy"
                 style={{ width: '100%', aspectRatio: '16 / 9', objectFit: 'cover' }}
               />
             </div>

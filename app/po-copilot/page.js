@@ -29,7 +29,7 @@ const downloadCV = (lang) => {
 
 const SLIDE_IDS = ['intro', 'slide2', 'slide3', 'slide4', 'slide5', 'slide6', 'slide7'];
 
-const SLIDE_IMAGES = ['/images/copilot2.png', '/images/copilot3.png', '/images/copilot4.png', '/images/copilot5.png', '/images/copilot6.png', '/images/copilot7.png'];
+const SLIDE_IMAGES = ['/images/copilot2.webp', '/images/copilot3.webp', '/images/copilot4.webp', '/images/copilot5.webp', '/images/copilot6.webp', '/images/copilot7.webp'];
 
 export default function PoCopilotCase() {
   const { lang } = useLang();
