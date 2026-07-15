@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Skills from '../components/Skills';
 import SiteHeader from '../components/SiteHeader';
@@ -78,6 +78,22 @@ export default function Home() {
   const fakeCursorRef = useRef(null);
   const terminalRef = useRef(null);
   const bgVideosRef = useRef(new Set());
+
+  /* Sber's desktop file is 3.4MB vs 490KB mobile — worth splitting by device.
+     The src is assigned here (not as a static src prop) so the SSR HTML carries
+     no video src at all and phones never fetch the desktop file. This must be a
+     useCallback with an empty dep array: an inline arrow ref gets a new function
+     identity on every render, so React detaches+reattaches the ref (and this fn
+     re-runs, resetting .src and restarting the video) on every unrelated re-render
+     of this component — which happens every few seconds from the footer word
+     cycling. That re-triggering was the real cause of the video "blinking". */
+  const attachSberVideo = useCallback((el) => {
+    if (!el) return;
+    el.muted = true;
+    el.src = window.matchMedia('(max-width: 900px)').matches ? '/sber-mobile.mp4' : '/sber.mp4';
+    el.play().catch(() => {});
+    bgVideosRef.current.add(el);
+  }, []);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
@@ -748,10 +764,10 @@ export default function Home() {
           </div>
           <video
             className="dark-img-placeholder"
-            src="/sber.mp4"
+            poster="/sber-poster.webp"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
-            ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+            ref={attachSberVideo}
           />
         </div>
       </section>
@@ -773,10 +789,10 @@ export default function Home() {
           <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
-                src="/sber.mp4"
+                poster="/sber-poster.webp"
                 autoPlay loop muted playsInline
-                style={{width:'100%',height:'100%',objectFit:'cover'}}
-                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
+                ref={attachSberVideo}
               />
             </div>
             <p className="work-title">Sber</p>
