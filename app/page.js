@@ -819,23 +819,39 @@ export default function Home() {
           <a href="/vibes" className="work-item">
             <div className="work-thumb">
               <div className="work-thumb-vibes">
-                <video
-                  src="/vibes1.mp4"
-                  autoPlay loop muted playsInline
-                  ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-                />
+                {isMobile ? (
+                  <img
+                    src="/vibes-cover.webp"
+                    alt=""
+                    loading="lazy"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                ) : (
+                  <video
+                    autoPlay loop muted playsInline
+                    ref={el => { if (el && !window.matchMedia('(max-width: 900px)').matches) { el.muted = true; el.src = '/vibes1.mp4'; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+                  />
+                )}
               </div>
             </div>
             <p className="work-title">Vibes</p>
           </a>
           <a href="/tj" className="work-item">
             <div className="work-thumb">
-              <video
-                src="/tj-720p.mp4"
-                autoPlay loop muted playsInline
-                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
-                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-              />
+              {isMobile ? (
+                <img
+                  src="/tj-cover.webp"
+                  alt=""
+                  loading="lazy"
+                  style={{ width: '100%', aspectRatio: '16 / 9', objectFit: 'cover', display: 'block' }}
+                />
+              ) : (
+                <video
+                  autoPlay loop muted playsInline
+                  style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
+                  ref={el => { if (el && !window.matchMedia('(max-width: 900px)').matches) { el.muted = true; el.src = '/tj-720p.mp4'; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+                />
+              )}
             </div>
             <p className="work-title">T-Journal</p>
           </a>
