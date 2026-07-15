@@ -688,7 +688,8 @@ html.entrance-ready [data-word] {
   overflow: hidden;
 }
 
-.work-thumb .work-thumb-vibes video {
+.work-thumb .work-thumb-vibes video,
+.work-thumb .work-thumb-vibes img {
   position: absolute;
   left: 50%;
   top: 12%;
