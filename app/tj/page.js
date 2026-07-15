@@ -37,9 +37,20 @@ const FRAME_TO_SLIDE = [0, 1, 2, 3, 4, 4, 5, 5, 6, 7];
 /* Mobile groups slides 1:1 with SLIDES — slides 4 and 5 show both of their frames stacked */
 const MOBILE_FRAME_GROUPS = [[0], [1], [2], [3], [4, 5], [6, 7], [8], [9]];
 
+/* Set a <video>'s src in its ref callback (client-only) rather than via a src
+   prop, so the SSR HTML has no video src for the browser's preload scanner to
+   fetch. Without this the phone downloads the full-size desktop clip (grabbed
+   from the SSR src before JS runs) plus the mobile one after isMobile flips. */
+const attachVideoSrc = (el, mobileSrc, desktopSrc) => {
+  if (!el) return;
+  el.muted = true;
+  el.src = window.matchMedia('(max-width: 900px)').matches ? mobileSrc : desktopSrc;
+  el.play().catch(() => {});
+};
+
 /* Builds FRAME_MEDIA for the given language — RU screenshots (tj*-ru.webp / tj6-2-ru.mp4)
    ship for every frame except tj6-3.webp and the phone bezel, which have no on-screen text. */
-const buildFrameMedia = (ru, videosRef, isMobile) => {
+const buildFrameMedia = (ru, videosRef) => {
   const img = (path) => ru ? path.replace(/(\.[a-z0-9]+)$/i, '-ru$1') : path;
   return [
   // 0 — tj1-1 + tj1-2, both pinned to the bottom (same principle as vibes slide 4, both bottom)
@@ -106,11 +117,9 @@ const buildFrameMedia = (ru, videosRef, isMobile) => {
         <div className={styles.slideContent}>
           <div className={styles.phoneMockup}>
             <video
-              key={isMobile ? 'mobile' : 'desktop'}
               className={styles.mockupVideo}
-              src={isMobile ? (ru ? '/tj6-2-ru-mobile.mp4' : '/tj6-2-mobile.mp4') : img("/tj6-2.mp4")}
               autoPlay loop muted playsInline
-              ref={el => { if (el) { el.muted = true; videosRef.current.add(el); } }}
+              ref={el => { if (el) { attachVideoSrc(el, ru ? '/tj6-2-ru-mobile.mp4' : '/tj6-2-mobile.mp4', img("/tj6-2.mp4")); videosRef.current.add(el); } }}
             />
             <img className={styles.phoneFrame} src="/images/iphoneframe.webp" alt="" />
           </div>
@@ -163,7 +172,7 @@ export default function TjCase() {
   const fxRef        = useRef(null);
   const slideVideosRef = useRef(new Set());
 
-  const FRAME_MEDIA = buildFrameMedia(lang === 'ru', slideVideosRef, isMobile);
+  const FRAME_MEDIA = buildFrameMedia(lang === 'ru', slideVideosRef);
 
   const playFx = () => fxRef.current?.cloneNode().play().catch(() => {});
 

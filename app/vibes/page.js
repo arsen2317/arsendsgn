@@ -29,6 +29,17 @@ const downloadCV = (lang) => {
 
 const SLIDE_IDS = ['context', 'research', 'concept', 'profile', 'editor', 'matching', 'icebreaker', 'games', 'safety', 'results'];
 
+/* Set a <video>'s src in its ref callback (client-only) rather than via a src
+   prop, so the SSR HTML has no video src for the browser's preload scanner to
+   fetch. Without this the phone downloads the full-size desktop clip (grabbed
+   from the SSR src before JS runs) plus the mobile one after isMobile flips. */
+const attachVideoSrc = (el, mobileSrc, desktopSrc) => {
+  if (!el) return;
+  el.muted = true;
+  el.src = window.matchMedia('(max-width: 900px)').matches ? mobileSrc : desktopSrc;
+  el.play().catch(() => {});
+};
+
 export default function VibesCase() {
   const { lang } = useLang();
   const tr = t[lang];
@@ -83,11 +94,9 @@ export default function VibesCase() {
         <div className={styles.dark} style={{ background: 'var(--accent-lavender)' }}>
           <div className={styles.slideContent}>
             <video
-              key={isMobile ? 'mobile' : 'desktop'}
               className={`${styles.screenImg} ${styles.conceptVideo}`}
-              src={isMobile ? '/vibes3-mobile.mp4' : '/vibes3.mp4'}
               autoPlay loop muted playsInline
-              ref={el => { if (el) { el.muted = true; slideVideosRef.current.add(el); } }}
+              ref={el => { if (el) { attachVideoSrc(el, '/vibes3-mobile.mp4', '/vibes3.mp4'); slideVideosRef.current.add(el); } }}
             />
           </div>
         </div>

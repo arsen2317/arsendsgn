@@ -18,6 +18,17 @@ const ST = ({ children }) => (
 
 const CV_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
 const PROTOTYPE_URL = 'https://vacations-mts.vercel.app/en';
+
+/* Set a <video>'s src in its ref callback (client-only) rather than via a src
+   prop, so the SSR HTML has no video src for the browser's preload scanner to
+   fetch. Without this the phone downloads the full-size desktop clip (grabbed
+   from the SSR src before JS runs) plus the mobile one after isMobile flips. */
+const attachVideoSrc = (el, mobileSrc, desktopSrc) => {
+  if (!el) return;
+  el.muted = true;
+  el.src = window.matchMedia('(max-width: 900px)').matches ? mobileSrc : desktopSrc;
+  el.play().catch(() => {});
+};
 const downloadCV = () => {
   const a = document.createElement('a');
   a.href = CV_URL;
@@ -258,11 +269,9 @@ export default function RevolutInterviewCase() {
         return (
           <div className={styles.dark}>
             <video
-              key={isMobile ? 'mobile' : 'desktop'}
               className={styles.slideVideo}
-              src={isMobile ? media.src.replace(/\.mp4$/, '-mobile.mp4') : media.src}
               autoPlay loop muted playsInline
-              ref={el => { if (el) el.muted = true; }}
+              ref={el => attachVideoSrc(el, media.src.replace(/\.mp4$/, '-mobile.mp4'), media.src)}
             />
           </div>
         );

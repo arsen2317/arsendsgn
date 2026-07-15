@@ -9,6 +9,18 @@ import { t } from '../lib/i18n';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
+/* Set a <video> element's src imperatively in its ref callback (client-only)
+   instead of via a src prop, so the server-rendered HTML carries NO video src.
+   Otherwise the browser's preload scanner grabs the desktop file from the SSR
+   HTML before JS runs, and once isMobile flips it fetches the mobile file too —
+   phones ended up downloading both the 3.4MB desktop clip AND the mobile one. */
+const attachVideoSrc = (el, mobileSrc, desktopSrc) => {
+  if (!el) return;
+  el.muted = true;
+  el.src = window.matchMedia('(max-width: 900px)').matches ? mobileSrc : desktopSrc;
+  el.play().catch(() => {});
+};
+
 const CV_URL_EN = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
 const CV_URL_RU = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.rus.pdf`;
 const downloadCV = (lang) => {
@@ -761,12 +773,10 @@ export default function Home() {
             </div>
           </div>
           <video
-            key={isMobile ? 'mobile' : 'desktop'}
             className="dark-img-placeholder"
-            src={isMobile ? '/sber-mobile.mp4' : '/sber.mp4'}
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
-            ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+            ref={el => { if (el) { attachVideoSrc(el, '/sber-mobile.mp4', '/sber.mp4'); bgVideosRef.current.add(el); } }}
           />
         </div>
       </section>
@@ -788,11 +798,9 @@ export default function Home() {
           <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
-                key={isMobile ? 'mobile' : 'desktop'}
-                src={isMobile ? '/sber-mobile.mp4' : '/sber.mp4'}
                 autoPlay loop muted playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover'}}
-                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+                ref={el => { if (el) { attachVideoSrc(el, '/sber-mobile.mp4', '/sber.mp4'); bgVideosRef.current.add(el); } }}
               />
             </div>
             <p className="work-title">Sber</p>
