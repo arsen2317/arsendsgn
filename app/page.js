@@ -9,18 +9,6 @@ import { t } from '../lib/i18n';
 
 const PortraitScene = dynamic(() => import('../components/PortraitScene'), { ssr: false });
 
-/* Set a <video> element's src imperatively in its ref callback (client-only)
-   instead of via a src prop, so the server-rendered HTML carries NO video src.
-   Otherwise the browser's preload scanner grabs the desktop file from the SSR
-   HTML before JS runs, and once isMobile flips it fetches the mobile file too —
-   phones ended up downloading both the 3.4MB desktop clip AND the mobile one. */
-const attachVideoSrc = (el, mobileSrc, desktopSrc) => {
-  if (!el) return;
-  el.muted = true;
-  el.src = window.matchMedia('(max-width: 900px)').matches ? mobileSrc : desktopSrc;
-  el.play().catch(() => {});
-};
-
 const CV_URL_EN = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.eng.pdf`;
 const CV_URL_RU = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Arsen.Arakelyan.CV.rus.pdf`;
 const downloadCV = (lang) => {
@@ -70,7 +58,6 @@ export default function Home() {
   const [cursorMode, setCursorMode] = useState(null); // null | 'cat' | 'nyan'
   const [filterMode, setFilterMode] = useState(null); // null | 'noire' | 'negative'
   const [musicOpen, setMusicOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const musicOpenRef = useRef(false);
   const musicWasOpenRef = useRef(false);
   const spotifyControllerRef = useRef(null);
@@ -93,19 +80,6 @@ export default function Home() {
   const bgVideosRef = useRef(new Set());
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
-
-  /* Mobile/desktop video src switching is done in JS (matchMedia), not via
-     <source media="..."> — that attribute is unreliable on <video>: Chrome
-     ignores media queries on <source> entirely, Firefox doesn't recognize
-     the attribute at all, and the current HTML spec says media/srcset/sizes
-     "must not be present" when the source's parent is a media element. */
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 900px)');
-    const sync = () => setIsMobile(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
 
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -774,10 +748,10 @@ export default function Home() {
           </div>
           <video
             className="dark-img-placeholder"
-            poster="/sber-poster.webp"
+            src="/sber.mp4"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
-            ref={el => { if (el) { attachVideoSrc(el, '/sber-mobile.mp4', '/sber.mp4'); bgVideosRef.current.add(el); } }}
+            ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
           />
         </div>
       </section>
@@ -799,10 +773,10 @@ export default function Home() {
           <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
-                poster="/sber-poster.webp"
+                src="/sber.mp4"
                 autoPlay loop muted playsInline
-                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
-                ref={el => { if (el) { attachVideoSrc(el, '/sber-mobile.mp4', '/sber.mp4'); bgVideosRef.current.add(el); } }}
+                style={{width:'100%',height:'100%',objectFit:'cover'}}
+                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
               />
             </div>
             <p className="work-title">Sber</p>
@@ -821,38 +795,23 @@ export default function Home() {
           <a href="/vibes" className="work-item">
             <div className="work-thumb">
               <div className="work-thumb-vibes">
-                {isMobile ? (
-                  <img
-                    src="/vibes-cover.webp"
-                    alt=""
-                    loading="lazy"
-                  />
-                ) : (
-                  <video
-                    autoPlay loop muted playsInline
-                    ref={el => { if (el && !window.matchMedia('(max-width: 900px)').matches) { el.muted = true; el.src = '/vibes1.mp4'; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-                  />
-                )}
+                <video
+                  src="/vibes1.mp4"
+                  autoPlay loop muted playsInline
+                  ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+                />
               </div>
             </div>
             <p className="work-title">Vibes</p>
           </a>
           <a href="/tj" className="work-item">
             <div className="work-thumb">
-              {isMobile ? (
-                <img
-                  src="/tj-cover.webp"
-                  alt=""
-                  loading="lazy"
-                  style={{ width: '100%', aspectRatio: '16 / 9', objectFit: 'cover', display: 'block' }}
-                />
-              ) : (
-                <video
-                  autoPlay loop muted playsInline
-                  style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
-                  ref={el => { if (el && !window.matchMedia('(max-width: 900px)').matches) { el.muted = true; el.src = '/tj-720p.mp4'; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
-                />
-              )}
+              <video
+                src="/tj-720p.mp4"
+                autoPlay loop muted playsInline
+                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
+                ref={el => { if (el) { el.muted = true; el.play().catch(() => {}); bgVideosRef.current.add(el); } }}
+              />
             </div>
             <p className="work-title">T-Journal</p>
           </a>
