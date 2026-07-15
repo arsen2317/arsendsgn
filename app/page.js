@@ -774,6 +774,7 @@ export default function Home() {
           </div>
           <video
             className="dark-img-placeholder"
+            poster="/sber-poster.webp"
             autoPlay loop muted playsInline
             style={{ objectFit: 'cover' }}
             ref={el => { if (el) { attachVideoSrc(el, '/sber-mobile.mp4', '/sber.mp4'); bgVideosRef.current.add(el); } }}
@@ -798,8 +799,9 @@ export default function Home() {
           <a href="/sber" className="work-item">
             <div className="work-thumb">
               <video
+                poster="/sber-poster.webp"
                 autoPlay loop muted playsInline
-                style={{width:'100%',height:'100%',objectFit:'cover'}}
+                style={{width:'100%',aspectRatio:'16 / 9',objectFit:'cover'}}
                 ref={el => { if (el) { attachVideoSrc(el, '/sber-mobile.mp4', '/sber.mp4'); bgVideosRef.current.add(el); } }}
               />
             </div>
@@ -824,7 +826,6 @@ export default function Home() {
                     src="/vibes-cover.webp"
                     alt=""
                     loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   />
                 ) : (
                   <video
