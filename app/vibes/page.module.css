@@ -452,6 +452,13 @@
     height: 84%;
   }
 
+  /* Concept video (slide 3) rendered at height:100% looks bigger, with less
+     visual top/bottom margin, than the screenImg mockups on neighboring
+     slides, which are shrunk to 84% above — match that size for consistency. */
+  .conceptVideo {
+    height: 84%;
+  }
+
   /* .coverVideo/.safetyImg's clamp() insets are tuned for the tall desktop
      .right panel; inside the mobile 5:4 .mobileMedia box they eat most of
      the height (or double-crop, for safetyImg) and look broken. Keep them
@@ -460,14 +467,18 @@
   .mobileMedia .coverVideo {
     top: 3%;
     bottom: auto;
-    height: 94%;
+    height: 97%;
     max-width: 92%;
   }
 
+  /* Desktop shows exactly the bottom half of the mockup, the top half
+     cropped off by the card's overflow:hidden — height:200% with bottom:0
+     reproduces that same half-crop on mobile instead of the whole mockup
+     fitting uncropped inside the card. */
   .mobileMedia .safetyImg {
     bottom: 0;
     top: auto;
-    height: 94%;
+    height: 200%;
     max-width: 92%;
   }
 
