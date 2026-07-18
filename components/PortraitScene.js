@@ -115,7 +115,7 @@ export default function PortraitScene() {
         <Canvas
           frameloop={visible ? 'always' : 'never'}
           camera={{ position: [0, 0.3, 5], fov: 45 }}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '100%', filter: 'saturate(1.15) contrast(1.1)' }}
           gl={{ alpha: true, antialias: true }}
           onCreated={({ gl }) => {
             gl.setClearColor(0x000000, 0);
