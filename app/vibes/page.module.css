@@ -476,9 +476,9 @@
      matches coverVideo's top inset — height:194% with bottom:3% reproduces
      both the half-crop and that matching bottom gap on mobile. */
   .mobileMedia .safetyImg {
-    bottom: 3%;
+    bottom: 8%;
     top: auto;
-    height: 194%;
+    height: 184%;
     max-width: 92%;
   }
 
