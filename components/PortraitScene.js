@@ -3,6 +3,7 @@
 import { Component, useRef, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
+import { MeshBasicMaterial } from 'three';
 
 const MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/voxel-avatar.glb`;
 
@@ -39,11 +40,18 @@ function AvatarModel({ mouseRef, isMobile }) {
   useEffect(() => {
     scene.traverse((child) => {
       if (!child.isMesh) return;
-      const materials = Array.isArray(child.material) ? child.material : [child.material];
-      materials.forEach((mat) => {
-        mat.flatShading = true;
-        mat.needsUpdate = true;
+      const toBasic = (mat) => new MeshBasicMaterial({
+        map: mat.map,
+        color: mat.color,
+        transparent: mat.transparent,
+        opacity: mat.opacity,
+        alphaTest: mat.alphaTest,
+        side: mat.side,
+        vertexColors: mat.vertexColors,
       });
+      child.material = Array.isArray(child.material)
+        ? child.material.map(toBasic)
+        : toBasic(child.material);
     });
   }, [scene]);
 
