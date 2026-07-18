@@ -102,12 +102,10 @@ export default function PortraitScene() {
             gl.setClearColor(0x000000, 0);
           }}
         >
-          {/* Lighting temporarily disabled
           <ambientLight intensity={1.2} />
           <directionalLight position={[0, 4, 6]} intensity={2.0} />
           <directionalLight position={[4, 2, 2]} intensity={0.8} />
           <directionalLight position={[-4, 2, 2]} intensity={0.5} />
-          */}
           <Suspense fallback={null}>
             <AvatarModel mouseRef={mouseRef} isMobile={isMobile.current} />
           </Suspense>
