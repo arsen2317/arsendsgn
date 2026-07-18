@@ -465,20 +465,20 @@
      pinned to the edge they're designed for (matching desktop's intent)
      but with a mobile-appropriate size — centering them read as "floating". */
   .mobileMedia .coverVideo {
-    top: 3%;
+    top: 8%;
     bottom: auto;
-    height: 97%;
+    height: 92%;
     max-width: 92%;
   }
 
   /* Desktop shows exactly the bottom half of the mockup, the top half
-     cropped off by the card's overflow:hidden — height:200% with bottom:0
-     reproduces that same half-crop on mobile instead of the whole mockup
-     fitting uncropped inside the card. */
+     cropped off by the card's overflow:hidden, with a bottom inset that
+     matches coverVideo's top inset — height:194% with bottom:3% reproduces
+     both the half-crop and that matching bottom gap on mobile. */
   .mobileMedia .safetyImg {
-    bottom: 0;
+    bottom: 3%;
     top: auto;
-    height: 200%;
+    height: 194%;
     max-width: 92%;
   }
 
