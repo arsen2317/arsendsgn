@@ -3,6 +3,7 @@
 import { Component, useRef, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
+import { MeshBasicMaterial } from 'three';
 
 const MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/voxel-avatar.glb`;
 
@@ -35,6 +36,24 @@ const BASE_Y = -Math.PI / 2;
 function AvatarModel({ mouseRef, isMobile }) {
   const { scene } = useGLTF(MODEL_URL);
   const ref = useRef();
+
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (!child.isMesh) return;
+      const toBasic = (mat) => new MeshBasicMaterial({
+        map: mat.map,
+        color: mat.color,
+        transparent: mat.transparent,
+        opacity: mat.opacity,
+        alphaTest: mat.alphaTest,
+        side: mat.side,
+        vertexColors: mat.vertexColors,
+      });
+      child.material = Array.isArray(child.material)
+        ? child.material.map(toBasic)
+        : toBasic(child.material);
+    });
+  }, [scene]);
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
@@ -96,7 +115,7 @@ export default function PortraitScene() {
         <Canvas
           frameloop={visible ? 'always' : 'never'}
           camera={{ position: [0, 0.3, 5], fov: 45 }}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '100%', filter: 'saturate(1.15) contrast(1.1)' }}
           gl={{ alpha: true, antialias: true }}
           onCreated={({ gl }) => {
             gl.setClearColor(0x000000, 0);
