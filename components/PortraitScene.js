@@ -36,6 +36,17 @@ function AvatarModel({ mouseRef, isMobile }) {
   const { scene } = useGLTF(MODEL_URL);
   const ref = useRef();
 
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (!child.isMesh) return;
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach((mat) => {
+        mat.flatShading = true;
+        mat.needsUpdate = true;
+      });
+    });
+  }, [scene]);
+
   useFrame(({ clock }) => {
     if (!ref.current) return;
     const t = clock.getElapsedTime();
