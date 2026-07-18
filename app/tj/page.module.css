@@ -488,6 +488,13 @@
     height: 84%;
   }
 
+  /* Phone-mockup video (matching sub-slide B) rendered at height:100% looks
+     bigger than the screenImg mockups on neighboring slides, which are
+     shrunk to 84% above — match that size so mockups stay consistent. */
+  .phoneMockup {
+    height: 84%;
+  }
+
   /* .editorImgBottom's clamp() top-inset is tuned for the tall desktop
      .right panel; inside the mobile 5:4 .mobileMedia box it eats most of
      the height and leaves the mockup tiny. Keep it pinned to the bottom
@@ -496,7 +503,7 @@
   .mobileMedia .editorImgBottom {
     top: auto;
     bottom: 0;
-    height: 94%;
+    height: 92%;
     max-width: 92%;
   }
 
