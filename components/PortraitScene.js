@@ -5,7 +5,11 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import { MeshBasicMaterial } from 'three';
 
-const MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/voxel-avatar.glb`;
+/* /models/* is served with a 1-year immutable Cache-Control (see next.config.js),
+   so returning visitors never revalidate the file — bump this version whenever
+   voxel-avatar.glb is replaced, or cached browsers will keep the old model. */
+const MODEL_VERSION = 2;
+const MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/voxel-avatar.glb?v=${MODEL_VERSION}`;
 
 /* drei's useGLTF defaults the Draco decoder to Google's gstatic.com CDN —
    self-host it instead so the avatar doesn't depend on a third-party host
