@@ -8,7 +8,7 @@ import { MeshBasicMaterial } from 'three';
 /* /models/* is served with a 1-year immutable Cache-Control (see next.config.js),
    so returning visitors never revalidate the file — bump this version whenever
    voxel-avatar.glb is replaced, or cached browsers will keep the old model. */
-const MODEL_VERSION = 2;
+const MODEL_VERSION = 4;
 const MODEL_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/voxel-avatar.glb?v=${MODEL_VERSION}`;
 
 /* drei's useGLTF defaults the Draco decoder to Google's gstatic.com CDN —
